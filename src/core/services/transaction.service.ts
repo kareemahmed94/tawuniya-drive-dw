@@ -1,5 +1,5 @@
 import { injectable, inject } from 'inversify';
-import { TransactionType, TransactionStatus } from '@prisma/client';
+import { TransactionType, TransactionStatus, Transaction } from '@prisma/client';
 import { TYPES } from '../di/types';
 import type { ITransactionService } from '../interfaces/services/ITransactionService';
 import type { ITransactionRepository } from '../interfaces/repositories/ITransactionRepository';
@@ -7,6 +7,7 @@ import type { IWalletRepository } from '../interfaces/repositories/IWalletReposi
 import type { IServiceRepository } from '../interfaces/repositories/IServiceRepository';
 import type { IPointBalanceRepository } from '../interfaces/repositories/IPointBalanceRepository';
 import type { IServiceConfigRepository } from '../interfaces/repositories/IServiceConfigRepository';
+import type { TransactionResponse, TransactionPaginationResponse } from '../types';
 import { AppError } from '../middleware/errorHandler';
 import { EarnPointsInput, BurnPointsInput } from '../validators/transaction.validator';
 import { PointCalculation } from '../types';
@@ -33,7 +34,7 @@ export class TransactionService implements ITransactionService {
    * Earn points from a service transaction
    * Creates transaction, point balance, and updates wallet
    */
-  async earnPoints(data: EarnPointsInput) {
+  async earnPoints(data: EarnPointsInput): Promise<Transaction> {
     // Validate user and wallet exist
     const wallet = await this.walletRepository.findByUserId(data.userId);
 
@@ -118,7 +119,7 @@ export class TransactionService implements ITransactionService {
    * Burn points for a service
    * Deducts from oldest point balances first (FIFO)
    */
-  async burnPoints(data: BurnPointsInput) {
+  async burnPoints(data: BurnPointsInput): Promise<Transaction> {
     // Validate user and wallet exist
     const wallet = await this.walletRepository.findByUserId(data.userId);
 
@@ -227,7 +228,7 @@ export class TransactionService implements ITransactionService {
       startDate?: string;
       endDate?: string;
     }
-  ) {
+  ): Promise<TransactionPaginationResponse> {
     const result = await this.transactionRepository.findByUserId(userId, {
       ...filters,
       startDate: filters.startDate ? new Date(filters.startDate) : undefined,
@@ -252,7 +253,7 @@ export class TransactionService implements ITransactionService {
   /**
    * Get transaction by ID
    */
-  async getTransactionById(transactionId: string, userId: string) {
+  async getTransactionById(transactionId: string, userId: string): Promise<TransactionResponse> {
     const transaction = await this.transactionRepository.findById(transactionId);
 
     if (!transaction) {

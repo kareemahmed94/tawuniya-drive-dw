@@ -1,4 +1,5 @@
-import { TransactionType } from '@prisma/client';
+import { TransactionType, Transaction } from '@prisma/client';
+import type { TransactionResponse, TransactionPaginationResponse } from '../types';
 import { EarnPointsInput, BurnPointsInput } from '../../validators/transaction.validator';
 
 /**
@@ -9,12 +10,12 @@ export interface ITransactionService {
   /**
    * Earn points from a service
    */
-  earnPoints(data: EarnPointsInput): Promise<any>;
+  earnPoints(data: EarnPointsInput): Promise<Transaction>;
 
   /**
    * Burn points for a service
    */
-  burnPoints(data: BurnPointsInput): Promise<any>;
+  burnPoints(data: BurnPointsInput): Promise<Transaction>;
 
   /**
    * Get transaction history
@@ -29,19 +30,11 @@ export interface ITransactionService {
       startDate?: string;
       endDate?: string;
     }
-  ): Promise<{
-    transactions: any[];
-    pagination: {
-      page: number;
-      limit: number;
-      total: number;
-      totalPages: number;
-    };
-  }>;
+  ): Promise<TransactionPaginationResponse>;
 
   /**
    * Get transaction by ID
    */
-  getTransactionById(transactionId: string, userId: string): Promise<any>;
+  getTransactionById(transactionId: string, userId: string): Promise<TransactionResponse>;
 }
 

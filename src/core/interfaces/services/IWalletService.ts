@@ -1,3 +1,5 @@
+import type { WalletResponse, WalletStatistics, PointBalanceResponse } from '../types';
+
 /**
  * Wallet Service Interface
  * Defines business logic operations for wallet management
@@ -6,7 +8,7 @@ export interface IWalletService {
   /**
    * Get wallet by user ID
    */
-  getWalletByUserId(userId: string): Promise<any>;
+  getWalletByUserId(userId: string): Promise<WalletResponse>;
 
   /**
    * Get wallet balance
@@ -16,16 +18,16 @@ export interface IWalletService {
   /**
    * Get wallet statistics
    */
-  getWalletStatistics(userId: string): Promise<any>;
+  getWalletStatistics(userId: string): Promise<WalletStatistics>;
 
   /**
    * Get active point balances breakdown
    */
-  getActivePointBalances(userId: string): Promise<any[]>;
+  getActivePointBalances(userId: string): Promise<PointBalanceResponse[]>;
 
   /**
    * Get points expiring within days
    */
-  getExpiringPoints(userId: string, days: number): Promise<any[]>;
+  getExpiringPoints(userId: string, days: number): Promise<PointBalanceResponse[]>;
 }
 

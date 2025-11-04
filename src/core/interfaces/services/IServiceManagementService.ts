@@ -4,15 +4,17 @@ import type {
   UpdateServiceConfigInput,
   ServiceConfigResponse,
   ServiceConfigFilters,
+  ServiceFilters,
   PaginationParams,
   PaginatedResponse,
 } from '@/core/types/admin.types';
 import {
   CreateServiceInput,
   UpdateServiceInput,
-  CreateServiceConfigInput,
 } from '@/core/validators/service.validator';
-import {Service, ServiceCategory} from "@prisma/client";
+import {
+  CreateServiceConfigInput,
+} from '@/core/validators/admin.validator';
 
 /**
  * Service Management Service Interface
@@ -24,50 +26,89 @@ export interface IServiceManagementService {
   /**
    * Create a new service
    */
-  createService(data: CreateServiceInput): Promise<Service>;
+  createService(data: CreateServiceInput): Promise<ServiceResponse>;
 
   /**
    * Get service by ID
    */
-  getServiceById(serviceId: string): Promise<Service>;
+  getServiceById(id: string): Promise<ServiceResponse>;
+
+  /**
+   * Get service with full details including configs and stats
+   */
+  getServiceWithDetails(id: string): Promise<ServiceWithDetailsResponse>;
 
   /**
    * Get all services with pagination and filters
    */
   getAllServices(
-      filters?: {
-        category?: ServiceCategory;
-        isActive?: boolean;
-      }
-  ): Promise<Service[]>;
+    params: PaginationParams,
+    filters?: ServiceFilters
+  ): Promise<PaginatedResponse<ServiceResponse>>;
 
   /**
    * Update service
    */
-  updateService(serviceId: string, data: UpdateServiceInput): Promise<Service>;
+  updateService(id: string, data: UpdateServiceInput): Promise<ServiceResponse>;
 
   /**
    * Delete service
    */
-  deleteService(serviceId: string): Promise<void>;
+  deleteService(id: string): Promise<{ success: boolean; message: string }>;
+
+  /**
+   * Toggle service active/inactive status
+   */
+  toggleServiceStatus(id: string, isActive: boolean): Promise<ServiceResponse>;
 
   // ==================== Service Config Operations ====================
 
   /**
    * Create service configuration
    */
-  createServiceConfig(data: CreateServiceConfigInput): Promise<any>;
+  createServiceConfig(data: CreateServiceConfigInput): Promise<ServiceConfigResponse>;
+
+  /**
+   * Get service config by ID
+   */
+  getServiceConfigById(id: string): Promise<ServiceConfigResponse>;
 
   /**
    * Get all configs for a service
    */
-  getServiceConfigs(serviceId: string): Promise<any>;
+  getServiceConfigs(serviceId: string, filters?: ServiceConfigFilters): Promise<ServiceConfigResponse[]>;
+
+  /**
+   * Get all service configs with pagination and filters
+   */
+  getAllServiceConfigs(
+    params: PaginationParams,
+    filters?: ServiceConfigFilters
+  ): Promise<PaginatedResponse<ServiceConfigResponse>>;
 
   /**
    * Update service configuration
    */
   updateServiceConfig(
-      configId: string,
-      data: Partial<CreateServiceConfigInput>
-  ): Promise<any>;
+    id: string,
+    data: UpdateServiceConfigInput
+  ): Promise<ServiceConfigResponse>;
+
+  /**
+   * Delete service configuration
+   */
+  deleteServiceConfig(id: string): Promise<{ success: boolean; message: string }>;
+
+  /**
+   * Toggle service config active/inactive status
+   */
+  toggleServiceConfigStatus(id: string, isActive: boolean): Promise<ServiceConfigResponse>;
+
+  /**
+   * Get active config by rule type for a service
+   */
+  getActiveConfigByRuleType(
+    serviceId: string,
+    ruleType: 'EARN' | 'BURN'
+  ): Promise<ServiceConfigResponse | null>;
 }

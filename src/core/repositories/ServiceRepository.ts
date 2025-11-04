@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import { Service, ServiceCategory, Prisma } from '@prisma/client';
 import { IServiceRepository } from '../interfaces/repositories/IServiceRepository';
+import type { ServiceWithConfigsResponse, ServiceWithTransactionCountResponse } from '../types';
 import { prisma } from '../config/database';
 
 /**
@@ -63,7 +64,7 @@ export class ServiceRepository implements IServiceRepository {
     return service?.isActive ?? false;
   }
 
-  async findByIdWithConfigs(id: string): Promise<any> {
+  async findByIdWithConfigs(id: string): Promise<ServiceWithConfigsResponse | null> {
     return prisma.service.findUnique({
       where: { id },
       include: {
@@ -75,7 +76,7 @@ export class ServiceRepository implements IServiceRepository {
     });
   }
 
-  async findByIdWithTransactionCount(id: string): Promise<any> {
+  async findByIdWithTransactionCount(id: string): Promise<ServiceWithTransactionCountResponse | null> {
     return prisma.service.findUnique({
       where: { id },
       include: {

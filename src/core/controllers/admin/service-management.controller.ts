@@ -290,8 +290,10 @@ export class ServiceManagementController {
       return NextResponse.json(
         {
           success: true,
-          data: result.data,
-          pagination: result.pagination,
+          data: {
+            data: result.data,
+            pagination: result.pagination,
+          },
         },
         { status: 200 }
       );
@@ -363,6 +365,8 @@ export class ServiceManagementController {
    * POST /api/admin/service-configs
    */
   async createServiceConfig(request: NextRequest): Promise<NextResponse> {
+    console.log('we here')
+    console.log(request);
     try {
       const adminToken = verifyAdminToken(request);
       if (!adminToken) {
@@ -388,6 +392,7 @@ export class ServiceManagementController {
         { status: 201 }
       );
     } catch (error) {
+      console.log({error});
       return this.handleError(error);
     }
   }

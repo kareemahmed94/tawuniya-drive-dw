@@ -4,6 +4,7 @@ import type { IWalletService } from '../interfaces/services/IWalletService';
 import type { IWalletRepository } from '../interfaces/repositories/IWalletRepository';
 import type { ITransactionRepository } from '../interfaces/repositories/ITransactionRepository';
 import type { IPointBalanceRepository } from '../interfaces/repositories/IPointBalanceRepository';
+import type { WalletResponse, WalletStatistics, PointBalanceResponse } from '../types';
 import { AppError } from '../middleware/errorHandler';
 import { prisma } from '../config/database';
 import logger from '../utils/logger';
@@ -25,7 +26,7 @@ export class WalletService implements IWalletService {
    * Get wallet by user ID
    * Returns wallet with balance and statistics
    */
-  async getWalletByUserId(userId: string) {
+  async getWalletByUserId(userId: string): Promise<WalletResponse> {
     const wallet = await this.walletRepository.findByUserIdWithStats(userId);
 
     if (!wallet) {
@@ -58,7 +59,7 @@ export class WalletService implements IWalletService {
   /**
    * Get wallet statistics
    */
-  async getWalletStatistics(userId: string): Promise<any> {
+  async getWalletStatistics(userId: string): Promise<WalletStatistics> {
     const wallet = await this.walletRepository.findByUserId(userId);
 
     if (!wallet) {
@@ -120,7 +121,7 @@ export class WalletService implements IWalletService {
    * Get active point balances (non-expired)
    * Shows breakdown of points by batch with expiry dates
    */
-  async getActivePointBalances(userId: string) {
+  async getActivePointBalances(userId: string): Promise<PointBalanceResponse[]> {
     const wallet = await this.walletRepository.findByUserId(userId);
 
     if (!wallet) {
@@ -145,7 +146,7 @@ export class WalletService implements IWalletService {
   /**
    * Get points expiring within specified days
    */
-  async getExpiringPoints(userId: string, days: number = 30) {
+  async getExpiringPoints(userId: string, days: number = 30): Promise<PointBalanceResponse[]> {
     const wallet = await this.walletRepository.findByUserId(userId);
 
     if (!wallet) {

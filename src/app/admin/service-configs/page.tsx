@@ -533,6 +533,7 @@ function ServiceConfigFormModal({
 
     setLoading(true);
 
+    console.log('sending payload', formData);
     try {
       const payload: any = {
         serviceId: formData.serviceId,
@@ -564,6 +565,7 @@ function ServiceConfigFormModal({
         }
       }
     } catch (err) {
+    console.log('error', err);
       setError(err instanceof Error ? err.message : 'Operation failed');
     } finally {
       setLoading(false);

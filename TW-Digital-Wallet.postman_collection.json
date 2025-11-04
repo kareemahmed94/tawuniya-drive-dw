@@ -8,6 +8,9 @@
 	},
 	"item": [
 		{
+			"name": "Client APIs",
+			"item": [
+				{
 			"name": "Health & Docs",
 			"item": [
 				{
@@ -17,13 +20,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/health",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"health"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "health"]
 						},
 						"description": "Health check endpoint to verify API is running"
 					},
@@ -36,15 +34,10 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/docs",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"docs"
-							]
-						},
-						"description": "Get Swagger/OpenAPI documentation"
+									"host": ["{{base_url}}"],
+									"path": ["api", "docs"]
+								},
+								"description": "Get OpenAPI/Swagger documentation in JSON format"
 					},
 					"response": []
 				}
@@ -56,8 +49,7 @@
 			"item": [
 				{
 					"name": "Register User",
-					"event": [
-						{
+							"event": [{
 							"listen": "test",
 							"script": {
 								"exec": [
@@ -71,30 +63,21 @@
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
+							}],
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+								"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
-							}
-						],
+								}],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"name\": \"John Doe\",\n  \"phone\": \"+966501234567\"\n}"
+									"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"username\": \"johndoe\",\n  \"phone\": \"+966501234567\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/auth/register",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"register"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "auth", "register"]
 						},
 						"description": "Register a new user account. Automatically creates a wallet for the user."
 					},
@@ -102,8 +85,7 @@
 				},
 				{
 					"name": "Login User",
-					"event": [
-						{
+							"event": [{
 							"listen": "test",
 							"script": {
 								"exec": [
@@ -117,30 +99,21 @@
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
+							}],
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+								"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
-							}
-						],
+								}],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/auth/login",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"login"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "auth", "login"]
 						},
 						"description": "Authenticate user with email and password. Returns JWT token (valid for 7 days)."
 					},
@@ -150,23 +123,15 @@
 					"name": "Get User Profile",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/auth/profile",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"profile"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "auth", "profile"]
 						},
 						"description": "Get authenticated user profile. Requires JWT token."
 					},
@@ -182,23 +147,15 @@
 					"name": "Get Wallet Details",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/wallet/{{user_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"wallet",
-								"{{user_id}}"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "wallet", "{{user_id}}"]
 						},
 						"description": "Get wallet details for a user. Requires ownership or admin role."
 					},
@@ -208,24 +165,15 @@
 					"name": "Get Wallet Balance",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/wallet/{{user_id}}/balance",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"wallet",
-								"{{user_id}}",
-								"balance"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "wallet", "{{user_id}}", "balance"]
 						},
 						"description": "Get current wallet balance. Requires ownership or admin role."
 					},
@@ -235,24 +183,15 @@
 					"name": "Get Wallet Statistics",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/wallet/{{user_id}}/statistics",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"wallet",
-								"{{user_id}}",
-								"statistics"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "wallet", "{{user_id}}", "statistics"]
 						},
 						"description": "Get wallet statistics (total earned, burned, expired, etc.). Requires ownership or admin role."
 					},
@@ -262,24 +201,15 @@
 					"name": "Get Point Balances",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/wallet/{{user_id}}/point-balances",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"wallet",
-								"{{user_id}}",
-								"point-balances"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "wallet", "{{user_id}}", "point-balances"]
 						},
 						"description": "Get active point balances breakdown by batch. Requires ownership or admin role."
 					},
@@ -289,31 +219,20 @@
 					"name": "Get Expiring Points",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/wallet/{{user_id}}/expiring?days=30",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"wallet",
-								"{{user_id}}",
-								"expiring"
-							],
-							"query": [
-								{
+									"host": ["{{base_url}}"],
+									"path": ["api", "wallet", "{{user_id}}", "expiring"],
+									"query": [{
 									"key": "days",
 									"value": "30",
 									"description": "Number of days to look ahead (default: 30)"
-								}
-							]
+									}]
 						},
 						"description": "Get points expiring within specified days. Requires ownership or admin role."
 					},
@@ -329,33 +248,24 @@
 					"name": "Earn Points",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							},
-							{
+								}, {
 								"key": "Content-Type",
 								"value": "application/json"
-							}
-						],
+								}],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"serviceId\": \"{{service_id}}\",\n  \"amount\": 500.00,\n  \"description\": \"Hotel booking payment\",\n  \"metadata\": {\n    \"orderId\": \"ORD-12345\",\n    \"bookingRef\": \"BK-98765\"\n  }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/transactions/earn",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"transactions",
-								"earn"
-							]
-						},
-						"description": "Record a transaction to earn loyalty points. Points are calculated automatically based on the service's earning rules. Rate limit: 100 requests per 15 minutes."
+									"host": ["{{base_url}}"],
+									"path": ["api", "transactions", "earn"]
+								},
+								"description": "Record a transaction to earn loyalty points. Points are calculated automatically based on the service's earning rules."
 					},
 					"response": []
 				},
@@ -363,31 +273,22 @@
 					"name": "Burn Points",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							},
-							{
+								}, {
 								"key": "Content-Type",
 								"value": "application/json"
-							}
-						],
+								}],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"serviceId\": \"{{service_id}}\",\n  \"points\": 100.00,\n  \"description\": \"Redeemed for discount\",\n  \"metadata\": {\n    \"orderId\": \"ORD-12345\",\n    \"redemptionType\": \"discount\"\n  }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/transactions/burn",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"transactions",
-								"burn"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "transactions", "burn"]
 						},
 						"description": "Burn points for a service. Requires customer or admin role."
 					},
@@ -397,58 +298,43 @@
 					"name": "Get User Transactions",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/transactions/{{user_id}}?page=1&limit=50&type=EARN",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"transactions",
-								"{{user_id}}"
-							],
-							"query": [
-								{
+									"host": ["{{base_url}}"],
+									"path": ["api", "transactions", "{{user_id}}"],
+									"query": [{
 									"key": "page",
 									"value": "1",
 									"description": "Page number (default: 1)"
-								},
-								{
+									}, {
 									"key": "limit",
 									"value": "50",
 									"description": "Items per page (default: 50, max: 100)"
-								},
-								{
+									}, {
 									"key": "type",
 									"value": "EARN",
-									"description": "Filter by type: EARN, BURN, EXPIRED, ADJUSTMENT"
-								},
-								{
+										"description": "Filter by type: EARN, BURN"
+									}, {
 									"key": "serviceId",
 									"value": "",
 									"description": "Filter by service ID",
 									"disabled": true
-								},
-								{
+									}, {
 									"key": "startDate",
 									"value": "",
 									"description": "Filter from date (ISO 8601)",
 									"disabled": true
-								},
-								{
+									}, {
 									"key": "endDate",
 									"value": "",
 									"description": "Filter to date (ISO 8601)",
 									"disabled": true
-								}
-							]
+									}]
 						},
 						"description": "Get transaction history for a user. Supports pagination and filtering. Requires ownership or admin role."
 					},
@@ -458,24 +344,15 @@
 					"name": "Get Transaction by ID",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{user_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/transactions/{{user_id}}/{{transaction_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"transactions",
-								"{{user_id}}",
-								"{{transaction_id}}"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "transactions", "{{user_id}}", "{{transaction_id}}"]
 						},
 						"description": "Get specific transaction details. Requires ownership or admin role."
 					},
@@ -494,598 +371,1177 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/api/services?isActive=true",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services"
-							],
-							"query": [
-								{
+									"host": ["{{base_url}}"],
+									"path": ["api", "services"],
+									"query": [{
 									"key": "category",
 									"value": "",
 									"description": "Filter by service category",
 									"disabled": true
-								},
-								{
+									}, {
 									"key": "isActive",
 									"value": "true",
 									"description": "Filter by active status"
-								}
-							]
+									}]
 						},
 						"description": "Get all services. Public endpoint. Supports filtering by category and active status."
 					},
 					"response": []
 				},
 				{
-					"name": "Create Service",
+							"name": "Get Service by ID",
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{admin_token}}",
-								"type": "text"
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/services/{{service_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "services", "{{service_id}}"]
+								},
+								"description": "Get service details by ID. Public endpoint."
 							},
-							{
+							"response": []
+						},
+						{
+							"name": "Get Service Rules",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/services/{{service_id}}/rules",
+									"host": ["{{base_url}}"],
+									"path": ["api", "services", "{{service_id}}", "rules"]
+								},
+								"description": "Get active earning/burning rules for a service. Public endpoint."
+							},
+							"response": []
+						}
+					],
+					"description": "Public service endpoints (read-only for clients)"
+				}
+			],
+			"description": "Client-facing API endpoints for users and customers"
+		},
+		{
+			"name": "Admin APIs",
+			"item": [
+				{
+					"name": "Admin Authentication",
+					"item": [
+						{
+							"name": "Admin Register",
+							"event": [{
+								"listen": "test",
+								"script": {
+									"exec": [
+										"if (pm.response.code === 201) {",
+										"    const jsonData = pm.response.json();",
+										"    if (jsonData.data && jsonData.data.token) {",
+										"        pm.environment.set('admin_token', jsonData.data.token);",
+										"        pm.environment.set('admin_id', jsonData.data.admin.id);",
+										"    }",
+										"}"
+									],
+									"type": "text/javascript"
+								}
+							}],
+							"request": {
+								"method": "POST",
+								"header": [{
 								"key": "Content-Type",
 								"value": "application/json"
-							}
-						],
+								}],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Hotel Booking\",\n  \"description\": \"Loyalty points for hotel bookings\",\n  \"category\": \"HOSPITALITY\",\n  \"iconUrl\": \"https://example.com/icon.png\"\n}"
+									"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"AdminPass123!\",\n  \"name\": \"Admin User\",\n  \"role\": \"ADMIN\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/services",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services"
-							]
+									"raw": "{{base_url}}/api/admin/auth/register",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "auth", "register"]
+								},
+								"description": "Register a new admin user. Note: In production, this should be protected and only accessible by super admins."
+							},
+							"response": []
 						},
-						"description": "Create a new service. Admin only."
+						{
+							"name": "Admin Login",
+							"event": [{
+								"listen": "test",
+								"script": {
+									"exec": [
+										"if (pm.response.code === 200) {",
+										"    const jsonData = pm.response.json();",
+										"    if (jsonData.data && jsonData.data.token) {",
+										"        pm.environment.set('admin_token', jsonData.data.token);",
+										"        pm.environment.set('admin_id', jsonData.data.admin.id);",
+										"    }",
+										"}"
+									],
+									"type": "text/javascript"
+								}
+							}],
+							"request": {
+								"method": "POST",
+								"header": [{
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"AdminPass123!\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/auth/login",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "auth", "login"]
+								},
+								"description": "Authenticate admin user. Returns JWT token."
 					},
 					"response": []
 				},
 				{
-					"name": "Get Service by ID",
+							"name": "Get Admin Profile",
 					"request": {
 						"method": "GET",
-						"header": [],
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
 						"url": {
-							"raw": "{{base_url}}/api/services/{{service_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services",
-								"{{service_id}}"
-							]
-						},
-						"description": "Get service details by ID. Public endpoint."
+									"raw": "{{base_url}}/api/admin/auth/profile",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "auth", "profile"]
+								},
+								"description": "Get authenticated admin profile. Requires admin JWT token."
+							},
+							"response": []
+						}
+					],
+					"description": "Admin authentication endpoints"
+				},
+				{
+					"name": "Admin Management",
+					"item": [
+						{
+							"name": "Get All Admins",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/admins?page=1&limit=20",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "admins"],
+									"query": [{
+										"key": "page",
+										"value": "1",
+										"description": "Page number"
+									}, {
+										"key": "limit",
+										"value": "20",
+										"description": "Items per page"
+									}, {
+										"key": "role",
+										"value": "",
+										"description": "Filter by role",
+										"disabled": true
+									}, {
+										"key": "search",
+										"value": "",
+										"description": "Search by email or name",
+										"disabled": true
+									}]
+								},
+								"description": "Get all admin users with pagination and filters. Admin only."
 					},
 					"response": []
 				},
 				{
-					"name": "Update Service",
+							"name": "Create Admin",
 					"request": {
-						"method": "PUT",
-						"header": [
-							{
+								"method": "POST",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"newadmin@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"name\": \"New Admin\",\n  \"phone\": \"+966501234567\",\n  \"role\": \"ADMIN\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/admins",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "admins"]
+								},
+								"description": "Create a new admin user. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Admin by ID",
+							"request": {
+								"method": "GET",
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/admins/{{admin_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "admins", "{{admin_id}}"]
+								},
+								"description": "Get admin details by ID. Admin only."
 							},
-							{
+							"response": []
+						},
+						{
+							"name": "Update Admin",
+							"request": {
+								"method": "PUT",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
 								"key": "Content-Type",
 								"value": "application/json"
-							}
-						],
+								}],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Updated Hotel Booking\",\n  \"description\": \"Updated description\",\n  \"category\": \"HOSPITALITY\",\n  \"isActive\": true,\n  \"iconUrl\": \"https://example.com/new-icon.png\"\n}"
+									"raw": "{\n  \"name\": \"Updated Admin Name\",\n  \"email\": \"updated@example.com\",\n  \"phone\": \"+966509876543\",\n  \"role\": \"ADMIN\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/services/{{service_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services",
-								"{{service_id}}"
-							]
-						},
-						"description": "Update service details. Admin only."
+									"raw": "{{base_url}}/api/admin/admins/{{admin_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "admins", "{{admin_id}}"]
+								},
+								"description": "Update admin details. Admin only."
 					},
 					"response": []
 				},
 				{
-					"name": "Delete Service",
+							"name": "Delete Admin",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/admins/{{admin_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "admins", "{{admin_id}}"]
+								},
+								"description": "Delete an admin user. Admin only."
+							},
+							"response": []
+						}
+					],
+					"description": "Admin user management endpoints"
+				},
+				{
+					"name": "User Management",
+					"item": [
+						{
+							"name": "Get All Users",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
 						"url": {
-							"raw": "{{base_url}}/api/services/{{service_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services",
-								"{{service_id}}"
-							]
-						},
-						"description": "Delete a service. Admin only."
+									"raw": "{{base_url}}/api/admin/users?page=1&limit=20",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "users"],
+									"query": [{
+										"key": "page",
+										"value": "1",
+										"description": "Page number"
+									}, {
+										"key": "limit",
+										"value": "20",
+										"description": "Items per page"
+									}, {
+										"key": "isActive",
+										"value": "",
+										"description": "Filter by active status",
+										"disabled": true
+									}, {
+										"key": "search",
+										"value": "",
+										"description": "Search by email, username, or name",
+										"disabled": true
+									}]
+								},
+								"description": "Get all users with pagination and filters. Admin only."
 					},
 					"response": []
 				},
 				{
-					"name": "Get Service Rules",
+							"name": "Create User",
+					"request": {
+								"method": "POST",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"username\": \"janedoe\",\n  \"phone\": \"+966501234567\"\n}"
+								},
+						"url": {
+									"raw": "{{base_url}}/api/admin/users",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "users"]
+								},
+								"description": "Create a new user. Admin only."
+					},
+					"response": []
+				},
+				{
+							"name": "Get User by ID",
 					"request": {
 						"method": "GET",
-						"header": [],
+								"header": [{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}",
+								"type": "text"
+								}],
 						"url": {
-							"raw": "{{base_url}}/api/services/{{service_id}}/rules",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services",
-								"{{service_id}}",
-								"rules"
-							]
-						},
-						"description": "Get active earning/burning rules for a service. Public endpoint."
+									"raw": "{{base_url}}/api/admin/users/{{user_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "users", "{{user_id}}"]
+								},
+								"description": "Get user details by ID. Admin only."
 					},
 					"response": []
 				},
 				{
-					"name": "Get Service Configurations",
+							"name": "Update User",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
+								"method": "PUT",
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/services/{{service_id}}/config",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services",
-								"{{service_id}}",
-								"config"
-							]
-						},
-						"description": "Get all service configurations. Admin only."
-					},
-					"response": []
-				},
-				{
-					"name": "Create Service Configuration",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{admin_token}}",
-								"type": "text"
+								}, {
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"firstName\": \"Updated Name\",\n  \"lastName\": \"Updated Last\",\n  \"email\": \"updated@example.com\",\n  \"phone\": \"+966509876543\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/users/{{user_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "users", "{{user_id}}"]
+								},
+								"description": "Update user details. Admin only."
 							},
-							{
+							"response": []
+						},
+						{
+							"name": "Toggle User Status",
+							"request": {
+								"method": "PATCH",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
 								"key": "Content-Type",
 								"value": "application/json"
-							}
-						],
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isActive\": false\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/users/{{user_id}}/status",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "users", "{{user_id}}", "status"]
+								},
+								"description": "Toggle user active/inactive status. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Statistics",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/users/statistics",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "users", "statistics"]
+								},
+								"description": "Get user statistics and metrics. Admin only."
+							},
+							"response": []
+						}
+					],
+					"description": "User management endpoints for admins"
+				},
+				{
+					"name": "Services Management",
+					"item": [
+						{
+							"name": "Get All Services",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/services?page=1&limit=20",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "services"],
+									"query": [{
+										"key": "page",
+										"value": "1",
+										"description": "Page number"
+									}, {
+										"key": "limit",
+										"value": "20",
+										"description": "Items per page"
+									}, {
+										"key": "category",
+										"value": "",
+										"description": "Filter by category",
+										"disabled": true
+									}, {
+										"key": "isActive",
+										"value": "",
+										"description": "Filter by active status",
+										"disabled": true
+									}, {
+										"key": "search",
+										"value": "",
+										"description": "Search by name",
+										"disabled": true
+									}]
+								},
+								"description": "Get all services with pagination and filters. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Create Service",
+							"request": {
+								"method": "POST",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"serviceId\": \"{{service_id}}\",\n  \"ruleType\": \"EARN\",\n  \"pointsPerUnit\": 10,\n  \"unitAmount\": 100,\n  \"minAmount\": 50,\n  \"maxPoints\": 500,\n  \"expiryDays\": 365,\n  \"validFrom\": \"2024-01-01T00:00:00Z\",\n  \"validUntil\": \"2024-12-31T23:59:59Z\"\n}"
+									"raw": "{\n  \"name\": \"Hotel Booking\",\n  \"description\": \"Loyalty points for hotel bookings\",\n  \"category\": \"INSURANCE\",\n  \"iconUrl\": \"https://example.com/icon.png\",\n  \"isActive\": true\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/services/config",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services",
-								"config"
-							]
-						},
-						"description": "Create a new service configuration (earning or burning rule). Admin only."
+									"raw": "{{base_url}}/api/admin/services",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "services"]
+								},
+								"description": "Create a new service. Admin only."
 					},
 					"response": []
 				},
 				{
-					"name": "Update Service Configuration",
+							"name": "Get Service by ID",
 					"request": {
-						"method": "PUT",
-						"header": [
-							{
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/services/{{service_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "services", "{{service_id}}"]
+								},
+								"description": "Get service details by ID. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Service Details",
+							"request": {
+								"method": "GET",
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/services/{{service_id}}/details",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "services", "{{service_id}}", "details"]
+								},
+								"description": "Get service with full details including configs and statistics. Admin only."
 							},
-							{
+							"response": []
+						},
+						{
+							"name": "Update Service",
+							"request": {
+								"method": "PUT",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
 								"key": "Content-Type",
 								"value": "application/json"
-							}
-						],
+								}],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"pointsPerUnit\": 15,\n  \"unitAmount\": 100,\n  \"expiryDays\": 180,\n  \"isActive\": true\n}"
+									"raw": "{\n  \"name\": \"Updated Hotel Booking\",\n  \"description\": \"Updated description\",\n  \"category\": \"INSURANCE\",\n  \"isActive\": true,\n  \"iconUrl\": \"https://example.com/new-icon.png\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/api/services/config/{{config_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services",
-								"config",
-								"{{config_id}}"
-							]
-						},
-						"description": "Update service configuration. Admin only."
+									"raw": "{{base_url}}/api/admin/services/{{service_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "services", "{{service_id}}"]
+								},
+								"description": "Update service details. Admin only."
 					},
 					"response": []
 				},
 				{
-					"name": "Deactivate Service Configuration",
+							"name": "Toggle Service Status",
 					"request": {
 						"method": "PATCH",
-						"header": [
-							{
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isActive\": false\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/services/{{service_id}}/status",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "services", "{{service_id}}", "status"]
+								},
+								"description": "Toggle service active/inactive status. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Service",
+							"request": {
+								"method": "DELETE",
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
-							"raw": "{{base_url}}/api/services/config/{{config_id}}/deactivate",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"services",
-								"config",
-								"{{config_id}}",
-								"deactivate"
-							]
+									"raw": "{{base_url}}/api/admin/services/{{service_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "services", "{{service_id}}"]
+								},
+								"description": "Delete a service. Admin only."
+							},
+							"response": []
 						},
-						"description": "Deactivate a service configuration. Admin only."
+						{
+							"name": "Get Service Configs",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/services/{{service_id}}/configs",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "services", "{{service_id}}", "configs"]
+								},
+								"description": "Get all configurations for a service. Admin only."
 					},
 					"response": []
 				}
 			],
-			"description": "Service management endpoints"
+					"description": "Service management endpoints for admins"
 		},
 		{
-			"name": "Admin Authentication",
+					"name": "Service Configs Management",
 			"item": [
 				{
-					"name": "Admin Register",
-					"event": [
+							"name": "Get All Service Configs",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/service-configs?page=1&limit=20",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "service-configs"],
+									"query": [{
+										"key": "page",
+										"value": "1",
+										"description": "Page number"
+									}, {
+										"key": "limit",
+										"value": "20",
+										"description": "Items per page"
+									}, {
+										"key": "serviceId",
+										"value": "",
+										"description": "Filter by service ID",
+										"disabled": true
+									}, {
+										"key": "ruleType",
+										"value": "",
+										"description": "Filter by rule type: EARN, BURN",
+										"disabled": true
+									}, {
+										"key": "isActive",
+										"value": "",
+										"description": "Filter by active status",
+										"disabled": true
+									}]
+								},
+								"description": "Get all service configs with pagination and filters. Admin only."
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 201) {",
-									"    const jsonData = pm.response.json();",
-									"    if (jsonData.data && jsonData.data.token) {",
-									"        pm.environment.set('admin_token', jsonData.data.token);",
-									"        pm.environment.set('admin_id', jsonData.data.admin.id);",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
+							"name": "Create Service Config",
+					"request": {
+						"method": "POST",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+								"key": "Content-Type",
+								"value": "application/json"
+								}],
+						"body": {
+							"mode": "raw",
+									"raw": "{\n  \"serviceId\": \"{{service_id}}\",\n  \"ruleType\": \"EARN\",\n  \"pointsPerUnit\": 10,\n  \"unitAmount\": 100,\n  \"minAmount\": 50,\n  \"maxPoints\": 500,\n  \"expiryDays\": 365,\n  \"isActive\": true,\n  \"validFrom\": \"2024-01-01\",\n  \"validUntil\": \"2024-12-31\"\n}"
+						},
+						"url": {
+									"raw": "{{base_url}}/api/admin/service-configs",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "service-configs"]
+								},
+								"description": "Create a new service configuration (earning or burning rule). Admin only."
+					},
+					"response": []
+				},
+				{
+							"name": "Get Service Config by ID",
+					"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/service-configs/{{config_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "service-configs", "{{config_id}}"]
+								},
+								"description": "Get service config details by ID. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Update Service Config",
+							"request": {
+								"method": "PUT",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+								"key": "Content-Type",
+								"value": "application/json"
+								}],
+						"body": {
+							"mode": "raw",
+									"raw": "{\n  \"pointsPerUnit\": 15,\n  \"unitAmount\": 100,\n  \"expiryDays\": 180,\n  \"isActive\": true\n}"
+						},
+						"url": {
+									"raw": "{{base_url}}/api/admin/service-configs/{{config_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "service-configs", "{{config_id}}"]
+								},
+								"description": "Update service configuration. Admin only."
+					},
+					"response": []
+				},
+				{
+							"name": "Toggle Service Config Status",
+					"request": {
+								"method": "PATCH",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isActive\": false\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/service-configs/{{config_id}}/status",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "service-configs", "{{config_id}}", "status"]
+								},
+								"description": "Toggle service config active/inactive status. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Service Config",
+							"request": {
+								"method": "DELETE",
+								"header": [{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}",
+								"type": "text"
+								}],
+						"url": {
+									"raw": "{{base_url}}/api/admin/service-configs/{{config_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "service-configs", "{{config_id}}"]
+								},
+								"description": "Delete a service config. SUPER_ADMIN only."
+					},
+					"response": []
+				}
+			],
+					"description": "Service configuration management endpoints"
+		},
+		{
+					"name": "Global Configs Management",
+			"item": [
+				{
+							"name": "Get All Global Configs",
+					"request": {
+						"method": "GET",
+								"header": [{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}",
+								"type": "text"
+								}],
+						"url": {
+									"raw": "{{base_url}}/api/admin/global-configs?page=1&limit=20",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "global-configs"],
+									"query": [{
+										"key": "page",
+										"value": "1",
+										"description": "Page number"
+									}, {
+										"key": "limit",
+										"value": "20",
+										"description": "Items per page"
+									}, {
+										"key": "type",
+										"value": "",
+										"description": "Filter by type: SYSTEM, BUSINESS, FEATURE",
+										"disabled": true
+									}, {
+										"key": "isActive",
+										"value": "",
+										"description": "Filter by active status",
+										"disabled": true
+									}]
+								},
+								"description": "Get all global configs with pagination and filters. Admin only."
+					},
+					"response": []
+				},
+				{
+							"name": "Create Global Config",
+					"request": {
+						"method": "POST",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"key\": \"MAX_POINTS_PER_TRANSACTION\",\n  \"value\": \"10000\",\n  \"type\": \"BUSINESS\",\n  \"description\": \"Maximum points allowed per transaction\",\n  \"isActive\": true\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/global-configs",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "global-configs"]
+								},
+								"description": "Create a new global configuration. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Global Config by ID",
+							"request": {
+								"method": "GET",
+								"header": [{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}",
+								"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/global-configs/{{config_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "global-configs", "{{config_id}}"]
+								},
+								"description": "Get global config details by ID. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Update Global Config",
+							"request": {
+								"method": "PUT",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+								"key": "Content-Type",
+								"value": "application/json"
+								}],
+						"body": {
+							"mode": "raw",
+									"raw": "{\n  \"value\": \"15000\",\n  \"description\": \"Updated maximum points\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+									"raw": "{{base_url}}/api/admin/global-configs/{{config_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "global-configs", "{{config_id}}"]
+								},
+								"description": "Update global configuration. Admin only."
+					},
+					"response": []
+				},
+				{
+							"name": "Toggle Global Config Status",
+					"request": {
+								"method": "PATCH",
+								"header": [{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}",
+								"type": "text"
+								}, {
+									"key": "Content-Type",
+									"value": "application/json"
+								}],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isActive\": false\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/global-configs/{{config_id}}/status",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "global-configs", "{{config_id}}", "status"]
+								},
+								"description": "Toggle global config active/inactive status. Admin only."
+							},
+							"response": []
 						}
 					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"AdminPass123!\",\n  \"name\": \"Admin User\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/api/admin/auth/register",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"auth",
-								"register"
-							]
-						},
-						"description": "Register a new admin user. Note: In production, this should be protected and only accessible by super admins."
-					},
-					"response": []
+					"description": "Global configuration management endpoints"
 				},
 				{
-					"name": "Admin Login",
-					"event": [
+					"name": "Transactions Management",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code === 200) {",
-									"    const jsonData = pm.response.json();",
-									"    if (jsonData.data && jsonData.data.token) {",
-									"        pm.environment.set('admin_token', jsonData.data.token);",
-									"        pm.environment.set('admin_id', jsonData.data.admin.id);",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"AdminPass123!\"\n}"
-						},
+							"name": "Get All Transactions",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
 						"url": {
-							"raw": "{{base_url}}/api/admin/auth/login",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"auth",
-								"login"
-							]
-						},
-						"description": "Authenticate admin user. Returns JWT token."
+									"raw": "{{base_url}}/api/admin/transactions?page=1&limit=20",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "transactions"],
+									"query": [{
+										"key": "page",
+										"value": "1",
+										"description": "Page number"
+									}, {
+										"key": "limit",
+										"value": "20",
+										"description": "Items per page"
+									}, {
+										"key": "userId",
+										"value": "",
+										"description": "Filter by user ID",
+										"disabled": true
+									}, {
+										"key": "serviceId",
+										"value": "",
+										"description": "Filter by service ID",
+										"disabled": true
+									}, {
+										"key": "type",
+										"value": "",
+										"description": "Filter by type: EARN, BURN, EXPIRED",
+										"disabled": true
+									}, {
+										"key": "status",
+										"value": "",
+										"description": "Filter by status: PENDING, COMPLETED, FAILED, REVERSED",
+										"disabled": true
+									}, {
+										"key": "startDate",
+										"value": "",
+										"description": "Filter from date (ISO 8601)",
+										"disabled": true
+									}, {
+										"key": "endDate",
+										"value": "",
+										"description": "Filter to date (ISO 8601)",
+										"disabled": true
+									}]
+								},
+								"description": "Get all transactions with pagination and filters. Admin only."
 					},
 					"response": []
 				},
 				{
-					"name": "Get Admin Profile",
+							"name": "Get Transaction by ID",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
+								"method": "GET",
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/admin/auth/profile",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"auth",
-								"profile"
-							]
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/transactions/{{transaction_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "transactions", "{{transaction_id}}"]
+								},
+								"description": "Get transaction details by ID. Admin only."
+							},
+							"response": []
 						},
-						"description": "Get authenticated admin profile. Requires admin JWT token."
+						{
+							"name": "Update Transaction",
+							"request": {
+								"method": "PATCH",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}, {
+								"key": "Content-Type",
+								"value": "application/json"
+								}],
+						"body": {
+							"mode": "raw",
+									"raw": "{\n  \"status\": \"COMPLETED\",\n  \"description\": \"Updated description\",\n  \"metadata\": {\n    \"updatedBy\": \"admin\"\n  }\n}"
+						},
+						"url": {
+									"raw": "{{base_url}}/api/admin/transactions/{{transaction_id}}",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "transactions", "{{transaction_id}}"]
+								},
+								"description": "Update transaction status or details. Admin only."
+					},
+					"response": []
+				},
+				{
+							"name": "Get Transactions by User",
+					"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/transactions/user/{{user_id}}?page=1&limit=20",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "transactions", "user", "{{user_id}}"],
+									"query": [{
+										"key": "page",
+										"value": "1",
+										"description": "Page number"
+									}, {
+										"key": "limit",
+										"value": "20",
+										"description": "Items per page"
+									}]
+								},
+								"description": "Get all transactions for a specific user. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Transactions by Service",
+							"request": {
+								"method": "GET",
+								"header": [{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}",
+								"type": "text"
+								}],
+						"url": {
+									"raw": "{{base_url}}/api/admin/transactions/service/{{service_id}}?page=1&limit=20",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "transactions", "service", "{{service_id}}"],
+									"query": [{
+										"key": "page",
+										"value": "1",
+										"description": "Page number"
+									}, {
+										"key": "limit",
+										"value": "20",
+										"description": "Items per page"
+									}]
+								},
+								"description": "Get all transactions for a specific service. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Transaction Statistics",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/transactions/statistics",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "transactions", "statistics"]
+								},
+								"description": "Get transaction statistics and aggregates. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Transaction Trends",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/transactions/trends",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "transactions", "trends"]
+								},
+								"description": "Get transaction trends over time. Admin only."
+							},
+							"response": []
+						},
+						{
+							"name": "Export Transactions",
+							"request": {
+								"method": "GET",
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/transactions/export",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "transactions", "export"]
+								},
+								"description": "Export transactions to CSV format. Admin only."
 					},
 					"response": []
 				}
 			],
-			"description": "Admin authentication endpoints"
+					"description": "Transaction management endpoints for admins"
 		},
 		{
-			"name": "Admin Management",
+					"name": "Analytics & Dashboard",
 			"item": [
 				{
-					"name": "Get All Admins",
+							"name": "Get Dashboard Stats",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{admin_token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/admin/admins",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"admins"
-							]
-						},
-						"description": "Get all admin users. Admin only."
-					},
-					"response": []
-				},
-				{
-					"name": "Create Admin",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{admin_token}}",
-								"type": "text"
+								"header": [{
+									"key": "Authorization",
+									"value": "Bearer {{admin_token}}",
+									"type": "text"
+								}],
+								"url": {
+									"raw": "{{base_url}}/api/admin/dashboard/stats",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "dashboard", "stats"]
+								},
+								"description": "Get comprehensive dashboard statistics. Admin only."
 							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"email\": \"newadmin@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"name\": \"New Admin\"\n}"
+							"response": []
 						},
-						"url": {
-							"raw": "{{base_url}}/api/admin/admins",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"admins"
-							]
-						},
-						"description": "Create a new admin user. Admin only."
-					},
-					"response": []
-				},
-				{
-					"name": "Get Admin by ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
+						{
+							"name": "Get System Stats",
+							"request": {
+								"method": "GET",
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/admin/admins/{{admin_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"admins",
-								"{{admin_id}}"
-							]
-						},
-						"description": "Get admin details by ID. Admin only."
-					},
-					"response": []
-				},
-				{
-					"name": "Update Admin",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{admin_token}}",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Updated Admin Name\",\n  \"email\": \"updated@example.com\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/api/admin/admins/{{admin_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"admins",
-								"{{admin_id}}"
-							]
-						},
-						"description": "Update admin details. Admin only."
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Admin",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{admin_token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/admin/admins/{{admin_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"admins",
-								"{{admin_id}}"
-							]
-						},
-						"description": "Delete an admin user. Admin only."
-					},
-					"response": []
-				}
-			],
-			"description": "Admin user management endpoints"
-		},
-		{
-			"name": "Admin Analytics",
-			"item": [
-				{
-					"name": "Get System Stats",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{admin_token}}",
-								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/admin/stats",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"stats"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "stats"]
 						},
 						"description": "Get system-wide KPIs and statistics. Admin only."
 					},
@@ -1095,24 +1551,15 @@
 					"name": "Get Service Analytics",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/admin/analytics/services",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"analytics",
-								"services"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "analytics", "services"]
 						},
 						"description": "Get service analytics and performance metrics. Admin only."
 					},
@@ -1122,24 +1569,15 @@
 					"name": "Get User Engagement Metrics",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
 							"raw": "{{base_url}}/api/admin/analytics/engagement",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"analytics",
-								"engagement"
-							]
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "analytics", "engagement"]
 						},
 						"description": "Get user engagement metrics. Admin only."
 					},
@@ -1149,24 +1587,25 @@
 					"name": "Get Expiry Analytics",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
-							"raw": "{{base_url}}/api/admin/analytics/expiry",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"analytics",
-								"expiry"
-							]
+									"raw": "{{base_url}}/api/admin/analytics/expiry?days=30",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "analytics", "expiry"],
+									"query": [{
+										"key": "days",
+										"value": "30",
+										"description": "Number of days to analyze (default: 30)"
+									}, {
+										"key": "serviceId",
+										"value": "",
+										"description": "Filter by service ID",
+										"disabled": true
+									}]
 						},
 						"description": "Get expiry analytics and insights. Admin only."
 					},
@@ -1176,31 +1615,30 @@
 					"name": "Get Transaction Trends",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
+								"header": [{
 								"key": "Authorization",
 								"value": "Bearer {{admin_token}}",
 								"type": "text"
-							}
-						],
+								}],
 						"url": {
-							"raw": "{{base_url}}/api/admin/analytics/trends",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"admin",
-								"analytics",
-								"trends"
-							]
+									"raw": "{{base_url}}/api/admin/analytics/trends?days=30",
+									"host": ["{{base_url}}"],
+									"path": ["api", "admin", "analytics", "trends"],
+									"query": [{
+										"key": "days",
+										"value": "30",
+										"description": "Number of days to analyze (default: 30)"
+									}]
 						},
 						"description": "Get transaction trends over time. Admin only."
 					},
 					"response": []
 				}
 			],
-			"description": "Admin analytics and reporting endpoints"
+					"description": "Analytics and reporting endpoints for admins"
+				}
+			],
+			"description": "Admin-only API endpoints for system management"
 		}
 	],
 	"variable": [

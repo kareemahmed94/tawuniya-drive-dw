@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Prisma } from '@prisma/client';
-import { ZodError } from 'zod';
+import { ZodError, ZodIssue } from 'zod';
 import logger from '../utils/logger';
 import { config } from '../config/environment';
 import { ErrorResponse } from '../types';
@@ -52,7 +52,7 @@ export const errorHandler = (
     // Zod validation errors
     statusCode = 422;
     message = 'Validation failed';
-    errors = err.issues.reduce((acc: Record<string, string[]>, error: any) => {
+    errors = err.issues.reduce((acc: Record<string, string[]>, error: ZodIssue) => {
       const path = error.path.join('.');
       if (!acc[path]) acc[path] = [];
       acc[path].push(error.message);

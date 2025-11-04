@@ -4,6 +4,7 @@ import {TYPES} from '@/core/di/types';
 import type {IServiceManagementService} from '../interfaces/services/IServiceManagementService';
 import type {IServiceRepository} from '../interfaces/repositories/IServiceRepository';
 import type {IServiceConfigRepository} from '../interfaces/repositories/IServiceConfigRepository';
+import type {ServiceConfigResponse} from '../types';
 import {AppError} from '../middleware/errorHandler';
 import {
     CreateServiceInput,
@@ -210,7 +211,7 @@ export class ServiceManagementService implements IServiceManagementService {
     /**
      * Get service configurations
      */
-    async getServiceConfigs(serviceId: string): Promise<any> {
+    async getServiceConfigs(serviceId: string): Promise<ServiceConfigResponse[]> {
         const service = await this.serviceRepository.findById(serviceId);
 
         if (!service) {
@@ -231,7 +232,7 @@ export class ServiceManagementService implements IServiceManagementService {
     /**
      * Create service configuration
      */
-    async createServiceConfig(data: CreateServiceConfigInput): Promise<any> {
+    async createServiceConfig(data: CreateServiceConfigInput): Promise<ServiceConfigResponse> {
         // Validate service exists
         const service = await this.serviceRepository.findById(data.serviceId);
 
@@ -273,7 +274,7 @@ export class ServiceManagementService implements IServiceManagementService {
     async updateServiceConfig(
         configId: string,
         data: Partial<CreateServiceConfigInput>
-    ): Promise<any> {
+    ): Promise<ServiceConfigResponse> {
         const config = await this.serviceConfigRepository.findById(configId);
 
         if (!config) {

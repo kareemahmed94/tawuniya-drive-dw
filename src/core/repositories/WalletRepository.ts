@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import { Wallet, Prisma } from '@prisma/client';
 import { IWalletRepository } from '../interfaces/repositories/IWalletRepository';
+import type { WalletWithStatsResponse } from '../types';
 import { prisma } from '../config/database';
 
 /**
@@ -59,7 +60,7 @@ export class WalletRepository implements IWalletRepository {
     });
   }
 
-  async findByUserIdWithStats(userId: string): Promise<any> {
+  async findByUserIdWithStats(userId: string): Promise<WalletWithStatsResponse | null> {
     return prisma.wallet.findUnique({
       where: { userId },
       include: {

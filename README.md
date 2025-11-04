@@ -118,8 +118,7 @@ The application will start on **http://localhost:3000**
 
 - **Application**: http://localhost:3000
 - **API Health Check**: http://localhost:3000/api/health
-- **API Documentation**: http://localhost:3000/api-docs
-- **OpenAPI Spec**: http://localhost:3000/api/docs
+- **API Documentation**: http://localhost:3000/api/docs (OpenAPI JSON)
 - **Prisma Studio**: `npm run prisma:studio`
 
 ## Test Credentials
@@ -131,7 +130,7 @@ Admin: admin@tawuniya.com / password123
 
 ## Documentation
 
-- **API Documentation**: Available at `/api-docs` (Swagger UI)
+- **API Documentation**: Available at `/api/docs` (OpenAPI JSON specification)
 - **Project Documentation**: `tw-digital-wallet-doc.md`
 
 ## Tech Stack

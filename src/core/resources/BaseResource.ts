@@ -8,7 +8,7 @@ import { Decimal } from '@prisma/client/runtime/library';
  * @template T - The input data type (from repository/service)
  * @template R - The output resource type (API response)
  */
-export abstract class BaseResource<T, R = any> {
+export abstract class BaseResource<T, R = unknown> {
   constructor(protected data: T) {}
 
   /**
@@ -45,7 +45,7 @@ export abstract class BaseResource<T, R = any> {
   /**
    * Helper: Conditionally include a field
    */
-  protected when(condition: boolean, value: any): any {
+  protected when<V>(condition: boolean, value: V): V | undefined {
     return condition ? value : undefined;
   }
 
@@ -59,8 +59,8 @@ export abstract class BaseResource<T, R = any> {
   /**
    * Helper: Merge additional attributes
    */
-  protected merge(attributes: Record<string, any>): Record<string, any> {
-    return { ...this.toArray(), ...attributes };
+  protected merge(attributes: Partial<R>): R {
+    return { ...this.toArray(), ...attributes } as R;
   }
 }
 

@@ -1,4 +1,5 @@
 import type { Wallet, Prisma } from '@prisma/client';
+import type { WalletWithStatsResponse } from '../../types';
 
 export interface IWalletRepository {
   findByUserId(userId: string): Promise<Wallet | null>;
@@ -7,6 +8,6 @@ export interface IWalletRepository {
   updateBalance(userId: string, newBalance: number): Promise<Wallet>;
   incrementBalance(userId: string, amount: number): Promise<Wallet>;
   decrementBalance(userId: string, amount: number): Promise<Wallet>;
-  findByUserIdWithStats(userId: string): Promise<any>;
+  findByUserIdWithStats(userId: string): Promise<WalletWithStatsResponse | null>;
   findMany(where?: Prisma.WalletWhereInput): Promise<Wallet[]>;
 }

@@ -2,18 +2,23 @@ import type { IAdminServiceRepository } from '../../interfaces/repositories/admi
 import type { IAdminServiceConfigRepository } from '../../interfaces/repositories/admin/IServiceConfigRepository';
 import type { IServiceManagementService } from '../../interfaces/services/IServiceManagementService';
 import type {
-  CreateServiceInput,
-  UpdateServiceInput,
   ServiceResponse,
   ServiceWithDetailsResponse,
   ServiceFilters,
-  CreateServiceConfigInput,
   UpdateServiceConfigInput,
   ServiceConfigResponse,
   ServiceConfigFilters,
   PaginationParams,
   PaginatedResponse,
-} from '../../types/admin.types';
+} from '@/core/types/admin.types';
+import type {
+  CreateServiceInput,
+  UpdateServiceInput,
+} from '@/core/validators/service.validator';
+import type {
+  CreateServiceConfigInput,
+} from '@/core/validators/admin.validator';
+import type { Prisma } from '@prisma/client';
 
 /**
  * Service Management Service
@@ -149,7 +154,23 @@ export class ServiceManagementService implements IServiceManagementService {
       throw new Error('Service not found');
     }
 
-    const config = await this.configRepository.create(data);
+    // Convert input to Prisma format with service relation
+    const prismaData: Prisma.ServiceConfigCreateInput = {
+      service: {
+        connect: { id: data.serviceId },
+      },
+      ruleType: data.ruleType,
+      pointsPerUnit: data.pointsPerUnit,
+      unitAmount: data.unitAmount,
+      minAmount: data.minAmount ?? null,
+      maxPoints: data.maxPoints ?? null,
+      expiryDays: data.expiryDays ?? null,
+      isActive: data.isActive ?? true,
+      validFrom: data.validFrom ?? new Date(),
+      validUntil: data.validUntil ?? null,
+    };
+
+    const config = await this.configRepository.create(prismaData);
 
     return this.transformConfigResponse(config, service.name);
   }

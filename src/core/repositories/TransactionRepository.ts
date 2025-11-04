@@ -178,7 +178,12 @@ export class TransactionRepository implements ITransactionRepository {
     return Number(result._sum.points || 0);
   }
 
-  async getAggregateStats(): Promise<any> {
+  async getAggregateStats(): Promise<{
+    totalTransactions: number;
+    totalPoints: number;
+    earnedPoints: number;
+    burnedPoints: number;
+  }> {
     const [totalTransactions, totalPoints, earnedPoints, burnedPoints] = await Promise.all([
       prisma.transaction.count(),
       prisma.transaction.aggregate({
