@@ -19,15 +19,18 @@ import type {
   CreateServiceConfigInput,
 } from '@/core/validators/admin.validator';
 import type { Prisma } from '@prisma/client';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '@/core/di/types';
 
 /**
  * Service Management Service
  * Handles CRUD operations for services and their configurations
  */
+@injectable()
 export class ServiceManagementService implements IServiceManagementService {
   constructor(
-    private serviceRepository: IAdminServiceRepository,
-    private configRepository: IAdminServiceConfigRepository
+    @inject(TYPES.AdminServiceRepository) private serviceRepository: IAdminServiceRepository,
+    @inject(TYPES.AdminServiceConfigRepository) private configRepository: IAdminServiceConfigRepository
   ) {}
 
   // ==================== Service Operations ====================

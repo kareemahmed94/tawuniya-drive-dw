@@ -6,6 +6,9 @@
 export const TYPES = {
   // Repositories
   AdminRepository: Symbol.for('AdminRepository'),
+  AdminServiceRepository: Symbol.for('AdminServiceRepository'),
+  AdminServiceConfigRepository: Symbol.for('AdminServiceConfigRepository'),
+  AdminTransactionRepository: Symbol.for('AdminTransactionRepository'),
   UserRepository: Symbol.for('UserRepository'),
   WalletRepository: Symbol.for('WalletRepository'),
   TransactionRepository: Symbol.for('TransactionRepository'),

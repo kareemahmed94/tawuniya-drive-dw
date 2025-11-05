@@ -11,10 +11,10 @@ export const earnPointsSchemaWithBody = z.object({
   body: z.object({
     userId: z
       .string()
-      .cuid('Invalid user ID format'),
+      .uuid('Invalid user ID format'),
     serviceId: z
       .string()
-      .cuid('Invalid service ID format'),
+      .uuid('Invalid service ID format'),
     amount: z
       .number()
       .positive('Amount must be positive')
@@ -37,10 +37,10 @@ export const burnPointsSchemaWithBody = z.object({
   body: z.object({
     userId: z
       .string()
-      .cuid('Invalid user ID format'),
+      .uuid('Invalid user ID format'),
     serviceId: z
       .string()
-      .cuid('Invalid service ID format'),
+      .uuid('Invalid service ID format'),
     points: z
       .number()
       .positive('Points must be positive')
@@ -115,10 +115,10 @@ export const userIdParamSchemaWithParams = z.object({
 export const earnPointsSchema = z.object({
   userId: z
     .string()
-    .cuid('Invalid user ID format'),
+    .uuid('Invalid user ID format'),
   serviceId: z
     .string()
-    .cuid('Invalid service ID format'),
+    .uuid('Invalid service ID format'),
   amount: z
     .number()
     .positive('Amount must be positive')
@@ -139,10 +139,10 @@ export const earnPointsSchema = z.object({
 export const burnPointsSchema = z.object({
   userId: z
     .string()
-    .cuid('Invalid user ID format'),
+    .uuid('Invalid user ID format'),
   serviceId: z
     .string()
-    .cuid('Invalid service ID format'),
+    .uuid('Invalid service ID format'),
   points: z
     .number()
     .positive('Points must be positive')

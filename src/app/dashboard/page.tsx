@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/Badge';
 import { authService } from '@/lib/api/services/auth.service';
 import { walletService } from '@/lib/api/services/wallet.service';
 import { transactionService } from '@/lib/api/services/transaction.service';
-import { WalletStatistics, Transaction, PointBalance } from '@/lib/api/types';
+import { WalletStatistics, Transaction, PointBalance, User } from '@/lib/api/types';
 import { formatCurrency, formatPoints, formatRelativeTime, getTransactionTypeBadge } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -21,17 +21,27 @@ export default function DashboardPage() {
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
   const [expiringPoints, setExpiringPoints] = useState<PointBalance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   useEffect(() => {
-    const user = authService.getUser();
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-    
-    loadDashboardData(user.id);
+    // Load user data on client side only
+    const loadUser = () => {
+      const userData = authService.getUser();
+      setUser(userData);
+      setIsLoadingUser(false);
+
+      if (!userData) {
+        router.push('/auth/login');
+        return;
+      }
+
+      loadDashboardData(userData.id);
+    };
+
+    loadUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router]);
 
   const loadDashboardData = async (userId: string) => {
     setIsLoading(true);
@@ -51,6 +61,20 @@ export default function DashboardPage() {
       setIsLoading(false);
     }
   };
+
+  // Show loading state while checking authentication
+  if (isLoadingUser) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Checking authentication...</p>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   if (isLoading) {
     return (

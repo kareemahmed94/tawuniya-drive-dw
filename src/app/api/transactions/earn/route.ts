@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
 
     // Validate request body
     const validated = await validateBody(request, earnPointsSchema);
+    console.log({validated});
     if (validated instanceof Response) {
       return validated;
     }

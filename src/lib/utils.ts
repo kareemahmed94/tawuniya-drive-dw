@@ -15,7 +15,7 @@ export function cn(...inputs: ClassValue[]) {
  * Format number as currency (SAR)
  */
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('ar-SA', {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'SAR',
     minimumFractionDigits: 2,

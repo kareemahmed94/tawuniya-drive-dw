@@ -10,7 +10,7 @@ import { authService } from '@/lib/api/services/auth.service';
 import { transactionService } from '@/lib/api/services/transaction.service';
 import { serviceService } from '@/lib/api/services/service.service';
 import { walletService } from '@/lib/api/services/wallet.service';
-import { Service, ServiceConfig } from '@/lib/api/types';
+import { Service, ServiceConfig, User } from '@/lib/api/types';
 import { formatCurrency, formatPoints, getServiceCategoryIcon } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -26,15 +26,32 @@ export default function EarnPointsPage() {
   const [loadingRule, setLoadingRule] = useState(false);
   const [balance, setBalance] = useState<number>(0);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
-  const user = authService.getUser();
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   useEffect(() => {
-    if (user) {
+    // Load user data on client side only
+    const loadUser = () => {
+      const userData = authService.getUser();
+      setUser(userData);
+      setIsLoadingUser(false);
+
+      if (!userData) {
+        router.push('/auth/login');
+        return;
+      }
+    };
+
+    loadUser();
+  }, [router]);
+
+  useEffect(() => {
+    if (user && !isLoadingUser) {
       loadServices();
       loadBalance();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user, isLoadingUser]);
 
   useEffect(() => {
     if (selectedService) {
@@ -68,7 +85,7 @@ export default function EarnPointsPage() {
   const loadEarnRule = async (serviceId: string) => {
     setLoadingRule(true);
     try {
-      const rules = await serviceService.getActiveRules(serviceId);
+      const rules = await serviceService.getActiveRules(serviceId, 'EARN');
       setEarnRule(rules.earnRule);
     } catch (error: any) {
       toast.error('Failed to load earning rules');
@@ -145,6 +162,20 @@ export default function EarnPointsPage() {
       setLoading(false);
     }
   };
+
+  // Show loading state while checking authentication
+  if (isLoadingUser) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   if (!user) {
     return null;

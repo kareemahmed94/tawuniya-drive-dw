@@ -200,13 +200,39 @@ export class ServiceController {
       // Get active rules (service configs) - public endpoint
       const rules = await serviceManagementService.getServiceConfigs(id);
 
-      return NextResponse.json(
-        {
-          success: true,
-          data: rules,
-        },
-        { status: 200 }
-      );
+      // Get query parameters
+      const { searchParams } = new URL(request.url);
+      const type = searchParams.get('type') as 'EARN' | 'BURN' | null;
+
+      if (type && (type === 'EARN' || type === 'BURN')) {
+        // Return only the specific type rule (latest active one)
+        const rule = rules
+          .filter(rule => rule.ruleType === type)
+          .sort((a, b) => new Date(b.validFrom).getTime() - new Date(a.validFrom).getTime())[0] || null;
+
+        return NextResponse.json(
+          {
+            success: true,
+            data: rule,
+          },
+          { status: 200 }
+        );
+      } else {
+        // Return both rules for backward compatibility
+        const earnRule = rules.find(rule => rule.ruleType === 'EARN') || null;
+        const burnRule = rules.find(rule => rule.ruleType === 'BURN') || null;
+
+        return NextResponse.json(
+          {
+            success: true,
+            data: {
+              earnRule,
+              burnRule,
+            },
+          },
+          { status: 200 }
+        );
+      }
     } catch (error) {
       return this.handleError(error);
     }

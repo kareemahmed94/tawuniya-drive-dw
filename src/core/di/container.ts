@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Container } from 'inversify';
 import { TYPES } from './types';
 
@@ -8,6 +9,12 @@ import { ITransactionRepository } from '../interfaces/repositories/ITransactionR
 import { IServiceRepository } from '../interfaces/repositories/IServiceRepository';
 import { IPointBalanceRepository } from '../interfaces/repositories/IPointBalanceRepository';
 import { IServiceConfigRepository } from '../interfaces/repositories/IServiceConfigRepository';
+
+// Admin Repository Interfaces
+import { IAdminRepository } from '../interfaces/repositories/admin/IAdminRepository';
+import { IAdminServiceRepository } from '../interfaces/repositories/admin/IServiceRepository';
+import { IAdminServiceConfigRepository } from '../interfaces/repositories/admin/IServiceConfigRepository';
+import { IAdminTransactionRepository } from '../interfaces/repositories/admin/ITransactionRepository';
 
 // Repository Implementations
 import { UserRepository } from '../repositories/UserRepository';
@@ -32,7 +39,6 @@ import { TransactionService } from '../services/transaction.service';
 import { ServiceManagementService } from '../services/admin/service-management.service';
 import { AdminService } from '@/core/services/admin/admin.service';
 // Note: AdminAuthService is not bound here - it's managed by admin serviceLocator
-import {IAdminRepository} from "@/core/interfaces/repositories/admin/IAdminRepository";
 import {AdminRepository} from "@/core/repositories/admin/AdminRepository";
 
 /**
@@ -51,6 +57,15 @@ container.bind<ITransactionRepository>(TYPES.TransactionRepository).to(Transacti
 container.bind<IServiceRepository>(TYPES.ServiceRepository).to(ServiceRepository).inSingletonScope();
 container.bind<IPointBalanceRepository>(TYPES.PointBalanceRepository).to(PointBalanceRepository).inSingletonScope();
 container.bind<IServiceConfigRepository>(TYPES.ServiceConfigRepository).to(ServiceConfigRepository).inSingletonScope();
+
+// Admin Repository Bindings
+import { AdminServiceRepository } from '../repositories/admin/ServiceRepository';
+import { AdminServiceConfigRepository } from '../repositories/admin/ServiceConfigRepository';
+import { AdminTransactionRepository } from '../repositories/admin/TransactionRepository';
+
+container.bind<IAdminServiceRepository>(TYPES.AdminServiceRepository).to(AdminServiceRepository).inSingletonScope();
+container.bind<IAdminServiceConfigRepository>(TYPES.AdminServiceConfigRepository).to(AdminServiceConfigRepository).inSingletonScope();
+container.bind<IAdminTransactionRepository>(TYPES.AdminTransactionRepository).to(AdminTransactionRepository).inSingletonScope();
 
 // ===================================
 // Service Bindings
