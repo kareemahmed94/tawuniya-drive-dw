@@ -61,7 +61,7 @@ export class WalletRepository implements IWalletRepository {
   }
 
   async findByUserIdWithStats(userId: string): Promise<WalletWithStatsResponse | null> {
-    return prisma.wallet.findUnique({
+    const wallet = await prisma.wallet.findUnique({
       where: { userId },
       include: {
         pointBalances: {
@@ -74,6 +74,21 @@ export class WalletRepository implements IWalletRepository {
         },
       },
     });
+
+    if (!wallet) return null;
+
+    // Transform Decimal fields to numbers
+    return {
+      ...wallet,
+      balance: Number(wallet.balance),
+      totalEarned: Number(wallet.totalEarned),
+      totalBurned: Number(wallet.totalBurned),
+      totalExpired: Number(wallet.totalExpired),
+      pointBalances: wallet.pointBalances.map(balance => ({
+        ...balance,
+        points: Number(balance.points),
+      })),
+    };
   }
 
   async findMany(where?: Prisma.WalletWhereInput): Promise<Wallet[]> {

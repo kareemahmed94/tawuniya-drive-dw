@@ -1,7 +1,7 @@
 import type { GlobalConfig, Prisma, ConfigType } from '@prisma/client';
 import { prisma } from '../../config/database';
 import type { IAdminGlobalConfigRepository } from '../../interfaces/repositories/admin/IGlobalConfigRepository';
-import type { PaginationParams } from '../../../types/admin.types';
+import type { PaginationParams } from '../../types/admin.types';
 
 export interface GlobalConfigFilters {
   search?: string;

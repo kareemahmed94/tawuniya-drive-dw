@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { UserRole } from '@prisma/client';
+// User roles are not used in this customer-focused application
 import { AuthenticatedRequest, JwtPayload } from '../types';
 import { config } from '../config/environment';
 import { AppError } from './errorHandler';
@@ -29,7 +29,7 @@ export const authenticate = asyncHandler(
       // Check if user still exists and is active
       const user = await prisma.user.findUnique({
         where: { id: decoded.userId },
-        select: { id: true, email: true, role: true, isActive: true },
+        select: { id: true, email: true, first_name: true, last_name: true, isActive: true },
       });
 
       if (!user) {
@@ -44,7 +44,6 @@ export const authenticate = asyncHandler(
       req.user = {
         id: user.id,
         email: user.email,
-        role: user.role,
       };
 
       next();
@@ -64,22 +63,8 @@ export const authenticate = asyncHandler(
  * Role-based authorization middleware factory
  * Restricts access to specific user roles
  */
-export const authorize = (...allowedRoles: UserRole[]) => {
-  return (req: AuthenticatedRequest, _res: Response, next: NextFunction) => {
-    if (!req.user) {
-      throw new AppError('Authentication required', 401);
-    }
-
-    if (!allowedRoles.includes(req.user.role)) {
-      throw new AppError(
-        'You do not have permission to perform this action',
-        403
-      );
-    }
-
-    next();
-  };
-};
+// Authorization not needed for customer-focused application
+// All authenticated users have the same permissions
 
 /**
  * Optional authentication middleware
@@ -99,14 +84,13 @@ export const optionalAuthenticate = asyncHandler(
       const decoded = jwt.verify(token, config.jwt.secret) as JwtPayload;
       const user = await prisma.user.findUnique({
         where: { id: decoded.userId },
-        select: { id: true, email: true, role: true, isActive: true },
+        select: { id: true, email: true, first_name: true, last_name: true, isActive: true },
       });
 
       if (user && user.isActive) {
         req.user = {
           id: user.id,
           email: user.email,
-          role: user.role,
         };
       }
     } catch (error) {
@@ -130,11 +114,6 @@ export const validateResourceOwnership = (
   
   if (!req.user) {
     throw new AppError('Authentication required', 401);
-  }
-
-  // Admins can access any resource
-  if (req.user.role === UserRole.ADMIN) {
-    return next();
   }
 
   // Users can only access their own resources

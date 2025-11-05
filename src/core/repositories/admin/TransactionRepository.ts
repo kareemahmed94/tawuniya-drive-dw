@@ -173,9 +173,15 @@ export class AdminTransactionRepository implements IAdminTransactionRepository {
    * Update transaction
    */
   async update(id: string, data: UpdateTransactionInput): Promise<Transaction> {
+    // Cast metadata to proper Prisma JSON type
+    const updateData = {
+      ...data,
+      metadata: data.metadata as any,
+    };
+
     return prisma.transaction.update({
       where: { id },
-      data,
+      data: updateData,
     });
   }
 

@@ -133,8 +133,15 @@ export class ServiceManagementController {
       const body = await request.json();
       const validated = createServiceSchema.parse(body);
 
+      // Transform null values to undefined for optional fields
+      const serviceData = {
+        ...validated,
+        description: validated.description ?? undefined,
+        iconUrl: validated.iconUrl ?? undefined,
+      };
+
       const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.createService(validated);
+      const result = await serviceManagementService.createService(serviceData);
 
       return NextResponse.json(
         {
@@ -167,8 +174,15 @@ export class ServiceManagementController {
       const body = await request.json();
       const validated = updateServiceSchema.parse(body);
 
+      // Transform null values to undefined for optional fields
+      const serviceData = {
+        ...validated,
+        description: validated.description ?? undefined,
+        iconUrl: validated.iconUrl ?? undefined,
+      };
+
       const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.updateService(id, validated);
+      const result = await serviceManagementService.updateService(id, serviceData);
 
       return NextResponse.json(
         {

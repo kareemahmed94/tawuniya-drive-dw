@@ -1,4 +1,4 @@
-import type { WalletResponse, WalletStatistics, PointBalanceResponse } from '../types';
+import type { WalletResponse, WalletStatistics, PointBalanceResponse } from '../../types';
 
 /**
  * Wallet Service Interface

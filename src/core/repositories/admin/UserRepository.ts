@@ -1,7 +1,7 @@
 import type { User, Prisma } from '@prisma/client';
 import { prisma } from '../../config/database';
 import type { IAdminUserRepository } from '../../interfaces/repositories/admin/IUserRepository';
-import type { PaginationParams } from '../../../types/admin.types';
+import type { PaginationParams } from '../../types/admin.types';
 
 export interface UserFilters {
   search?: string;

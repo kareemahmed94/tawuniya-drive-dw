@@ -1,19 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 import { serviceManagementService } from '@/core/di/serviceLocator';
-import {
-  createServiceSchema,
-  updateServiceSchema,
-  getServicesSchema,
-  createServiceConfigSchema,
-} from '@/core/validators/service.validator';
-import { updateServiceConfigSchema } from '@/core/validators/admin.validator';
-import { verifyAdminToken } from '@/lib/api/middleware';
+import { getServicesSchema } from '@/core/validators/service.validator';
 
 /**
  * Service Controller
  * Handles HTTP layer for public service endpoints
- * Some operations require admin authentication
+ * Read-only operations for frontend consumption
  */
 export class ServiceController {
   /**
@@ -72,124 +65,8 @@ export class ServiceController {
     }
   }
 
-  /**
-   * Create service
-   * POST /api/services
-   */
-  async createService(request: NextRequest): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return this.unauthorizedResponse();
-      }
 
-      // Validate request body
-      const body = await request.json();
-      const validated = createServiceSchema.parse(body);
 
-      // Create service
-      const service = await serviceManagementService.createService(validated);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: service,
-          message: 'Service created successfully',
-        },
-        { status: 201 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
-
-  /**
-   * Update service
-   * PUT /api/services/:id
-   */
-  async updateService(request: NextRequest, id: string): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return this.unauthorizedResponse();
-      }
-
-      // Validate request body
-      const body = await request.json();
-      const validated = updateServiceSchema.parse(body);
-
-      // Update service
-      const service = await serviceManagementService.updateService(id, validated);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: service,
-          message: 'Service updated successfully',
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
-
-  /**
-   * Delete service
-   * DELETE /api/services/:id
-   */
-  async deleteService(request: NextRequest, id: string): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return this.unauthorizedResponse();
-      }
-
-      // Delete service
-      await serviceManagementService.deleteService(id);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: null,
-          message: 'Service deleted successfully',
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
-
-  /**
-   * Get service configurations
-   * GET /api/services/:id/config
-   */
-  async getServiceConfigs(request: NextRequest, id: string): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return this.unauthorizedResponse();
-      }
-
-      // Get service configurations
-      const configs = await serviceManagementService.getServiceConfigs(id);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: configs,
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
 
   /**
    * Get active service rules (public)
@@ -204,107 +81,6 @@ export class ServiceController {
         {
           success: true,
           data: rules,
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
-
-  /**
-   * Create service configuration
-   * POST /api/services/config
-   */
-  async createServiceConfig(request: NextRequest): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return this.unauthorizedResponse();
-      }
-
-      // Validate request body
-      const body = await request.json();
-      const validated = createServiceConfigSchema.parse(body);
-
-      // Convert date strings to Date objects if present
-      const configData = {
-        ...validated,
-        validFrom: validated.validFrom ? new Date(validated.validFrom) : undefined,
-        validUntil: validated.validUntil ? new Date(validated.validUntil) : undefined,
-      };
-
-      // Create service configuration
-      const config = await serviceManagementService.createServiceConfig(configData);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: config,
-          message: 'Service configuration created successfully',
-        },
-        { status: 201 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
-
-  /**
-   * Update service configuration
-   * PUT /api/services/config/:id
-   */
-  async updateServiceConfig(request: NextRequest, id: string): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return this.unauthorizedResponse();
-      }
-
-      // Validate request body
-      const body = await request.json();
-      
-      // For update, we'll use a flexible schema that allows partial updates
-      const validated = updateServiceConfigSchema.parse(body);
-
-      // Update service configuration
-      const config = await serviceManagementService.updateServiceConfig(id, validated);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: config,
-          message: 'Service configuration updated successfully',
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
-
-  /**
-   * Deactivate service configuration
-   * PATCH /api/services/config/:id/deactivate
-   */
-  async deactivateServiceConfig(request: NextRequest, id: string): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return this.unauthorizedResponse();
-      }
-
-      // Deactivate service configuration
-      const config = await serviceManagementService.toggleServiceConfigStatus(id, false);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: config,
-          message: 'Service configuration deactivated successfully',
         },
         { status: 200 }
       );

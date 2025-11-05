@@ -21,7 +21,7 @@ import {prisma} from '../config/database';
  * Follows SOLID principles: SRP, DIP, OCP
  */
 @injectable()
-export class ServiceManagementService implements IServiceManagementService {
+export class ServiceManagementService {
     constructor(
         @inject(TYPES.ServiceRepository) private serviceRepository: IServiceRepository,
         @inject(TYPES.ServiceConfigRepository) private serviceConfigRepository: IServiceConfigRepository

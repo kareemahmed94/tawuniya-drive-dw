@@ -58,7 +58,7 @@ container.bind<IServiceConfigRepository>(TYPES.ServiceConfigRepository).to(Servi
 container.bind<IAuthService>(TYPES.AuthService).to(AuthService).inSingletonScope();
 container.bind<IWalletService>(TYPES.WalletService).to(WalletService).inSingletonScope();
 container.bind<ITransactionService>(TYPES.TransactionService).to(TransactionService).inSingletonScope();
-container.bind<IServiceManagementService>(TYPES.ServiceManagementService).to(ServiceManagementService).inSingletonScope();
+container.bind(TYPES.ServiceManagementService).to(ServiceManagementService).inSingletonScope();
 container.bind<IAdminService>(TYPES.AdminService).to(AdminService).inSingletonScope();
 // Note: AdminAuthService is managed by admin serviceLocator, not the DI container
 

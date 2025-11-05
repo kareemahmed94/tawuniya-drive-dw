@@ -240,6 +240,9 @@ export class TransactionService implements ITransactionService {
         ...t,
         points: Number(t.points),
         amount: t.amount ? Number(t.amount) : null,
+        balanceBefore: Number(t.balanceBefore),
+        balanceAfter: Number(t.balanceAfter),
+        metadata: t.metadata as Record<string, unknown> | null,
       })),
       pagination: {
         page: result.page,
@@ -264,6 +267,9 @@ export class TransactionService implements ITransactionService {
       ...transaction,
       points: Number(transaction.points),
       amount: transaction.amount ? Number(transaction.amount) : null,
+      balanceBefore: Number(transaction.balanceBefore),
+      balanceAfter: Number(transaction.balanceAfter),
+      metadata: transaction.metadata as Record<string, unknown> | null,
     };
   }
 

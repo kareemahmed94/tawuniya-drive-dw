@@ -146,8 +146,14 @@ export class UserManagementController {
       const body = await request.json();
       const validated = updateUserSchema.parse(body);
 
+      // Transform null values to undefined for optional fields
+      const userData = {
+        ...validated,
+        phone: validated.phone ?? undefined,
+      };
+
       const userManagementService = getUserManagementService();
-      const result = await userManagementService.updateUser(id, validated);
+      const result = await userManagementService.updateUser(id, userData);
 
       return NextResponse.json(
         {

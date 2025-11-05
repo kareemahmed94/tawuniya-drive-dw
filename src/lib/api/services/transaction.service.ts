@@ -3,8 +3,8 @@ import {
   EarnPointsRequest,
   BurnPointsRequest,
   TransactionType,
-  PaginatedResponse,
 } from '../types';
+import type { PaginatedResponse } from '@/core/types';
 import { request } from './request';
 
 /**

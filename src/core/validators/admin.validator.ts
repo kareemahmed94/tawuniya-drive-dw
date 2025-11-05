@@ -150,7 +150,7 @@ export const transactionFiltersSchema = z.object({
 export const updateTransactionSchema = z.object({
   status: z.nativeEnum(TransactionStatus).optional(),
   description: z.string().optional().nullable(),
-  metadata: z.record(z.unknown()).optional().nullable(),
+  metadata: z.record(z.unknown()).optional(),
 });
 
 // ==================== User Management (Admin View) ====================
