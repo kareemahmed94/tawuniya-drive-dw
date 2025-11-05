@@ -11,10 +11,10 @@ export const earnPointsSchemaWithBody = z.object({
   body: z.object({
     userId: z
       .string()
-      .cuid('Invalid user ID format'),
+      .uuid('Invalid user ID format'),
     serviceId: z
       .string()
-      .cuid('Invalid service ID format'),
+      .uuid('Invalid service ID format'),
     amount: z
       .number()
       .positive('Amount must be positive')
@@ -37,10 +37,10 @@ export const burnPointsSchemaWithBody = z.object({
   body: z.object({
     userId: z
       .string()
-      .cuid('Invalid user ID format'),
+      .uuid('Invalid user ID format'),
     serviceId: z
       .string()
-      .cuid('Invalid service ID format'),
+      .uuid('Invalid service ID format'),
     points: z
       .number()
       .positive('Points must be positive')
@@ -63,7 +63,7 @@ export const getTransactionsSchemaWithWrappers = z.object({
   params: z.object({
     userId: z
       .string()
-      .cuid('Invalid user ID format'),
+      .uuid('Invalid user ID format'),
   }),
   query: z.object({
     page: z
@@ -81,7 +81,7 @@ export const getTransactionsSchemaWithWrappers = z.object({
       .optional(),
     serviceId: z
       .string()
-      .cuid('Invalid service ID format')
+      .uuid('Invalid service ID format')
       .optional(),
     startDate: z
       .string()
@@ -101,7 +101,7 @@ export const userIdParamSchemaWithParams = z.object({
   params: z.object({
     userId: z
       .string()
-      .cuid('Invalid user ID format'),
+      .uuid('Invalid user ID format'),
   }),
 });
 
@@ -115,10 +115,10 @@ export const userIdParamSchemaWithParams = z.object({
 export const earnPointsSchema = z.object({
   userId: z
     .string()
-    .cuid('Invalid user ID format'),
+    .uuid('Invalid user ID format'),
   serviceId: z
     .string()
-    .cuid('Invalid service ID format'),
+    .uuid('Invalid service ID format'),
   amount: z
     .number()
     .positive('Amount must be positive')
@@ -139,10 +139,10 @@ export const earnPointsSchema = z.object({
 export const burnPointsSchema = z.object({
   userId: z
     .string()
-    .cuid('Invalid user ID format'),
+    .uuid('Invalid user ID format'),
   serviceId: z
     .string()
-    .cuid('Invalid service ID format'),
+    .uuid('Invalid service ID format'),
   points: z
     .number()
     .positive('Points must be positive')
@@ -164,7 +164,7 @@ export const getTransactionsSchema = z.object({
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(100).default(50),
   type: z.enum(['EARN', 'BURN', 'EXPIRED', 'ADJUSTMENT']).optional(),
-  serviceId: z.string().cuid('Invalid service ID format').optional(),
+  serviceId: z.string().uuid('Invalid service ID format').optional(),
   startDate: z.string().datetime().optional(),
   endDate: z.string().datetime().optional(),
 });
@@ -173,7 +173,7 @@ export const getTransactionsSchema = z.object({
  * User ID param validation (Next.js)
  */
 export const userIdParamSchema = z.object({
-  userId: z.string().cuid('Invalid user ID format'),
+  userId: z.string().uuid('Invalid user ID format'),
 });
 
 /**

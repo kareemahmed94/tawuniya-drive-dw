@@ -38,14 +38,17 @@ export const serviceService = {
   /**
    * Get active rules for a service
    */
-  async getActiveRules(serviceId: string): Promise<{
+  async getActiveRules(serviceId: string, type?: 'EARN' | 'BURN'): Promise<{
     earnRule: ServiceConfig | null;
     burnRule: ServiceConfig | null;
   }> {
+    const params = new URLSearchParams();
+    if (type) params.append('type', type);
+
     const response = await request<{
       earnRule: ServiceConfig | null;
       burnRule: ServiceConfig | null;
-    }>(`/services/${serviceId}/rules`, { method: 'GET' });
+    }>(`/services/${serviceId}/rules${params.toString() ? `?${params.toString()}` : ''}`, { method: 'GET' });
     return response.data!;
   },
 };
