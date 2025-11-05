@@ -550,6 +550,7 @@ export class ServiceManagementController {
     );
   }
 
+
   private getStatusCode(message: string): number {
     if (message.includes('already exists')) return 409;
     if (message.includes('not found')) return 404;

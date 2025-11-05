@@ -230,44 +230,6 @@ export class AdminManagementController {
     }
   }
 
-  /**
-   * Get admin statistics
-   * GET /api/admin/admins/stats
-   */
-  async getStats(request: NextRequest): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return this.unauthorizedResponse();
-      }
-
-      // Only super admins can view stats
-      if (adminToken.role !== 'SUPER_ADMIN') {
-        return NextResponse.json(
-          {
-            success: false,
-            error: 'Insufficient permissions',
-          },
-          { status: 403 }
-        );
-      }
-
-      // Get stats
-      const adminManagementService = getAdminManagementService();
-      const stats = await adminManagementService.getAdminStats();
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: stats,
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
 
   /**
    * Check if admin can update another admin

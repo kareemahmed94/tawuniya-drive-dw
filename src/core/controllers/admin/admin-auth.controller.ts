@@ -111,40 +111,6 @@ export class AdminAuthController {
     }
   }
 
-  /**
-   * Refresh admin token
-   * POST /api/admin/auth/refresh
-   */
-  async refreshToken(request: NextRequest): Promise<NextResponse> {
-    try {
-      // Verify admin token
-      const adminToken = verifyAdminToken(request);
-      if (!adminToken) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: 'Authentication required',
-          },
-          { status: 401 }
-        );
-      }
-
-      // Refresh token
-      const adminAuthService = getAdminAuthService();
-      const result = await adminAuthService.refreshToken(adminToken.adminId);
-
-      return NextResponse.json(
-        {
-          success: true,
-          data: result,
-          message: 'Token refreshed successfully',
-        },
-        { status: 200 }
-      );
-    } catch (error) {
-      return this.handleError(error);
-    }
-  }
 
   /**
    * Handle errors
