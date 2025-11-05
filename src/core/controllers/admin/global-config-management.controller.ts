@@ -1,6 +1,8 @@
+import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
-import { getGlobalConfigManagementService } from '@/core/services/admin/serviceLocator';
+import { TYPES } from '@/core/di/types';
+import type { IGlobalConfigManagementService } from '@/core/interfaces/services/IGlobalConfigManagementService';
 import { paginationSchema } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import { z } from 'zod';
@@ -32,7 +34,11 @@ const globalConfigFiltersSchema = z.object({
  * GlobalConfig Management Controller
  * Handles HTTP layer for global config CRUD operations in admin scope
  */
+@injectable()
 export class GlobalConfigManagementController {
+  constructor(
+    @inject(TYPES.GlobalConfigManagementService) private globalConfigManagementService: IGlobalConfigManagementService
+  ) {}
   /**
    * Get all global configs
    * GET /api/admin/global-configs
@@ -58,8 +64,7 @@ export class GlobalConfigManagementController {
         isActive: searchParams.get('isActive') ? searchParams.get('isActive') === 'true' : undefined,
       });
 
-      const globalConfigManagementService = getGlobalConfigManagementService();
-      const result = await globalConfigManagementService.getAllGlobalConfigs(pagination, filters);
+      const result = await this.globalConfigManagementService.getAllGlobalConfigs(pagination, filters);
 
       return NextResponse.json(
         {
@@ -88,8 +93,7 @@ export class GlobalConfigManagementController {
         return this.unauthorizedResponse();
       }
 
-      const globalConfigManagementService = getGlobalConfigManagementService();
-      const config = await globalConfigManagementService.getGlobalConfigById(id);
+      const config = await this.globalConfigManagementService.getGlobalConfigById(id);
 
       return NextResponse.json(
         {
@@ -117,8 +121,7 @@ export class GlobalConfigManagementController {
       const body = await request.json();
       const validated = createGlobalConfigSchema.parse(body);
 
-      const globalConfigManagementService = getGlobalConfigManagementService();
-      const result = await globalConfigManagementService.createGlobalConfig(validated);
+      const result = await this.globalConfigManagementService.createGlobalConfig(validated);
 
       return NextResponse.json(
         {
@@ -147,8 +150,7 @@ export class GlobalConfigManagementController {
       const body = await request.json();
       const validated = updateGlobalConfigSchema.parse(body);
 
-      const globalConfigManagementService = getGlobalConfigManagementService();
-      const result = await globalConfigManagementService.updateGlobalConfig(id, validated);
+      const result = await this.globalConfigManagementService.updateGlobalConfig(id, validated);
 
       return NextResponse.json(
         {
@@ -174,8 +176,7 @@ export class GlobalConfigManagementController {
         return this.unauthorizedResponse();
       }
 
-      const globalConfigManagementService = getGlobalConfigManagementService();
-      const result = await globalConfigManagementService.deleteGlobalConfig(id);
+      const result = await this.globalConfigManagementService.deleteGlobalConfig(id);
 
       return NextResponse.json(
         {
@@ -203,8 +204,7 @@ export class GlobalConfigManagementController {
       const body = await request.json();
       const { isActive } = z.object({ isActive: z.boolean() }).parse(body);
 
-      const globalConfigManagementService = getGlobalConfigManagementService();
-      const result = await globalConfigManagementService.toggleGlobalConfigStatus(id, isActive);
+      const result = await this.globalConfigManagementService.toggleGlobalConfigStatus(id, isActive);
 
       return NextResponse.json(
         {
@@ -271,5 +271,5 @@ export class GlobalConfigManagementController {
   }
 }
 
-export const globalConfigManagementController = new GlobalConfigManagementController();
+// Controller instances are exported from @/core/di/adminControllerFactory
 

@@ -1,6 +1,8 @@
+import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
-import { getUserManagementService } from '@/core/services/admin/serviceLocator';
+import { TYPES } from '@/core/di/types';
+import type { IUserManagementService } from '@/core/interfaces/services/IUserManagementService';
 import { paginationSchema } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import { z } from 'zod';
@@ -32,7 +34,11 @@ const userFiltersSchema = z.object({
  * User Management Controller
  * Handles HTTP layer for user CRUD operations in admin scope
  */
+@injectable()
 export class UserManagementController {
+  constructor(
+    @inject(TYPES.UserManagementService) private userManagementService: IUserManagementService
+  ) {}
   /**
    * Get all users
    * GET /api/admin/users
@@ -57,8 +63,7 @@ export class UserManagementController {
         isActive: searchParams.get('isActive') ? searchParams.get('isActive') === 'true' : undefined,
       });
 
-      const userManagementService = getUserManagementService();
-      const result = await userManagementService.getAllUsers(pagination, filters);
+      const result = await this.userManagementService.getAllUsers(pagination, filters);
 
       return NextResponse.json(
         {
@@ -87,8 +92,7 @@ export class UserManagementController {
         return this.unauthorizedResponse();
       }
 
-      const userManagementService = getUserManagementService();
-      const user = await userManagementService.getUserById(id);
+      const user = await this.userManagementService.getUserById(id);
 
       return NextResponse.json(
         {
@@ -116,8 +120,7 @@ export class UserManagementController {
       const body = await request.json();
       const validated = createUserSchema.parse(body);
 
-      const userManagementService = getUserManagementService();
-      const result = await userManagementService.createUser(validated);
+      const result = await this.userManagementService.createUser(validated);
 
       return NextResponse.json(
         {
@@ -152,8 +155,7 @@ export class UserManagementController {
         phone: validated.phone ?? undefined,
       };
 
-      const userManagementService = getUserManagementService();
-      const result = await userManagementService.updateUser(id, userData);
+      const result = await this.userManagementService.updateUser(id, userData);
 
       return NextResponse.json(
         {
@@ -179,8 +181,7 @@ export class UserManagementController {
         return this.unauthorizedResponse();
       }
 
-      const userManagementService = getUserManagementService();
-      const result = await userManagementService.deleteUser(id);
+      const result = await this.userManagementService.deleteUser(id);
 
       return NextResponse.json(
         {
@@ -208,8 +209,7 @@ export class UserManagementController {
       const body = await request.json();
       const { isActive } = z.object({ isActive: z.boolean() }).parse(body);
 
-      const userManagementService = getUserManagementService();
-      const result = await userManagementService.toggleUserStatus(id, isActive);
+      const result = await this.userManagementService.toggleUserStatus(id, isActive);
 
       return NextResponse.json(
         {
@@ -235,8 +235,7 @@ export class UserManagementController {
         return this.unauthorizedResponse();
       }
 
-      const userManagementService = getUserManagementService();
-      const stats = await userManagementService.getUserStats();
+      const stats = await this.userManagementService.getUserStats();
 
       return NextResponse.json(
         {
@@ -302,5 +301,5 @@ export class UserManagementController {
   }
 }
 
-export const userManagementController = new UserManagementController();
+// Controller instances are exported from @/core/di/adminControllerFactory
 

@@ -1,6 +1,8 @@
+import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
-import { getAdminManagementService } from '@/core/services/admin/serviceLocator';
+import { TYPES } from '@/core/di/types';
+import type { IAdminManagementService } from '@/core/interfaces/services/IAdminManagementService';
 import {
   createAdminSchema,
   updateAdminSchema,
@@ -14,7 +16,11 @@ import type { AdminRole } from '@prisma/client';
  * Admin Management Controller
  * Handles HTTP layer for admin CRUD operations
  */
+@injectable()
 export class AdminManagementController {
+  constructor(
+    @inject(TYPES.AdminManagementService) private adminManagementService: IAdminManagementService
+  ) {}
   /**
    * Get all admins
    * GET /api/admin/admins
@@ -42,8 +48,7 @@ export class AdminManagementController {
       });
 
       // Get admins
-      const adminManagementService = getAdminManagementService();
-      const result = await adminManagementService.getAllAdmins(pagination, filters);
+      const result = await this.adminManagementService.getAllAdmins(pagination, filters);
 
       return NextResponse.json(
         {
@@ -74,8 +79,7 @@ export class AdminManagementController {
       }
 
       // Get admin
-      const adminManagementService = getAdminManagementService();
-      const admin = await adminManagementService.getAdminById(id);
+      const admin = await this.adminManagementService.getAdminById(id);
 
       return NextResponse.json(
         {
@@ -118,8 +122,7 @@ export class AdminManagementController {
       const validated = createAdminSchema.parse(body);
 
       // Create admin
-      const adminManagementService = getAdminManagementService();
-      const result = await adminManagementService.createAdmin(validated);
+      const result = await this.adminManagementService.createAdmin(validated);
 
       return NextResponse.json(
         {
@@ -164,8 +167,7 @@ export class AdminManagementController {
       const validated = updateAdminSchema.parse(body);
 
       // Update admin
-      const adminManagementService = getAdminManagementService();
-      const result = await adminManagementService.updateAdmin(id, validated);
+      const result = await this.adminManagementService.updateAdmin(id, validated);
 
       return NextResponse.json(
         {
@@ -215,8 +217,7 @@ export class AdminManagementController {
       }
 
       // Delete admin
-      const adminManagementService = getAdminManagementService();
-      const result = await adminManagementService.deleteAdmin(id);
+      const result = await this.adminManagementService.deleteAdmin(id);
 
       return NextResponse.json(
         {
@@ -254,8 +255,7 @@ export class AdminManagementController {
       }
 
       // Get stats
-      const adminManagementService = getAdminManagementService();
-      const stats = await adminManagementService.getAdminStats();
+      const stats = await this.adminManagementService.getAdminStats();
 
       return NextResponse.json(
         {
@@ -337,6 +337,5 @@ export class AdminManagementController {
   }
 }
 
-// Export singleton instance
-export const adminManagementController = new AdminManagementController();
+// Controller instances are exported from @/core/di/adminControllerFactory
 

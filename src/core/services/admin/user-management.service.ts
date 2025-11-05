@@ -1,4 +1,6 @@
+import { injectable, inject } from 'inversify';
 import bcrypt from 'bcrypt';
+import { TYPES } from '../../di/types';
 import type { IAdminUserRepository } from '../../interfaces/repositories/admin/IUserRepository';
 import type { IUserManagementService, CreateUserInput, UpdateUserInput, UserResponse, UserFilters } from '../../interfaces/services/IUserManagementService';
 import type { PaginationParams, PaginatedResponse } from '../../types/admin.types';
@@ -8,8 +10,11 @@ import { Prisma } from '@prisma/client';
  * User Management Service
  * Handles CRUD operations for users in admin scope
  */
+@injectable()
 export class UserManagementService implements IUserManagementService {
-  constructor(private userRepository: IAdminUserRepository) {}
+  constructor(
+    @inject(TYPES.AdminUserRepository) private userRepository: IAdminUserRepository
+  ) {}
 
   async createUser(data: CreateUserInput): Promise<UserResponse> {
     // Check if email already exists

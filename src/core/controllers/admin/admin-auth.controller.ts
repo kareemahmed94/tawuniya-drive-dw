@@ -1,6 +1,8 @@
+import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
-import { getAdminAuthService } from '@/core/services/admin/serviceLocator';
+import { TYPES } from '@/core/di/types';
+import type { IAdminAuthService } from '@/core/interfaces/services/IAdminAuthService';
 import { adminLoginSchema, adminRegisterSchema } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
 
@@ -8,7 +10,11 @@ import { verifyAdminToken } from '@/lib/api/middleware';
  * Admin Authentication Controller
  * Handles HTTP layer for admin authentication
  */
+@injectable()
 export class AdminAuthController {
+  constructor(
+    @inject(TYPES.AdminAuthService) private adminAuthService: IAdminAuthService
+  ) {}
   /**
    * Login admin
    * POST /api/admin/auth/login
@@ -21,8 +27,7 @@ export class AdminAuthController {
       const validated = adminLoginSchema.parse(body);
 
       // Login admin
-      const adminAuthService = getAdminAuthService();
-      const result = await adminAuthService.login(validated);
+      const result = await this.adminAuthService.login(validated);
 
       // Create response with cookie
       const response = NextResponse.json(
@@ -61,8 +66,7 @@ export class AdminAuthController {
       const validated = adminRegisterSchema.parse(body);
 
       // Register admin
-      const adminAuthService = getAdminAuthService();
-      const result = await adminAuthService.register(validated);
+      const result = await this.adminAuthService.register(validated);
 
       return NextResponse.json(
         {
@@ -96,8 +100,7 @@ export class AdminAuthController {
       }
 
       // Get profile
-      const adminAuthService = getAdminAuthService();
-      const profile = await adminAuthService.getProfile(adminToken.adminId);
+      const profile = await this.adminAuthService.getProfile(adminToken.adminId);
 
       return NextResponse.json(
         {
@@ -130,8 +133,7 @@ export class AdminAuthController {
       }
 
       // Refresh token
-      const adminAuthService = getAdminAuthService();
-      const result = await adminAuthService.refreshToken(adminToken.adminId);
+      const result = await this.adminAuthService.refreshToken(adminToken.adminId);
 
       return NextResponse.json(
         {
@@ -191,6 +193,5 @@ export class AdminAuthController {
   }
 }
 
-// Export singleton instance
-export const adminAuthController = new AdminAuthController();
+// Controller instances are exported from @/core/di/adminControllerFactory
 

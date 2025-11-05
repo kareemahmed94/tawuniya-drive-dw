@@ -1,3 +1,5 @@
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../../di/types';
 import type { IAdminGlobalConfigRepository } from '../../interfaces/repositories/admin/IGlobalConfigRepository';
 import type {
   IGlobalConfigManagementService,
@@ -13,8 +15,11 @@ import { Prisma } from '@prisma/client';
  * GlobalConfig Management Service
  * Handles CRUD operations for global configurations in admin scope
  */
+@injectable()
 export class GlobalConfigManagementService implements IGlobalConfigManagementService {
-  constructor(private globalConfigRepository: IAdminGlobalConfigRepository) {}
+  constructor(
+    @inject(TYPES.AdminGlobalConfigRepository) private globalConfigRepository: IAdminGlobalConfigRepository
+  ) {}
 
   async createGlobalConfig(data: CreateGlobalConfigInput): Promise<GlobalConfigResponse> {
     // Check if key already exists

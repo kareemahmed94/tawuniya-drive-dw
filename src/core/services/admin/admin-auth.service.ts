@@ -1,5 +1,7 @@
+import { injectable, inject } from 'inversify';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { TYPES } from '../../di/types';
 import type { IAdminRepository } from '../../interfaces/repositories/admin/IAdminRepository';
 import type { IAdminAuthService } from '../../interfaces/services/IAdminAuthService';
 import type {
@@ -14,8 +16,11 @@ import { config } from '../../config/environment';
  * Admin Authentication Service
  * Handles admin authentication, registration, and token management
  */
+@injectable()
 export class AdminAuthService implements IAdminAuthService {
-  constructor(private adminRepository: IAdminRepository) {}
+  constructor(
+    @inject(TYPES.AdminRepository) private adminRepository: IAdminRepository
+  ) {}
 
   async register(data: AdminRegisterInput): Promise<AdminAuthResponse> {
     // Check if admin already exists

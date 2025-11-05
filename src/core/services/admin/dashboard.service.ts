@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import { prisma } from '@/core/config/database';
 import { IDashboardService } from '@/core/interfaces/services/admin/IDashboardService';
 
@@ -6,6 +7,7 @@ import { IDashboardService } from '@/core/interfaces/services/admin/IDashboardSe
  * Provides analytics, reporting, and KPIs for administrators
  * Follows SOLID principles: SRP, DIP, OCP
  */
+@injectable()
 export class DashboardService implements IDashboardService {
   /**
    * Get system-wide KPIs

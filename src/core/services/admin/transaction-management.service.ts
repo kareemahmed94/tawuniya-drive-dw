@@ -1,3 +1,5 @@
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../../di/types';
 import type { IAdminTransactionRepository } from '../../interfaces/repositories/admin/ITransactionRepository';
 import type { ITransactionManagementService } from '../../interfaces/services/ITransactionManagementService';
 import type {
@@ -12,8 +14,11 @@ import type {
  * Transaction Management Service
  * Handles admin operations for transactions
  */
+@injectable()
 export class TransactionManagementService implements ITransactionManagementService {
-  constructor(private transactionRepository: IAdminTransactionRepository) {}
+  constructor(
+    @inject(TYPES.AdminTransactionRepository) private transactionRepository: IAdminTransactionRepository
+  ) {}
 
   async getTransactionById(id: string): Promise<TransactionResponse> {
     const transaction = await this.transactionRepository.findByIdWithRelations(id);

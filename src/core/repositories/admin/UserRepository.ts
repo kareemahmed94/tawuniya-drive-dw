@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import type { User, Prisma } from '@prisma/client';
 import { prisma } from '../../config/database';
 import type { IAdminUserRepository } from '../../interfaces/repositories/admin/IUserRepository';
@@ -12,6 +13,7 @@ export interface UserFilters {
  * Admin User Repository Implementation
  * Handles data access for User entity in admin scope
  */
+@injectable()
 export class AdminUserRepository implements IAdminUserRepository {
   async findById(id: string): Promise<User | null> {
     return prisma.user.findFirst({

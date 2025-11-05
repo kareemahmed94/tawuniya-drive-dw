@@ -1,4 +1,6 @@
+import { injectable, inject } from 'inversify';
 import bcrypt from 'bcrypt';
+import { TYPES } from '../../di/types';
 import type { IAdminRepository } from '../../interfaces/repositories/admin/IAdminRepository';
 import type { IAdminManagementService } from '../../interfaces/services/IAdminManagementService';
 import type {
@@ -15,8 +17,11 @@ import { Prisma } from '@prisma/client';
  * Admin Management Service
  * Handles CRUD operations for admin users
  */
+@injectable()
 export class AdminManagementService implements IAdminManagementService {
-  constructor(private adminRepository: IAdminRepository) {}
+  constructor(
+    @inject(TYPES.AdminRepository) private adminRepository: IAdminRepository
+  ) {}
 
   async createAdmin(data: CreateAdminInput): Promise<AdminResponse> {
     // Check if email already exists

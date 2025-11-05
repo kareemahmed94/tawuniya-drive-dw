@@ -1,6 +1,8 @@
+import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
-import { getDashboardService } from '@/core/services/admin/serviceLocator';
+import { TYPES } from '@/core/di/types';
+import type { IDashboardService } from '@/core/interfaces/services/admin/IDashboardService';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import { prisma } from '@/core/config/database';
 
@@ -8,7 +10,11 @@ import { prisma } from '@/core/config/database';
  * Dashboard Controller
  * Handles HTTP layer for dashboard statistics and analytics
  */
+@injectable()
 export class DashboardController {
+  constructor(
+    @inject(TYPES.DashboardService) private dashboardService: IDashboardService
+  ) {}
   /**
    * Get dashboard statistics
    * GET /api/admin/dashboard/stats
@@ -114,8 +120,7 @@ export class DashboardController {
         return this.unauthorizedResponse();
       }
 
-      const dashboardService = getDashboardService();
-      const stats = await dashboardService.getSystemKPIs();
+      const stats = await this.dashboardService.getSystemKPIs();
 
       return NextResponse.json(
         {
@@ -140,8 +145,7 @@ export class DashboardController {
         return this.unauthorizedResponse();
       }
 
-      const dashboardService = getDashboardService();
-      const analytics = await dashboardService.getServiceAnalytics();
+      const analytics = await this.dashboardService.getServiceAnalytics();
 
       return NextResponse.json(
         {
@@ -166,8 +170,7 @@ export class DashboardController {
         return this.unauthorizedResponse();
       }
 
-      const dashboardService = getDashboardService();
-      const engagement = await dashboardService.getUserEngagementMetrics();
+      const engagement = await this.dashboardService.getUserEngagementMetrics();
 
       return NextResponse.json(
         {
@@ -192,8 +195,7 @@ export class DashboardController {
         return this.unauthorizedResponse();
       }
 
-      const dashboardService = getDashboardService();
-      const analytics = await dashboardService.getExpiryAnalytics();
+      const analytics = await this.dashboardService.getExpiryAnalytics();
 
       return NextResponse.json(
         {
@@ -223,8 +225,7 @@ export class DashboardController {
       const daysParam = searchParams.get('days');
       const days = daysParam ? parseInt(daysParam, 10) : 30;
 
-      const dashboardService = getDashboardService();
-      const trends = await dashboardService.getTransactionTrends(days);
+      const trends = await this.dashboardService.getTransactionTrends(days);
 
       return NextResponse.json(
         {
@@ -278,6 +279,5 @@ export class DashboardController {
   }
 }
 
-// Singleton instance
-export const dashboardController = new DashboardController();
+// Controller instances are exported from @/core/di/adminControllerFactory
 

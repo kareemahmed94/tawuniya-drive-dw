@@ -1,6 +1,8 @@
+import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError, z } from 'zod';
-import { getServiceManagementService } from '@/core/services/admin/serviceLocator';
+import { TYPES } from '@/core/di/types';
+import type { IServiceManagementService } from '@/core/interfaces/services/IServiceManagementService';
 import {
   createServiceSchema,
   updateServiceSchema,
@@ -16,7 +18,11 @@ import { verifyAdminToken } from '@/lib/api/middleware';
  * Service Management Controller
  * Handles HTTP layer for service and service config CRUD operations
  */
+@injectable()
 export class ServiceManagementController {
+  constructor(
+    @inject(TYPES.ServiceManagementServiceAdmin) private serviceManagementService: IServiceManagementService
+  ) {}
   // ==================== Service Operations ====================
 
   /**
@@ -44,8 +50,7 @@ export class ServiceManagementController {
         search: searchParams.get('search') || undefined,
       });
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.getAllServices(pagination, filters);
+      const result = await this.serviceManagementService.getAllServices(pagination, filters);
 
       return NextResponse.json(
         {
@@ -74,8 +79,7 @@ export class ServiceManagementController {
         return this.unauthorizedResponse();
       }
 
-      const serviceManagementService = getServiceManagementService();
-      const service = await serviceManagementService.getServiceById(id);
+      const service = await this.serviceManagementService.getServiceById(id);
 
       return NextResponse.json(
         {
@@ -100,8 +104,7 @@ export class ServiceManagementController {
         return this.unauthorizedResponse();
       }
 
-      const serviceManagementService = getServiceManagementService();
-      const service = await serviceManagementService.getServiceWithDetails(id);
+      const service = await this.serviceManagementService.getServiceWithDetails(id);
 
       return NextResponse.json(
         {
@@ -140,8 +143,7 @@ export class ServiceManagementController {
         iconUrl: validated.iconUrl ?? undefined,
       };
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.createService(serviceData);
+      const result = await this.serviceManagementService.createService(serviceData);
 
       return NextResponse.json(
         {
@@ -181,8 +183,7 @@ export class ServiceManagementController {
         iconUrl: validated.iconUrl ?? undefined,
       };
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.updateService(id, serviceData);
+      const result = await this.serviceManagementService.updateService(id, serviceData);
 
       return NextResponse.json(
         {
@@ -212,8 +213,7 @@ export class ServiceManagementController {
         return this.forbiddenResponse('Only SUPER_ADMIN can delete services');
       }
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.deleteService(id);
+      const result = await this.serviceManagementService.deleteService(id);
 
       return NextResponse.json(
         {
@@ -255,8 +255,7 @@ export class ServiceManagementController {
         );
       }
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.toggleServiceStatus(id, isActive);
+      const result = await this.serviceManagementService.toggleServiceStatus(id, isActive);
 
       return NextResponse.json(
         {
@@ -298,8 +297,7 @@ export class ServiceManagementController {
         isActive: searchParams.get('isActive') || undefined,
       });
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.getAllServiceConfigs(pagination, filters);
+      const result = await this.serviceManagementService.getAllServiceConfigs(pagination, filters);
 
       return NextResponse.json(
         {
@@ -333,8 +331,7 @@ export class ServiceManagementController {
         isActive: searchParams.get('isActive') || undefined,
       });
 
-      const serviceManagementService = getServiceManagementService();
-      const configs = await serviceManagementService.getServiceConfigs(serviceId, filters);
+      const configs = await this.serviceManagementService.getServiceConfigs(serviceId, filters);
 
       return NextResponse.json(
         {
@@ -359,8 +356,7 @@ export class ServiceManagementController {
         return this.unauthorizedResponse();
       }
 
-      const serviceManagementService = getServiceManagementService();
-      const config = await serviceManagementService.getServiceConfigById(id);
+      const config = await this.serviceManagementService.getServiceConfigById(id);
 
       return NextResponse.json(
         {
@@ -394,8 +390,7 @@ export class ServiceManagementController {
       const body = await request.json();
       const validated = createServiceConfigSchema.parse(body);
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.createServiceConfig(validated);
+      const result = await this.serviceManagementService.createServiceConfig(validated);
 
       return NextResponse.json(
         {
@@ -429,8 +424,7 @@ export class ServiceManagementController {
       const body = await request.json();
       const validated = updateServiceConfigSchema.parse(body);
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.updateServiceConfig(id, validated);
+      const result = await this.serviceManagementService.updateServiceConfig(id, validated);
 
       return NextResponse.json(
         {
@@ -463,8 +457,7 @@ export class ServiceManagementController {
       const body = await request.json();
       const { isActive } = z.object({ isActive: z.boolean() }).parse(body);
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.toggleServiceConfigStatus(id, isActive);
+      const result = await this.serviceManagementService.toggleServiceConfigStatus(id, isActive);
 
       return NextResponse.json(
         {
@@ -494,8 +487,7 @@ export class ServiceManagementController {
         return this.forbiddenResponse('Only SUPER_ADMIN can delete service configs');
       }
 
-      const serviceManagementService = getServiceManagementService();
-      const result = await serviceManagementService.deleteServiceConfig(id);
+      const result = await this.serviceManagementService.deleteServiceConfig(id);
 
       return NextResponse.json(
         {
@@ -572,6 +564,5 @@ export class ServiceManagementController {
   }
 }
 
-// Export singleton instance
-export const serviceManagementController = new ServiceManagementController();
+// Controller instances are exported from @/core/di/adminControllerFactory
 

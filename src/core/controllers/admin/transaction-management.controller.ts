@@ -1,6 +1,8 @@
+import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
-import { getTransactionManagementService } from '@/core/services/admin/serviceLocator';
+import { TYPES } from '@/core/di/types';
+import type { ITransactionManagementService } from '@/core/interfaces/services/ITransactionManagementService';
 import {
   transactionFiltersSchema,
   updateTransactionSchema,
@@ -12,7 +14,11 @@ import { verifyAdminToken } from '@/lib/api/middleware';
  * Transaction Management Controller
  * Handles HTTP layer for transaction management operations
  */
+@injectable()
 export class TransactionManagementController {
+  constructor(
+    @inject(TYPES.TransactionManagementService) private transactionManagementService: ITransactionManagementService
+  ) {}
   /**
    * Get all transactions
    * GET /api/admin/transactions
@@ -45,8 +51,7 @@ export class TransactionManagementController {
         maxPoints: searchParams.get('maxPoints') || undefined,
       });
 
-      const transactionManagementService = getTransactionManagementService();
-      const result = await transactionManagementService.getAllTransactions(pagination, filters);
+      const result = await this.transactionManagementService.getAllTransactions(pagination, filters);
 
       return NextResponse.json(
         {
@@ -74,8 +79,7 @@ export class TransactionManagementController {
         return this.unauthorizedResponse();
       }
 
-      const transactionManagementService = getTransactionManagementService();
-      const transaction = await transactionManagementService.getTransactionById(id);
+      const transaction = await this.transactionManagementService.getTransactionById(id);
 
       return NextResponse.json(
         {
@@ -108,8 +112,7 @@ export class TransactionManagementController {
         sortOrder: searchParams.get('sortOrder') || 'desc',
       });
 
-      const transactionManagementService = getTransactionManagementService();
-      const result = await transactionManagementService.getTransactionsByUserId(userId, pagination);
+      const result = await this.transactionManagementService.getTransactionsByUserId(userId, pagination);
 
       return NextResponse.json(
         {
@@ -143,8 +146,7 @@ export class TransactionManagementController {
         sortOrder: searchParams.get('sortOrder') || 'desc',
       });
 
-      const transactionManagementService = getTransactionManagementService();
-      const result = await transactionManagementService.getTransactionsByServiceId(
+      const result = await this.transactionManagementService.getTransactionsByServiceId(
         serviceId,
         pagination
       );
@@ -181,8 +183,7 @@ export class TransactionManagementController {
       const body = await request.json();
       const validated = updateTransactionSchema.parse(body);
 
-      const transactionManagementService = getTransactionManagementService();
-      const result = await transactionManagementService.updateTransaction(id, validated);
+      const result = await this.transactionManagementService.updateTransaction(id, validated);
 
       return NextResponse.json(
         {
@@ -217,8 +218,7 @@ export class TransactionManagementController {
         serviceId: searchParams.get('serviceId') || undefined,
       };
 
-      const transactionManagementService = getTransactionManagementService();
-      const stats = await transactionManagementService.getTransactionStatistics(filters);
+      const stats = await this.transactionManagementService.getTransactionStatistics(filters);
 
       return NextResponse.json(
         {
@@ -252,8 +252,7 @@ export class TransactionManagementController {
         ? new Date(searchParams.get('endDate')!)
         : new Date();
 
-      const transactionManagementService = getTransactionManagementService();
-      const trends = await transactionManagementService.getTransactionTrends(
+      const trends = await this.transactionManagementService.getTransactionTrends(
         period,
         startDate,
         endDate
@@ -301,8 +300,7 @@ export class TransactionManagementController {
         maxPoints: searchParams.get('maxPoints') || undefined,
       });
 
-      const transactionManagementService = getTransactionManagementService();
-      const csv = await transactionManagementService.exportTransactions(filters);
+      const csv = await this.transactionManagementService.exportTransactions(filters);
 
       return new NextResponse(csv, {
         status: 200,
@@ -378,6 +376,5 @@ export class TransactionManagementController {
   }
 }
 
-// Export singleton instance
-export const transactionManagementController = new TransactionManagementController();
+// Controller instances are exported from @/core/di/adminControllerFactory
 

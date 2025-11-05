@@ -1,90 +1,225 @@
-import { Response } from 'express';
-import { AuthenticatedRequest } from '../types';
-import { transactionService } from '../di/serviceLocator';
-import { asyncHandler } from '../utils/asyncHandler';
-import { ApiResponseUtil } from '../utils/apiResponse';
+import { injectable, inject } from 'inversify';
+import { NextRequest, NextResponse } from 'next/server';
+import { ZodError } from 'zod';
+import { TYPES } from '../di/types';
+import type { ITransactionService } from '../interfaces/services/ITransactionService';
+import { earnPointsSchema, burnPointsSchema, getTransactionsSchema } from '../validators/transaction.validator';
+import {
+  requireAuth,
+  validateOwnership,
+  validateBody,
+  validateQuery,
+  successResponse,
+  handleError,
+} from '@/lib/api/middleware';
 
 /**
  * Transaction Controller
- * Handles HTTP requests for transaction endpoints
+ * Handles HTTP layer for transaction endpoints
+ * Delegates business logic to TransactionService
  */
+@injectable()
 export class TransactionController {
+  constructor(
+    @inject(TYPES.TransactionService) private transactionService: ITransactionService
+  ) {}
+
   /**
-   * POST /api/transactions/earn
    * Earn points from a service
+   * POST /api/transactions/earn
    */
-  earnPoints = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const result = await transactionService.earnPoints(req.body);
-    
-    return ApiResponseUtil.created(
-      res,
-      result,
-      'Points earned successfully'
-    );
-  });
+  async earnPoints(request: NextRequest): Promise<NextResponse> {
+    try {
+      // Authenticate user
+      const user = await requireAuth(request);
+      if (user instanceof Response) {
+        return user;
+      }
+
+      // Validate request body
+      const validated = await validateBody(request, earnPointsSchema);
+      if (validated instanceof Response) {
+        return validated;
+      }
+
+      // Ensure userId matches authenticated user
+      if (validated.userId !== user.id) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'You can only earn points for your own account',
+          },
+          { status: 403 }
+        );
+      }
+
+      // Earn points
+      const result = await this.transactionService.earnPoints(validated);
+
+      return successResponse(result, 'Points earned successfully', 201);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 
   /**
-   * POST /api/transactions/burn
    * Burn points for a service
+   * POST /api/transactions/burn
    */
-  burnPoints = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const result = await transactionService.burnPoints(req.body);
-    
-    return ApiResponseUtil.success(
-      res,
-      result,
-      'Points burned successfully'
-    );
-  });
+  async burnPoints(request: NextRequest): Promise<NextResponse> {
+    try {
+      // Authenticate user
+      const user = await requireAuth(request);
+      if (user instanceof Response) {
+        return user;
+      }
+
+      // Validate request body
+      const validated = await validateBody(request, burnPointsSchema);
+      if (validated instanceof Response) {
+        return validated;
+      }
+
+      // Ensure userId matches authenticated user
+      if (validated.userId !== user.id) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'You can only burn points for your own account',
+          },
+          { status: 403 }
+        );
+      }
+
+      // Burn points
+      const result = await this.transactionService.burnPoints(validated);
+
+      return successResponse(result, 'Points burned successfully', 201);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 
   /**
-   * GET /api/transactions/:userId
    * Get transaction history
+   * GET /api/transactions/:userId
    */
-  getTransactions = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const { userId } = req.params;
-    const {
-      page,
-      limit,
-      type,
-      serviceId,
-      startDate,
-      endDate,
-    } = req.query as any;
+  async getTransactions(
+    request: NextRequest,
+    params: { userId: string }
+  ): Promise<NextResponse> {
+    try {
+      const { userId } = params;
 
-    const result = await transactionService.getTransactions(userId, {
-      page: page ? parseInt(page) : undefined,
-      limit: limit ? parseInt(limit) : undefined,
-      type,
-      serviceId,
-      startDate,
-      endDate,
-    });
+      // Authenticate user
+      const user = await requireAuth(request);
+      if (user instanceof Response) {
+        return user;
+      }
 
-    return ApiResponseUtil.paginated(
-      res,
-      result.transactions,
-      result.pagination.page,
-      result.pagination.limit,
-      result.pagination.total
-    );
-  });
+      // Validate ownership
+      const ownershipCheck = validateOwnership(user, userId);
+      if (ownershipCheck instanceof Response) {
+        return ownershipCheck;
+      }
+
+      // Validate query parameters
+      const validated = validateQuery(request, getTransactionsSchema);
+      if (validated instanceof Response) {
+        return validated;
+      }
+
+      // Get transactions
+      const result = await this.transactionService.getTransactions(
+        userId,
+        validated as any
+      );
+
+      return successResponse(result);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 
   /**
-   * GET /api/transactions/:userId/:transactionId
    * Get specific transaction
+   * GET /api/transactions/:userId/:transactionId
    */
-  getTransaction = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const { userId, transactionId } = req.params;
-    const transaction = await transactionService.getTransactionById(
-      transactionId,
-      userId
+  async getTransaction(
+    request: NextRequest,
+    params: { userId: string; transactionId: string }
+  ): Promise<NextResponse> {
+    try {
+      const { userId, transactionId } = params;
+
+      // Authenticate user
+      const user = await requireAuth(request);
+      if (user instanceof Response) {
+        return user;
+      }
+
+      // Validate ownership
+      const ownershipCheck = validateOwnership(user, userId);
+      if (ownershipCheck instanceof Response) {
+        return ownershipCheck;
+      }
+
+      // Get transaction
+      const transaction = await this.transactionService.getTransactionById(
+        transactionId,
+        userId
+      );
+
+      return successResponse(transaction);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  // ==================== Helper Methods ====================
+
+  private handleError(error: unknown): NextResponse {
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Validation failed',
+          errors: error.errors.reduce((acc: Record<string, string[]>, err) => {
+            const field = err.path.join('.');
+            acc[field] = acc[field] ? [...acc[field], err.message] : [err.message];
+            return acc;
+          }, {}),
+        },
+        { status: 400 }
+      );
+    }
+
+    const errorMessage = error instanceof Error ? error.message : 'Internal server error';
+    const status = this.getStatusCode(errorMessage);
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: errorMessage,
+      },
+      { status }
     );
-    
-    return ApiResponseUtil.success(res, transaction);
-  });
+  }
+
+  private getStatusCode(message: string): number {
+    if (message.includes('not found')) return 404;
+    if (message.includes('not active')) return 400;
+    if (message.includes('insufficient')) return 400;
+    if (message.includes('already exists')) return 409;
+    return 500;
+  }
 }
 
 // Export singleton instance
-export const transactionController = new TransactionController();
+// Note: For now, we instantiate directly with service from DI container
+// This can be moved to a factory pattern later if needed
+import { container } from '../di/container';
 
+export const transactionController = new TransactionController(
+  container.get<ITransactionService>(TYPES.TransactionService)
+);

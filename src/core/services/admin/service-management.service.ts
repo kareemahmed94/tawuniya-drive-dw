@@ -1,6 +1,8 @@
-import type { IAdminServiceRepository } from '../../interfaces/repositories/admin/IServiceRepository';
-import type { IAdminServiceConfigRepository } from '../../interfaces/repositories/admin/IServiceConfigRepository';
-import type { IServiceManagementService } from '../../interfaces/services/IServiceManagementService';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '@/core/di/types';
+import type { IAdminServiceRepository } from '@/core/interfaces/repositories/admin/IServiceRepository';
+import type { IAdminServiceConfigRepository } from '@/core/interfaces/repositories/admin/IServiceConfigRepository';
+import type { IServiceManagementService } from '@/core/interfaces/services/IServiceManagementService';
 import type {
   ServiceResponse,
   ServiceWithDetailsResponse,
@@ -24,10 +26,11 @@ import type { Prisma } from '@prisma/client';
  * Service Management Service
  * Handles CRUD operations for services and their configurations
  */
+@injectable()
 export class ServiceManagementService implements IServiceManagementService {
   constructor(
-    private serviceRepository: IAdminServiceRepository,
-    private configRepository: IAdminServiceConfigRepository
+    @inject(TYPES.AdminServiceRepository) private serviceRepository: IAdminServiceRepository,
+    @inject(TYPES.AdminServiceConfigRepository) private configRepository: IAdminServiceConfigRepository
   ) {}
 
   // ==================== Service Operations ====================

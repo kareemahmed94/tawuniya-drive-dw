@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import type { GlobalConfig, Prisma, ConfigType } from '@prisma/client';
 import { prisma } from '../../config/database';
 import type { IAdminGlobalConfigRepository } from '../../interfaces/repositories/admin/IGlobalConfigRepository';
@@ -13,6 +14,7 @@ export interface GlobalConfigFilters {
  * Admin GlobalConfig Repository Implementation
  * Handles data access for GlobalConfig entity in admin scope
  */
+@injectable()
 export class AdminGlobalConfigRepository implements IAdminGlobalConfigRepository {
   async findById(id: string): Promise<GlobalConfig | null> {
     return prisma.globalConfig.findFirst({
