@@ -35,7 +35,7 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const response = await authService.login(data);
-      
+
       // Save token and user
       authService.saveToken(response.token);
       authService.saveUser(response.user);
@@ -118,8 +118,6 @@ export default function LoginPage() {
                 <strong>Test Credentials:</strong>
                 <br />
                 Customer: john.doe@example.com / password123
-                <br />
-                Admin: admin@tawuniya.com / password123
               </p>
             </div>
           </CardContent>

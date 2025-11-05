@@ -92,7 +92,7 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-gray-800"
                 placeholder="admin@example.com"
               />
             </div>
@@ -110,7 +110,7 @@ export default function AdminLoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-gray-800"
                 placeholder="••••••••"
               />
             </div>
@@ -182,6 +182,13 @@ export default function AdminLoginPage() {
                 </>
               )}
             </button>
+            <div className="mt-6 border-t border-gray-200 pt-6">
+              <p className="text-xs text-gray-500">
+                <strong>Test Credentials:</strong>
+                <br />
+                Admin: admin@tawuniya.com / password123
+              </p>
+            </div>
           </form>
         </div>
 
