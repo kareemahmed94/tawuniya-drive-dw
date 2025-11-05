@@ -79,7 +79,6 @@ export const transactionService = {
     // Transform backend response { transactions, pagination } to { data, pagination }
     const backendData = response.data!;
     return {
-      success: true,
       data: backendData.transactions,
       pagination: backendData.pagination,
     };

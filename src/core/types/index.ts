@@ -239,31 +239,6 @@ export interface WalletWithStatsResponse {
   }>;
 }
 
-/**
- * Service with Configs Response (from repository)
- */
-export interface ServiceWithConfigsResponse {
-  id: string;
-  name: string;
-  description: string | null;
-  category: string;
-  isActive: boolean;
-  iconUrl: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  configs: Array<{
-    id: string;
-    ruleType: string;
-    pointsPerUnit: number;
-    unitAmount: number;
-    minAmount: number | null;
-    maxPoints: number | null;
-    expiryDays: number | null;
-    isActive: boolean;
-    validFrom: Date;
-    validUntil: Date | null;
-  }>;
-}
 
 /**
  * Service with Transaction Count Response

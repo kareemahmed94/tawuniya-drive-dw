@@ -6,8 +6,7 @@ import {ApiResponseUtil} from "@/core/utils/apiResponse";
 export class AuthController {
 
     login = asyncHandler(async (req: Request, res: Response) => {
-        const kpis = await adminService.getSystemKPIs();
-
-        return ApiResponseUtil.success(res, kpis);
+        // TODO: Implement proper admin login logic
+        return ApiResponseUtil.success(res, { message: 'Login endpoint - implementation needed' });
     });
 }

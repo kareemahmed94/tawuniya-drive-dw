@@ -226,6 +226,7 @@ export const createServiceConfigSchema = z.object({
     .string()
     .datetime()
     .optional(),
+  isActive: z.boolean().default(true),
 }).refine(
   (data) => !data.validUntil || !data.validFrom || new Date(data.validFrom) < new Date(data.validUntil),
   {

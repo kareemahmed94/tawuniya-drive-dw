@@ -75,7 +75,7 @@ export default function AdminDashboard() {
       if (response.success && response.data) {
         setStats(response.data);
       } else {
-        setError(response.error || 'Failed to load dashboard statistics');
+        setError(response.message || 'Failed to load dashboard statistics');
       }
     } catch (err) {
       console.error('Failed to load dashboard stats:', err);

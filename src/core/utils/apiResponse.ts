@@ -43,7 +43,7 @@ export class ApiResponseUtil {
     statusCode: number = 400,
     errors?: Record<string, string[]>
   ): Response {
-    const response: ApiResponse = {
+    const response: ApiResponse<any> = {
       success: false,
       error: message,
       ...(errors && { errors }),

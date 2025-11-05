@@ -234,8 +234,8 @@ export interface TransactionFilters {
 
 export interface UpdateTransactionInput {
   status?: TransactionStatus;
-  description?: string | null;
-  metadata?: Record<string, unknown> | null;
+  description?: string;
+  metadata?: any;
 }
 
 // ==================== User Management Types (Admin View) ====================

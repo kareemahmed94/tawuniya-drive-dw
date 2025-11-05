@@ -1,4 +1,4 @@
-import { User, UserRole } from '@prisma/client';
+import { User } from '@prisma/client';
 import { BaseResource } from './BaseResource';
 
 /**
@@ -11,9 +11,9 @@ export class UserResource extends BaseResource<User> {
     return {
       id: this.data.id,
       email: this.data.email,
-      name: this.data.name,
+      name: `${this.data.first_name} ${this.data.last_name}`,
       phone: this.data.phone,
-      role: this.data.role as UserRole,
+      role: 'CUSTOMER' as const, // Default role since User model doesn't have role field
       isActive: this.data.isActive,
       createdAt: this.formatDate(this.data.createdAt),
       updatedAt: this.formatDate(this.data.updatedAt),
@@ -32,9 +32,9 @@ export class UserWithWalletResource extends BaseResource<
     return {
       id: this.data.id,
       email: this.data.email,
-      name: this.data.name,
+      name: `${this.data.first_name} ${this.data.last_name}`,
       phone: this.data.phone,
-      role: this.data.role as UserRole,
+      role: 'CUSTOMER' as const,
       isActive: this.data.isActive,
       createdAt: this.formatDate(this.data.createdAt),
       updatedAt: this.formatDate(this.data.updatedAt),
@@ -68,9 +68,9 @@ export class AuthUserResource extends BaseResource<
     return {
       id: this.data.id,
       email: this.data.email,
-      name: this.data.name,
+      name: `${this.data.first_name} ${this.data.last_name}`,
       phone: this.data.phone,
-      role: this.data.role as UserRole,
+      role: 'CUSTOMER' as const,
       isActive: this.data.isActive,
       createdAt: this.formatDate(this.data.createdAt),
       updatedAt: this.formatDate(this.data.updatedAt),

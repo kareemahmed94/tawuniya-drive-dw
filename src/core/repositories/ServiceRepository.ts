@@ -65,7 +65,7 @@ export class ServiceRepository implements IServiceRepository {
   }
 
   async findByIdWithConfigs(id: string): Promise<ServiceWithConfigsResponse | null> {
-    return prisma.service.findUnique({
+    const service = await prisma.service.findUnique({
       where: { id },
       include: {
         configs: {
@@ -74,6 +74,19 @@ export class ServiceRepository implements IServiceRepository {
         },
       },
     });
+
+    if (!service) return null;
+
+    return {
+      ...service,
+      configs: service.configs.map(config => ({
+        ...config,
+        pointsPerUnit: Number(config.pointsPerUnit),
+        unitAmount: Number(config.unitAmount),
+        minAmount: config.minAmount ? Number(config.minAmount) : null,
+        maxPoints: config.maxPoints ? Number(config.maxPoints) : null,
+      })),
+    };
   }
 
   async findByIdWithTransactionCount(id: string): Promise<ServiceWithTransactionCountResponse | null> {

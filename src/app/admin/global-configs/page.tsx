@@ -38,7 +38,7 @@ export default function GlobalConfigsPage() {
         setConfigs(response.data.data ?? []);
         setTotalPages(response.data.pagination?.totalPages ?? 1);
       } else {
-        setError(response.error || 'Failed to load global configs');
+        setError(response.message || 'Failed to load global configs');
       }
     } catch (error) {
       console.error('Failed to load global configs:', error);
@@ -60,7 +60,7 @@ export default function GlobalConfigsPage() {
       if (response.success) {
         loadConfigs();
       } else {
-        setError(response.error || 'Failed to update config status');
+        setError(response.message || 'Failed to update config status');
       }
     } catch (error) {
       console.error('Failed to toggle config status:', error);

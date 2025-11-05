@@ -3,6 +3,10 @@
  * Mirrors backend types for type safety
  */
 
+import type { AdminRole } from '@prisma/client';
+
+export type { AdminRole };
+
 export interface User {
   id: string;
   email: string;
@@ -189,5 +193,132 @@ export interface BurnPointsRequest {
   points: number;
   description?: string;
   metadata?: any;
+}
+
+// ==================== Admin Types ====================
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  avatar: string | null;
+  role: AdminRole;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminAuthResponse {
+  admin: AdminUser;
+  token: string;
+}
+
+export interface AdminUserExtended extends User {
+  firstName: string;
+  lastName: string;
+  username: string;
+  wallet?: {
+    id: string;
+    balance: number;
+    totalEarned: number;
+    totalBurned: number;
+  } | null;
+}
+
+export interface GlobalConfig {
+  id: string;
+  key: string;
+  value: string;
+  type: 'SYSTEM' | 'BUSINESS' | 'FEATURE';
+  description: string | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ServiceConfigExtended extends ServiceConfig {
+  serviceName?: string;
+}
+
+export interface TransactionExtended extends Transaction {
+  userName?: string;
+  userEmail?: string;
+  serviceName?: string;
+}
+
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
+export interface ServiceAnalytics {
+  id: string;
+  name: string;
+  category: string;
+  isActive: boolean;
+  totalTransactions: number;
+  earnTransactions: number;
+  burnTransactions: number;
+  totalPointsEarned: number;
+  totalPointsBurned: number;
+  totalAmount: number;
+  avgPointsPerTransaction: number;
+}
+
+export interface UserEngagementMetrics {
+  totalUsers: number;
+  activeUsersLast30Days: number;
+  newUsersLast30Days: number;
+  usersWithTransactions: number;
+  avgTransactionsPerUser: number;
+  topUsers: Array<{
+    userId: string;
+    userName: string;
+    userEmail: string;
+    balance: number;
+    totalEarned: number;
+    totalBurned: number;
+    activeBalances: number;
+  }>;
+}
+
+export interface ExpiryAnalytics {
+  pointsExpiringNext7Days: number;
+  pointsExpiringNext30Days: number;
+  pointsExpiredLast30Days: number;
+  totalExpiredPoints: number;
+  affectedUsers: number;
+}
+
+export interface TransactionTrend {
+  date: string;
+  earnTransactions: number;
+  burnTransactions: number;
+  pointsEarned: number;
+  pointsBurned: number;
+  totalAmount: number;
+}
+
+export interface DashboardStats {
+  totalUsers: number;
+  totalTransactions: number;
+  totalRevenue: number;
+  activeServices: number;
+  pendingTransactions: number;
+  monthlyGrowth: number;
 }
 

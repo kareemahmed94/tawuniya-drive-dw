@@ -67,17 +67,17 @@ export const adminFiltersSchema = z.object({
 
 export const createServiceSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  description: z.string().optional().nullable(),
+  description: z.string().optional(),
   category: z.nativeEnum(ServiceCategory),
-  iconUrl: z.string().url('Invalid icon URL').optional().nullable(),
+  iconUrl: z.string().url('Invalid icon URL').optional(),
   isActive: z.boolean().default(true),
 });
 
 export const updateServiceSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').optional(),
-  description: z.string().optional().nullable(),
+  description: z.string().optional(),
   category: z.nativeEnum(ServiceCategory).optional(),
-  iconUrl: z.string().url('Invalid icon URL').optional().nullable(),
+  iconUrl: z.string().url('Invalid icon URL').optional(),
   isActive: z.boolean().optional(),
 });
 
@@ -149,8 +149,8 @@ export const transactionFiltersSchema = z.object({
 
 export const updateTransactionSchema = z.object({
   status: z.nativeEnum(TransactionStatus).optional(),
-  description: z.string().optional().nullable(),
-  metadata: z.record(z.unknown()).optional().nullable(),
+  description: z.string().optional(),
+  metadata: z.record(z.unknown()).optional(),
 });
 
 // ==================== User Management (Admin View) ====================

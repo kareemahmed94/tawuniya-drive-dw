@@ -29,7 +29,7 @@ import { IAdminService } from '../interfaces/services/admin/IAdminService';
 import { AuthService } from '../services/auth.service';
 import { WalletService } from '../services/wallet.service';
 import { TransactionService } from '../services/transaction.service';
-import { ServiceManagementService } from '../services/service.service';
+import { ServiceManagementService } from '../services/admin/service-management.service';
 import { AdminService } from '@/core/services/admin/admin.service';
 // Note: AdminAuthService is not bound here - it's managed by admin serviceLocator
 import {IAdminRepository} from "@/core/interfaces/repositories/admin/IAdminRepository";
