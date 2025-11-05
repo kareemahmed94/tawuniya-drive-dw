@@ -1,12 +1,5 @@
 import { NextRequest } from 'next/server';
-import { transactionService } from '@/core/di/serviceLocator';
-import { earnPointsSchema } from '@/core/validators/transaction.validator';
-import {
-  requireAuth,
-  validateBody,
-  successResponse,
-  handleError,
-} from '@/lib/api/middleware';
+import { transactionController } from '@/core/controllers/transaction.controller';
 
 /**
  * Earn Loyalty Points
@@ -16,26 +9,6 @@ import {
  * Rate limit: 100 requests per 15 minutes.
  */
 export async function POST(request: NextRequest) {
-  try {
-    // Authenticate user
-    const user = await requireAuth(request);
-    if (user instanceof Response) {
-      return user;
-    }
-
-    // Validate request body
-    const validated = await validateBody(request, earnPointsSchema);
-    console.log({validated});
-    if (validated instanceof Response) {
-      return validated;
-    }
-
-    // Earn points
-    const result = await transactionService.earnPoints(validated);
-
-    return successResponse(result, 'Points earned successfully', 201);
-  } catch (error) {
-    return handleError(error);
-  }
+  return transactionController.earnPoints(request);
 }
 

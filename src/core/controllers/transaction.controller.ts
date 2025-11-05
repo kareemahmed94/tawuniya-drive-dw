@@ -1,88 +1,136 @@
-import { Response } from 'express';
-import { AuthenticatedRequest } from '../types';
+import { NextRequest } from 'next/server';
 import { transactionService } from '../di/serviceLocator';
-import { asyncHandler } from '../utils/asyncHandler';
-import { ApiResponseUtil } from '../utils/apiResponse';
+import { earnPointsSchema, burnPointsSchema, getTransactionsSchema } from '../validators/transaction.validator';
+import {
+  requireAuth,
+  validateBody,
+  validateQuery,
+  validateOwnership,
+  successResponse,
+  handleError,
+} from '../../lib/api/middleware';
 
 /**
  * Transaction Controller
- * Handles HTTP requests for transaction endpoints
+ * Handles HTTP requests for transaction endpoints using Next.js API routes
  */
 export class TransactionController {
   /**
    * POST /api/transactions/earn
    * Earn points from a service
    */
-  earnPoints = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const result = await transactionService.earnPoints(req.body);
-    
-    return ApiResponseUtil.created(
-      res,
-      result,
-      'Points earned successfully'
-    );
-  });
+  async earnPoints(request: NextRequest): Promise<Response> {
+    try {
+      // Authenticate user
+      const user = await requireAuth(request);
+      if (user instanceof Response) {
+        return user;
+      }
+
+      // Validate request body
+      const validated = await validateBody(request, earnPointsSchema);
+      if (validated instanceof Response) {
+        return validated;
+      }
+
+      // Earn points
+      const result = await transactionService.earnPoints(validated);
+
+      return successResponse(result, 'Points earned successfully', 201);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 
   /**
    * POST /api/transactions/burn
    * Burn points for a service
    */
-  burnPoints = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const result = await transactionService.burnPoints(req.body);
-    
-    return ApiResponseUtil.success(
-      res,
-      result,
-      'Points burned successfully'
-    );
-  });
+  async burnPoints(request: NextRequest): Promise<Response> {
+    try {
+      // Authenticate user
+      const user = await requireAuth(request);
+      if (user instanceof Response) {
+        return user;
+      }
+
+      // Validate request body
+      const validated = await validateBody(request, burnPointsSchema);
+      if (validated instanceof Response) {
+        return validated;
+      }
+
+      // Burn points
+      const result = await transactionService.burnPoints(validated);
+
+      return successResponse(result, 'Points burned successfully', 201);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 
   /**
    * GET /api/transactions/:userId
    * Get transaction history
    */
-  getTransactions = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const { userId } = req.params;
-    const {
-      page,
-      limit,
-      type,
-      serviceId,
-      startDate,
-      endDate,
-    } = req.query as any;
+  async getTransactions(request: NextRequest, userId: string): Promise<Response> {
+    try {
+      // Authenticate user
+      const user = await requireAuth(request);
+      if (user instanceof Response) {
+        return user;
+      }
 
-    const result = await transactionService.getTransactions(userId, {
-      page: page ? parseInt(page) : undefined,
-      limit: limit ? parseInt(limit) : undefined,
-      type,
-      serviceId,
-      startDate,
-      endDate,
-    });
+      // Validate ownership
+      const ownershipCheck = validateOwnership(user, userId);
+      if (ownershipCheck instanceof Response) {
+        return ownershipCheck;
+      }
 
-    return ApiResponseUtil.paginated(
-      res,
-      result.transactions,
-      result.pagination.page,
-      result.pagination.limit,
-      result.pagination.total
-    );
-  });
+      // Validate query parameters
+      const validated = validateQuery(request, getTransactionsSchema);
+      if (validated instanceof Response) {
+        return validated;
+      }
+
+      // Get transactions
+      const result = await transactionService.getTransactions(userId, validated as any);
+
+      return successResponse(result);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 
   /**
    * GET /api/transactions/:userId/:transactionId
    * Get specific transaction
    */
-  getTransaction = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const { userId, transactionId } = req.params;
-    const transaction = await transactionService.getTransactionById(
-      transactionId,
-      userId
-    );
-    
-    return ApiResponseUtil.success(res, transaction);
-  });
+  async getTransaction(request: NextRequest, userId: string, transactionId: string): Promise<Response> {
+    try {
+      // Authenticate user
+      const user = await requireAuth(request);
+      if (user instanceof Response) {
+        return user;
+      }
+
+      // Validate ownership
+      const ownershipCheck = validateOwnership(user, userId);
+      if (ownershipCheck instanceof Response) {
+        return ownershipCheck;
+      }
+
+      // Get transaction
+      const transaction = await transactionService.getTransactionById(
+        transactionId,
+        userId
+      );
+
+      return successResponse(transaction);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 }
 
 // Export singleton instance
