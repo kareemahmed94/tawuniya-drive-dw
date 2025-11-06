@@ -1,7 +1,7 @@
 import type {
   PaginationParams,
   PaginatedResponse,
-} from '../../types/admin.types';
+} from '@/core/types/admin.types';
 
 export interface UserResponse {
   id: string;

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { serviceManagementService } from '@/core/di/serviceLocator';
 import { getServicesSchema } from '@/core/validators/service.validator';
-import { BaseController } from './base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 /**
  * Service Controller

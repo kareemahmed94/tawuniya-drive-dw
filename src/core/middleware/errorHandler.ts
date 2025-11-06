@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { Prisma } from '@prisma/client';
 import { ZodError, ZodIssue } from 'zod';
-import logger from '../utils/logger';
-import { config } from '../config/environment';
-import { ErrorResponse } from '../types';
+import logger from '@/core/utils/logger';
+import { config } from '@/core/config/environment';
+import { ErrorResponse } from '@/core/types';
 
 /**
  * Custom Application Error class

@@ -1,8 +1,8 @@
 import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
-import { TYPES } from '../di/types';
-import type { ITransactionService } from '../interfaces/services/ITransactionService';
-import { earnPointsSchema, burnPointsSchema, getTransactionsSchema } from '../validators/transaction.validator';
+import { TYPES } from '@/core/di/types';
+import type { ITransactionService } from '@/core/interfaces/services/ITransactionService';
+import { earnPointsSchema, burnPointsSchema, getTransactionsSchema } from '@/core/validators/transaction.validator';
 import {
   requireAuth,
   validateOwnership,
@@ -11,7 +11,7 @@ import {
   successResponse,
   handleError,
 } from '@/lib/api/middleware';
-import { BaseController } from './base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 /**
  * Transaction Controller
@@ -183,7 +183,7 @@ export class TransactionController extends BaseController {
 // Export singleton instance
 // Note: For now, we instantiate directly with service from DI container
 // This can be moved to a factory pattern later if needed
-import { container } from '../di/container';
+import { container } from '@/core/di/container';
 
 export const transactionController = new TransactionController(
   container.get<ITransactionService>(TYPES.TransactionService)

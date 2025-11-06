@@ -1,14 +1,14 @@
 import { injectable, inject } from 'inversify';
-import { TYPES } from '../../di/types';
-import type { IAdminTransactionRepository } from '../../interfaces/repositories/admin/ITransactionRepository';
-import type { ITransactionManagementService } from '../../interfaces/services/ITransactionManagementService';
+import { TYPES } from '@/core/di/types';
+import type { IAdminTransactionRepository } from '@/core/interfaces/repositories/admin/ITransactionRepository';
+import type { ITransactionManagementService } from '@/core/interfaces/services/ITransactionManagementService';
 import type {
   TransactionResponse,
   TransactionFilters,
   UpdateTransactionInput,
   PaginationParams,
   PaginatedResponse,
-} from '../../types/admin.types';
+} from '@/core/types/admin.types';
 
 /**
  * Transaction Management Service

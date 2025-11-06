@@ -4,7 +4,7 @@ import { TYPES } from '@/core/di/types';
 import type { IDashboardService } from '@/core/interfaces/services/admin/IDashboardService';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import { prisma } from '@/core/config/database';
-import { BaseController } from '../base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 /**
  * Dashboard Controller

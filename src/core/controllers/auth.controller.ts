@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { authService } from '@/core/di/serviceLocator';
 import { loginSchema, registerSchema, updateProfileSchema } from '@/core/validators/auth.validator';
 import { requireAuth } from '@/lib/api/middleware';
-import { BaseController } from './base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 /**
  * Authentication Controller

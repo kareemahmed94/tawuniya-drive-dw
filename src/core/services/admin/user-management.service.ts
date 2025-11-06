@@ -1,9 +1,9 @@
 import { injectable, inject } from 'inversify';
 import bcrypt from 'bcrypt';
-import { TYPES } from '../../di/types';
-import type { IAdminUserRepository } from '../../interfaces/repositories/admin/IUserRepository';
-import type { IUserManagementService, CreateUserInput, UpdateUserInput, UserResponse, UserFilters } from '../../interfaces/services/IUserManagementService';
-import type { PaginationParams, PaginatedResponse } from '../../types/admin.types';
+import { TYPES } from '@/core/di/types';
+import type { IAdminUserRepository } from '@/core/interfaces/repositories/admin/IUserRepository';
+import type { IUserManagementService, CreateUserInput, UpdateUserInput, UserResponse, UserFilters } from '@/core/interfaces/services/IUserManagementService';
+import type { PaginationParams, PaginatedResponse } from '@/core/types/admin.types';
 import { Prisma } from '@prisma/client';
 
 /**

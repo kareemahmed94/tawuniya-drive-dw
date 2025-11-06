@@ -4,7 +4,7 @@ import { TYPES } from '@/core/di/types';
 import type { IAdminAuthService } from '@/core/interfaces/services/IAdminAuthService';
 import { adminLoginSchema, adminRegisterSchema } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
-import { BaseController } from '../base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 /**
  * Admin Authentication Controller

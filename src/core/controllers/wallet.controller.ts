@@ -1,14 +1,14 @@
 import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
-import { TYPES } from '../di/types';
-import type { IWalletService } from '../interfaces/services/IWalletService';
+import { TYPES } from '@/core/di/types';
+import type { IWalletService } from '@/core/interfaces/services/IWalletService';
 import {
   requireAuth,
   validateOwnership,
   successResponse,
   handleError,
 } from '@/lib/api/middleware';
-import { BaseController } from './base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 /**
  * Wallet Controller
@@ -207,7 +207,7 @@ export class WalletController extends BaseController {
 // Export singleton instance
 // Note: For now, we instantiate directly with service from DI container
 // This can be moved to a factory pattern later if needed
-import { container } from '../di/container';
+import { container } from '@/core/di/container';
 
 export const walletController = new WalletController(
   container.get<IWalletService>(TYPES.WalletService)

@@ -5,12 +5,12 @@
  * Uses admin-scoped repositories for admin operations
  */
 
-import { AdminRepository } from '../../repositories/admin/admin.repository';
-import { AdminServiceRepository } from '../../repositories/admin/service.repository';
-import { AdminServiceConfigRepository } from '../../repositories/admin/service-config.repository';
-import { AdminTransactionRepository } from '../../repositories/admin/transaction.repository';
-import { AdminUserRepository } from '../../repositories/admin/user.repository';
-import { AdminGlobalConfigRepository } from '../../repositories/admin/global-config.repository';
+import { AdminRepository } from '@/core/repositories/admin/admin.repository';
+import { AdminServiceRepository } from '@/core/repositories/admin/service.repository';
+import { AdminServiceConfigRepository } from '@/core/repositories/admin/service-config.repository';
+import { AdminTransactionRepository } from '@/core/repositories/admin/transaction.repository';
+import { AdminUserRepository } from '@/core/repositories/admin/user.repository';
+import { AdminGlobalConfigRepository } from '@/core/repositories/admin/global-config.repository';
 
 import { AdminAuthService } from './admin-auth.service';
 import { AdminManagementService } from './admin-management.service';

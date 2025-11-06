@@ -1,5 +1,5 @@
 import { Transaction, TransactionType, TransactionStatus } from '@prisma/client';
-import type { TransactionFilters, PaginationParams, UpdateTransactionInput } from '../../types/admin.types';
+import type { TransactionFilters, PaginationParams, UpdateTransactionInput } from '@/core/types/admin.types';
 
 /**
  * Transaction Repository Interface

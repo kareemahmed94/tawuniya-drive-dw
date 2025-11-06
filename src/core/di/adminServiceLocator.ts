@@ -4,15 +4,15 @@
  * Uses proper DI instead of manual instantiation
  */
 
-import { container } from './container';
-import { TYPES } from './types';
-import type { IAdminAuthService } from '../interfaces/services/IAdminAuthService';
-import type { IAdminManagementService } from '../interfaces/services/IAdminManagementService';
-import type { IServiceManagementService } from '../interfaces/services/IServiceManagementService';
-import type { ITransactionManagementService } from '../interfaces/services/ITransactionManagementService';
-import type { IUserManagementService } from '../interfaces/services/IUserManagementService';
-import type { IGlobalConfigManagementService } from '../interfaces/services/IGlobalConfigManagementService';
-import type { IDashboardService } from '../interfaces/services/admin/IDashboardService';
+import { container } from '@/core/di/container';
+import { TYPES } from '@/core/di/types';
+import type { IAdminAuthService } from '@/core/interfaces/services/IAdminAuthService';
+import type { IAdminManagementService } from '@/core/interfaces/services/IAdminManagementService';
+import type { IServiceManagementService } from '@/core/interfaces/services/IServiceManagementService';
+import type { ITransactionManagementService } from '@/core/interfaces/services/ITransactionManagementService';
+import type { IUserManagementService } from '@/core/interfaces/services/IUserManagementService';
+import type { IGlobalConfigManagementService } from '@/core/interfaces/services/IGlobalConfigManagementService';
+import type { IDashboardService } from '@/core/interfaces/services/admin/IDashboardService';
 
 /**
  * Get Admin Auth Service instance from container

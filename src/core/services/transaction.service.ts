@@ -1,18 +1,18 @@
 import { injectable, inject } from 'inversify';
 import { TransactionType, TransactionStatus, Transaction } from '@prisma/client';
-import { TYPES } from '../di/types';
-import type { ITransactionService } from '../interfaces/services/ITransactionService';
-import type { ITransactionRepository } from '../interfaces/repositories/ITransactionRepository';
-import type { IWalletRepository } from '../interfaces/repositories/IWalletRepository';
-import type { IServiceRepository } from '../interfaces/repositories/IServiceRepository';
-import type { IPointBalanceRepository } from '../interfaces/repositories/IPointBalanceRepository';
-import type { IServiceConfigRepository } from '../interfaces/repositories/IServiceConfigRepository';
-import type { TransactionResponse, TransactionPaginationResponse } from '../types';
-import { AppError } from '../middleware/errorHandler';
-import { EarnPointsInput, BurnPointsInput } from '../validators/transaction.validator';
-import { PointCalculation } from '../types';
-import logger from '../utils/logger';
-import { prisma } from '../config/database';
+import { TYPES } from '@/core/di/types';
+import type { ITransactionService } from '@/core/interfaces/services/ITransactionService';
+import type { ITransactionRepository } from '@/core/interfaces/repositories/ITransactionRepository';
+import type { IWalletRepository } from '@/core/interfaces/repositories/IWalletRepository';
+import type { IServiceRepository } from '@/core/interfaces/repositories/IServiceRepository';
+import type { IPointBalanceRepository } from '@/core/interfaces/repositories/IPointBalanceRepository';
+import type { IServiceConfigRepository } from '@/core/interfaces/repositories/IServiceConfigRepository';
+import type { TransactionResponse, TransactionPaginationResponse } from '@/core/types';
+import { AppError } from '@/core/middleware/errorHandler';
+import { EarnPointsInput, BurnPointsInput } from '@/core/validators/transaction.validator';
+import { PointCalculation } from '@/core/types';
+import logger from '@/core/utils/logger';
+import { prisma } from '@/core/config/database';
 
 /**
  * Transaction Service Implementation

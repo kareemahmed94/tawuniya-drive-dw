@@ -1,78 +1,78 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
-import { TYPES } from './types';
+import { TYPES } from '@/core/di/types';
 
 // Repository Interfaces
-import { IUserRepository } from '../interfaces/repositories/IUserRepository';
-import { IWalletRepository } from '../interfaces/repositories/IWalletRepository';
-import { ITransactionRepository } from '../interfaces/repositories/ITransactionRepository';
-import { IServiceRepository } from '../interfaces/repositories/IServiceRepository';
-import { IPointBalanceRepository } from '../interfaces/repositories/IPointBalanceRepository';
-import { IServiceConfigRepository } from '../interfaces/repositories/IServiceConfigRepository';
+import { IUserRepository } from '@/core/interfaces/repositories/IUserRepository';
+import { IWalletRepository } from '@/core/interfaces/repositories/IWalletRepository';
+import { ITransactionRepository } from '@/core/interfaces/repositories/ITransactionRepository';
+import { IServiceRepository } from '@/core/interfaces/repositories/IServiceRepository';
+import { IPointBalanceRepository } from '@/core/interfaces/repositories/IPointBalanceRepository';
+import { IServiceConfigRepository } from '@/core/interfaces/repositories/IServiceConfigRepository';
 
 // Admin Repository Interfaces
-import { IAdminRepository } from '../interfaces/repositories/admin/IAdminRepository';
-import { IAdminServiceRepository } from '../interfaces/repositories/admin/IServiceRepository';
-import { IAdminServiceConfigRepository } from '../interfaces/repositories/admin/IServiceConfigRepository';
-import { IAdminTransactionRepository } from '../interfaces/repositories/admin/ITransactionRepository';
-import { IAdminUserRepository } from '../interfaces/repositories/admin/IUserRepository';
-import { IAdminGlobalConfigRepository } from '../interfaces/repositories/admin/IGlobalConfigRepository';
+import { IAdminRepository } from '@/core/interfaces/repositories/admin/IAdminRepository';
+import { IAdminServiceRepository } from '@/core/interfaces/repositories/admin/IServiceRepository';
+import { IAdminServiceConfigRepository } from '@/core/interfaces/repositories/admin/IServiceConfigRepository';
+import { IAdminTransactionRepository } from '@/core/interfaces/repositories/admin/ITransactionRepository';
+import { IAdminUserRepository } from '@/core/interfaces/repositories/admin/IUserRepository';
+import { IAdminGlobalConfigRepository } from '@/core/interfaces/repositories/admin/IGlobalConfigRepository';
 
 // Repository Implementations
 import { UserRepository } from '@/core/repositories/user.repository';
-import { WalletRepository } from '../repositories/wallet.repository';
-import { TransactionRepository } from '../repositories/transaction.repository';
-import { ServiceRepository } from '../repositories/service.repository';
-import { PointBalanceRepository } from '../repositories/point-balance.repository';
-import { ServiceConfigRepository } from '../repositories/service-config.repository';
+import { WalletRepository } from '@/core/repositories/wallet.repository';
+import { TransactionRepository } from '@/core/repositories/transaction.repository';
+import { ServiceRepository } from '@/core/repositories/service.repository';
+import { PointBalanceRepository } from '@/core/repositories/point-balance.repository';
+import { ServiceConfigRepository } from '@/core/repositories/service-config.repository';
 
 // Admin Repository Implementations
-import { AdminRepository } from '../repositories/admin/admin.repository';
-import { AdminServiceRepository } from '../repositories/admin/service.repository';
-import { AdminServiceConfigRepository } from '../repositories/admin/service-config.repository';
-import { AdminTransactionRepository } from '../repositories/admin/transaction.repository';
-import { AdminUserRepository } from '../repositories/admin/user.repository';
-import { AdminGlobalConfigRepository } from '../repositories/admin/global-config.repository';
+import { AdminRepository } from '@/core/repositories/admin/admin.repository';
+import { AdminServiceRepository } from '@/core/repositories/admin/service.repository';
+import { AdminServiceConfigRepository } from '@/core/repositories/admin/service-config.repository';
+import { AdminTransactionRepository } from '@/core/repositories/admin/transaction.repository';
+import { AdminUserRepository } from '@/core/repositories/admin/user.repository';
+import { AdminGlobalConfigRepository } from '@/core/repositories/admin/global-config.repository';
 
 // Service Interfaces
-import { IAuthService } from '../interfaces/services/IAuthService';
-import { IWalletService } from '../interfaces/services/IWalletService';
-import { ITransactionService } from '../interfaces/services/ITransactionService';
-import { IServiceManagementService } from '../interfaces/services/IServiceManagementService';
-import { IAdminService } from '../interfaces/services/admin/IAdminService';
+import { IAuthService } from '@/core/interfaces/services/IAuthService';
+import { IWalletService } from '@/core/interfaces/services/IWalletService';
+import { ITransactionService } from '@/core/interfaces/services/ITransactionService';
+import { IServiceManagementService } from '@/core/interfaces/services/IServiceManagementService';
+import { IAdminService } from '@/core/interfaces/services/admin/IAdminService';
 
 // Admin Service Interfaces
-import { IAdminAuthService } from '../interfaces/services/IAdminAuthService';
-import { IAdminManagementService } from '../interfaces/services/IAdminManagementService';
-import { ITransactionManagementService } from '../interfaces/services/ITransactionManagementService';
-import { IUserManagementService } from '../interfaces/services/IUserManagementService';
-import { IGlobalConfigManagementService } from '../interfaces/services/IGlobalConfigManagementService';
-import { IDashboardService } from '../interfaces/services/admin/IDashboardService';
+import { IAdminAuthService } from '@/core/interfaces/services/IAdminAuthService';
+import { IAdminManagementService } from '@/core/interfaces/services/IAdminManagementService';
+import { ITransactionManagementService } from '@/core/interfaces/services/ITransactionManagementService';
+import { IUserManagementService } from '@/core/interfaces/services/IUserManagementService';
+import { IGlobalConfigManagementService } from '@/core/interfaces/services/IGlobalConfigManagementService';
+import { IDashboardService } from '@/core/interfaces/services/admin/IDashboardService';
 
 // Service Implementations
-import { AuthService } from '../services/auth.service';
-import { WalletService } from '../services/wallet.service';
-import { TransactionService } from '../services/transaction.service';
-import { ServiceManagementService } from '../services/service.service';
-import { AdminService } from '../services/admin/admin.service';
+import { AuthService } from '@/core/services/auth.service';
+import { WalletService } from '@/core/services/wallet.service';
+import { TransactionService } from '@/core/services/transaction.service';
+import { ServiceManagementService } from '@/core/services/service.service';
+import { AdminService } from '@/core/services/admin/admin.service';
 
 // Admin Service Implementations
-import { AdminAuthService } from '../services/admin/admin-auth.service';
-import { AdminManagementService } from '../services/admin/admin-management.service';
-import { ServiceManagementService as AdminServiceManagementService } from '../services/admin/service-management.service';
-import { TransactionManagementService } from '../services/admin/transaction-management.service';
-import { UserManagementService } from '../services/admin/user-management.service';
-import { GlobalConfigManagementService } from '../services/admin/global-config-management.service';
-import { DashboardService } from '../services/admin/dashboard.service';
+import { AdminAuthService } from '@/core/services/admin/admin-auth.service';
+import { AdminManagementService } from '@/core/services/admin/admin-management.service';
+import { ServiceManagementService as AdminServiceManagementService } from '@/core/services/admin/service-management.service';
+import { TransactionManagementService } from '@/core/services/admin/transaction-management.service';
+import { UserManagementService } from '@/core/services/admin/user-management.service';
+import { GlobalConfigManagementService } from '@/core/services/admin/global-config-management.service';
+import { DashboardService } from '@/core/services/admin/dashboard.service';
 
 // Admin Controller Implementations
-import { AdminAuthController } from '../controllers/admin/admin-auth.controller';
-import { AdminManagementController } from '../controllers/admin/admin-management.controller';
-import { ServiceManagementController } from '../controllers/admin/service-management.controller';
-import { TransactionManagementController } from '../controllers/admin/transaction-management.controller';
-import { UserManagementController } from '../controllers/admin/user-management.controller';
-import { GlobalConfigManagementController } from '../controllers/admin/global-config-management.controller';
-import { DashboardController } from '../controllers/admin/dashboard.controller';
+import { AdminAuthController } from '@/core/controllers/admin/admin-auth.controller';
+import { AdminManagementController } from '@/core/controllers/admin/admin-management.controller';
+import { ServiceManagementController } from '@/core/controllers/admin/service-management.controller';
+import { TransactionManagementController } from '@/core/controllers/admin/transaction-management.controller';
+import { UserManagementController } from '@/core/controllers/admin/user-management.controller';
+import { GlobalConfigManagementController } from '@/core/controllers/admin/global-config-management.controller';
+import { DashboardController } from '@/core/controllers/admin/dashboard.controller';
 
 /**
  * Inversify Dependency Injection Container

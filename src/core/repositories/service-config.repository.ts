@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import { ServiceConfig, RuleType, Prisma } from '@prisma/client';
-import { IServiceConfigRepository } from '../interfaces/repositories/IServiceConfigRepository';
-import { prisma } from '../config/database';
+import { IServiceConfigRepository } from '@/core/interfaces/repositories/IServiceConfigRepository';
+import { prisma } from '@/core/config/database';
 
 /**
  * Service Configuration Repository Implementation

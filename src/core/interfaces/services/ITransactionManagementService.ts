@@ -4,7 +4,7 @@ import type {
   UpdateTransactionInput,
   PaginationParams,
   PaginatedResponse,
-} from '../../types/admin.types';
+} from '@/core/types/admin.types';
 
 /**
  * Transaction Management Service Interface

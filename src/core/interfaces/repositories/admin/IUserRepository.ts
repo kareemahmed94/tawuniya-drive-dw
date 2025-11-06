@@ -1,5 +1,5 @@
 import type { User, Prisma } from '@prisma/client';
-import type { PaginationParams } from '../../../types/admin.types';
+import type { PaginationParams } from '@/core/types/admin.types';
 
 export interface UserFilters {
   search?: string;

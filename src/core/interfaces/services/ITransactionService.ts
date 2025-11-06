@@ -1,6 +1,6 @@
 import { TransactionType, Transaction } from '@prisma/client';
-import type { TransactionResponse, TransactionPaginationResponse } from '../../types';
-import { EarnPointsInput, BurnPointsInput } from '../../validators/transaction.validator';
+import type { TransactionResponse, TransactionPaginationResponse } from '@/core/types';
+import { EarnPointsInput, BurnPointsInput } from '@/core/validators/transaction.validator';
 
 /**
  * Transaction Service Interface

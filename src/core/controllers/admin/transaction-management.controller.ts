@@ -8,7 +8,7 @@ import {
   paginationSchema,
 } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
-import { BaseController } from '../base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 /**
  * Transaction Management Controller

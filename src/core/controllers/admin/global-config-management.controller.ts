@@ -5,7 +5,7 @@ import type { IGlobalConfigManagementService } from '@/core/interfaces/services/
 import { paginationSchema } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import { z } from 'zod';
-import { BaseController } from '../base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 // Validation schemas
 const createGlobalConfigSchema = z.object({

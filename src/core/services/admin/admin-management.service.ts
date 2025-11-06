@@ -1,8 +1,8 @@
 import { injectable, inject } from 'inversify';
 import bcrypt from 'bcrypt';
-import { TYPES } from '../../di/types';
-import type { IAdminRepository } from '../../interfaces/repositories/admin/IAdminRepository';
-import type { IAdminManagementService } from '../../interfaces/services/IAdminManagementService';
+import { TYPES } from '@/core/di/types';
+import type { IAdminRepository } from '@/core/interfaces/repositories/admin/IAdminRepository';
+import type { IAdminManagementService } from '@/core/interfaces/services/IAdminManagementService';
 import type {
   CreateAdminInput,
   UpdateAdminInput,
@@ -10,7 +10,7 @@ import type {
   AdminFilters,
   PaginationParams,
   PaginatedResponse,
-} from '../../types/admin.types';
+} from '@/core/types/admin.types';
 import { Prisma } from '@prisma/client';
 
 /**

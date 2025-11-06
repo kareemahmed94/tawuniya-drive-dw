@@ -1,5 +1,5 @@
 import type { Service, ServiceCategory, Prisma } from '@prisma/client';
-import type { ServiceWithConfigsResponse, ServiceWithTransactionCountResponse } from '../../types';
+import type { ServiceWithConfigsResponse, ServiceWithTransactionCountResponse } from '@/core/types';
 
 export interface IServiceRepository {
   findAll(filters?: {

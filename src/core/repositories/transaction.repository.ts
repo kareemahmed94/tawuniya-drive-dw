@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import { Transaction, TransactionType, TransactionStatus, Prisma } from '@prisma/client';
-import { ITransactionRepository } from '../interfaces/repositories/ITransactionRepository';
-import { prisma } from '../config/database';
+import { ITransactionRepository } from '@/core/interfaces/repositories/ITransactionRepository';
+import { prisma } from '@/core/config/database';
 
 /**
  * Transaction Repository Implementation

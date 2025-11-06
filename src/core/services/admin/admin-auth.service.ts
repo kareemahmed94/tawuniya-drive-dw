@@ -1,16 +1,16 @@
 import { injectable, inject } from 'inversify';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { TYPES } from '../../di/types';
-import type { IAdminRepository } from '../../interfaces/repositories/admin/IAdminRepository';
-import type { IAdminAuthService } from '../../interfaces/services/IAdminAuthService';
+import { TYPES } from '@/core/di/types';
+import type { IAdminRepository } from '@/core/interfaces/repositories/admin/IAdminRepository';
+import type { IAdminAuthService } from '@/core/interfaces/services/IAdminAuthService';
 import type {
   AdminLoginInput,
   AdminRegisterInput,
   AdminAuthResponse,
   AdminResponse,
-} from '../../types/admin.types';
-import { config } from '../../config/environment';
+} from '@/core/types/admin.types';
+import { config } from '@/core/config/environment';
 
 /**
  * Admin Authentication Service

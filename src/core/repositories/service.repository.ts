@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import { Service, ServiceCategory, Prisma } from '@prisma/client';
-import { IServiceRepository } from '../interfaces/repositories/IServiceRepository';
-import type { ServiceWithConfigsResponse, ServiceWithTransactionCountResponse } from '../types';
-import { prisma } from '../config/database';
+import { IServiceRepository } from '@/core/interfaces/repositories/IServiceRepository';
+import type { ServiceWithConfigsResponse, ServiceWithTransactionCountResponse } from '@/core/types';
+import { prisma } from '@/core/config/database';
 
 /**
  * Service Repository Implementation

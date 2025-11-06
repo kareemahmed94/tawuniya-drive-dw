@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import logger from '../utils/logger';
+import logger from '@/core/utils/logger';
 
 /**
  * Singleton Prisma Client instance

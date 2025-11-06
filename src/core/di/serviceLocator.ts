@@ -7,13 +7,13 @@
  * Services should NEVER import the container directly to avoid circular dependencies.
  */
 
-import { container } from './container';
-import { TYPES } from './types';
-import type { IAuthService } from '../interfaces/services/IAuthService';
-import type { IWalletService } from '../interfaces/services/IWalletService';
-import type { ITransactionService } from '../interfaces/services/ITransactionService';
-import type { IServiceManagementService } from '../interfaces/services/IServiceManagementService';
-import type { IAdminService } from '../interfaces/services/admin/IAdminService';
+import { container } from '@/core/di/container';
+import { TYPES } from '@/core/di/types';
+import type { IAuthService } from '@/core/interfaces/services/IAuthService';
+import type { IWalletService } from '@/core/interfaces/services/IWalletService';
+import type { ITransactionService } from '@/core/interfaces/services/ITransactionService';
+import type { IServiceManagementService } from '@/core/interfaces/services/IServiceManagementService';
+import type { IAdminService } from '@/core/interfaces/services/admin/IAdminService';
 
 /**
  * Get service instances from DI container

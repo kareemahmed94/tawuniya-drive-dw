@@ -1,18 +1,18 @@
 import {injectable, inject} from 'inversify';
 import {Service, ServiceCategory, ServiceConfig} from '@prisma/client';
 import {TYPES} from '@/core/di/types';
-import type {IServiceManagementService} from '../interfaces/services/IServiceManagementService';
-import type {IServiceRepository} from '../interfaces/repositories/IServiceRepository';
-import type {IServiceConfigRepository} from '../interfaces/repositories/IServiceConfigRepository';
-import type {ServiceConfigResponse} from '../types';
-import {AppError} from '../middleware/errorHandler';
+import type {IServiceManagementService} from '@/core/interfaces/services/IServiceManagementService';
+import type {IServiceRepository} from '@/core/interfaces/repositories/IServiceRepository';
+import type {IServiceConfigRepository} from '@/core/interfaces/repositories/IServiceConfigRepository';
+import type {ServiceConfigResponse} from '@/core/types';
+import {AppError} from '@/core/middleware/errorHandler';
 import {
     CreateServiceInput,
     UpdateServiceInput,
     CreateServiceConfigInput,
 } from '@/core/validators/service.validator';
-import logger from '../utils/logger';
-import {prisma} from '../config/database';
+import logger from '@/core/utils/logger';
+import {prisma} from '@/core/config/database';
 
 /**
  * Service Management Service Implementation

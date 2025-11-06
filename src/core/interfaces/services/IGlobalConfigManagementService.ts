@@ -1,7 +1,7 @@
 import type {
   PaginationParams,
   PaginatedResponse,
-} from '../../types/admin.types';
+} from '@/core/types/admin.types';
 import type { GlobalConfig } from '@prisma/client';
 
 export interface GlobalConfigResponse {

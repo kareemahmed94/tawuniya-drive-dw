@@ -10,7 +10,7 @@ import {
 } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import type { AdminRole } from '@prisma/client';
-import { BaseController } from '../base.controller';
+import { BaseController } from '@/core/controllers/base.controller';
 
 /**
  * Admin Management Controller

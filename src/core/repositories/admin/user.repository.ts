@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import type { User, Prisma } from '@prisma/client';
-import { prisma } from '../../config/database';
-import type { IAdminUserRepository } from '../../interfaces/repositories/admin/IUserRepository';
-import type { PaginationParams } from '../../types/admin.types';
+import { prisma } from '@/core/config/database';
+import type { IAdminUserRepository } from '@/core/interfaces/repositories/admin/IUserRepository';
+import type { PaginationParams } from '@/core/types/admin.types';
 
 export interface UserFilters {
   search?: string;

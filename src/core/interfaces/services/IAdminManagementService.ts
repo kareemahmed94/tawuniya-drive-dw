@@ -5,7 +5,7 @@ import type {
   AdminFilters,
   PaginationParams,
   PaginatedResponse,
-} from '../../types/admin.types';
+} from '@/core/types/admin.types';
 
 /**
  * Admin Management Service Interface

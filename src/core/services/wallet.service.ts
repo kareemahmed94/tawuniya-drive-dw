@@ -1,13 +1,13 @@
 import { injectable, inject } from 'inversify';
-import { TYPES } from '../di/types';
-import type { IWalletService } from '../interfaces/services/IWalletService';
-import type { IWalletRepository } from '../interfaces/repositories/IWalletRepository';
-import type { ITransactionRepository } from '../interfaces/repositories/ITransactionRepository';
-import type { IPointBalanceRepository } from '../interfaces/repositories/IPointBalanceRepository';
-import type { WalletResponse, WalletStatistics, PointBalanceResponse } from '../types';
-import { AppError } from '../middleware/errorHandler';
-import { prisma } from '../config/database';
-import logger from '../utils/logger';
+import { TYPES } from '@/core/di/types';
+import type { IWalletService } from '@/core/interfaces/services/IWalletService';
+import type { IWalletRepository } from '@/core/interfaces/repositories/IWalletRepository';
+import type { ITransactionRepository } from '@/core/interfaces/repositories/ITransactionRepository';
+import type { IPointBalanceRepository } from '@/core/interfaces/repositories/IPointBalanceRepository';
+import type { WalletResponse, WalletStatistics, PointBalanceResponse } from '@/core/types';
+import { AppError } from '@/core/middleware/errorHandler';
+import { prisma } from '@/core/config/database';
+import logger from '@/core/utils/logger';
 
 /**
  * Wallet Service Implementation

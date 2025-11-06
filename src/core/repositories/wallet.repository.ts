@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import { Wallet, Prisma } from '@prisma/client';
-import { IWalletRepository } from '../interfaces/repositories/IWalletRepository';
-import type { WalletWithStatsResponse } from '../types';
-import { prisma } from '../config/database';
+import { IWalletRepository } from '@/core/interfaces/repositories/IWalletRepository';
+import type { WalletWithStatsResponse } from '@/core/types';
+import { prisma } from '@/core/config/database';
 
 /**
  * Wallet Repository Implementation

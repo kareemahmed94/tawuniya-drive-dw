@@ -3,7 +3,7 @@ import type {
   AdminRegisterInput,
   AdminAuthResponse,
   AdminResponse,
-} from '../../types/admin.types';
+} from '@/core/types/admin.types';
 
 /**
  * Admin Authentication Service Interface

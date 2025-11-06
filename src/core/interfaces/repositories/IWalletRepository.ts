@@ -1,5 +1,5 @@
 import type { Wallet, Prisma } from '@prisma/client';
-import type { WalletWithStatsResponse } from '../../types';
+import type { WalletWithStatsResponse } from '@/core/types';
 
 export interface IWalletRepository {
   findByUserId(userId: string): Promise<Wallet | null>;

@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import type { GlobalConfig, Prisma, ConfigType } from '@prisma/client';
-import { prisma } from '../../config/database';
-import type { IAdminGlobalConfigRepository } from '../../interfaces/repositories/admin/IGlobalConfigRepository';
-import type { PaginationParams } from '../../types/admin.types';
+import { prisma } from '@/core/config/database';
+import type { IAdminGlobalConfigRepository } from '@/core/interfaces/repositories/admin/IGlobalConfigRepository';
+import type { PaginationParams } from '@/core/types/admin.types';
 
 export interface GlobalConfigFilters {
   search?: string;

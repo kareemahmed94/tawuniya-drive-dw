@@ -1,7 +1,7 @@
 import {injectable} from 'inversify';
 import {Prisma, User} from '@prisma/client';
-import {IUserRepository} from '../interfaces/repositories/IUserRepository';
-import {prisma} from '../config/database';
+import {IUserRepository} from '@/core/interfaces/repositories/IUserRepository';
+import {prisma} from '@/core/config/database';
 
 /**
  * User Repository Implementation

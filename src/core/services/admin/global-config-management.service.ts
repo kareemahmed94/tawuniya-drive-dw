@@ -1,14 +1,14 @@
 import { injectable, inject } from 'inversify';
-import { TYPES } from '../../di/types';
-import type { IAdminGlobalConfigRepository } from '../../interfaces/repositories/admin/IGlobalConfigRepository';
+import { TYPES } from '@/core/di/types';
+import type { IAdminGlobalConfigRepository } from '@/core/interfaces/repositories/admin/IGlobalConfigRepository';
 import type {
   IGlobalConfigManagementService,
   CreateGlobalConfigInput,
   UpdateGlobalConfigInput,
   GlobalConfigResponse,
   GlobalConfigFilters,
-} from '../../interfaces/services/IGlobalConfigManagementService';
-import type { PaginationParams, PaginatedResponse } from '../../types/admin.types';
+} from '@/core/interfaces/services/IGlobalConfigManagementService';
+import type { PaginationParams, PaginatedResponse } from '@/core/types/admin.types';
 import { Prisma } from '@prisma/client';
 
 /**

@@ -5,13 +5,13 @@ import { TYPES } from '@/core/di/types';
 import type { IAuthService } from '@/core/interfaces/services/IAuthService';
 import type { IUserRepository } from '@/core/interfaces/repositories/IUserRepository';
 import type { IWalletRepository } from '@/core/interfaces/repositories/IWalletRepository';
-import { config } from '../config/environment';
-import { AppError } from '../middleware/errorHandler';
-import { RegisterInput, LoginInput, UpdateProfileInput } from '../validators/auth.validator';
-import { JwtPayload } from '../types';
-import logger from '../utils/logger';
-import { prisma } from '../config/database';
-import { AuthUserResource } from '../resources';
+import { config } from '@/core/config/environment';
+import { AppError } from '@/core/middleware/errorHandler';
+import { RegisterInput, LoginInput, UpdateProfileInput } from '@/core/validators/auth.validator';
+import { JwtPayload } from '@/core/types';
+import logger from '@/core/utils/logger';
+import { prisma } from '@/core/config/database';
+import { AuthUserResource } from '@/core/resources';
 
 /**
  * Authentication Service Implementation
