@@ -19,20 +19,20 @@ import { IAdminUserRepository } from '../interfaces/repositories/admin/IUserRepo
 import { IAdminGlobalConfigRepository } from '../interfaces/repositories/admin/IGlobalConfigRepository';
 
 // Repository Implementations
-import { UserRepository } from '../repositories/UserRepository';
-import { WalletRepository } from '../repositories/WalletRepository';
-import { TransactionRepository } from '../repositories/TransactionRepository';
-import { ServiceRepository } from '../repositories/ServiceRepository';
-import { PointBalanceRepository } from '../repositories/PointBalanceRepository';
-import { ServiceConfigRepository } from '../repositories/ServiceConfigRepository';
+import { UserRepository } from '@/core/repositories/user.repository';
+import { WalletRepository } from '../repositories/wallet.repository';
+import { TransactionRepository } from '../repositories/transaction.repository';
+import { ServiceRepository } from '../repositories/service.repository';
+import { PointBalanceRepository } from '../repositories/point-balance.repository';
+import { ServiceConfigRepository } from '../repositories/service-config.repository';
 
 // Admin Repository Implementations
-import { AdminRepository } from '../repositories/admin/AdminRepository';
-import { AdminServiceRepository } from '../repositories/admin/ServiceRepository';
-import { AdminServiceConfigRepository } from '../repositories/admin/ServiceConfigRepository';
-import { AdminTransactionRepository } from '../repositories/admin/TransactionRepository';
-import { AdminUserRepository } from '../repositories/admin/UserRepository';
-import { AdminGlobalConfigRepository } from '../repositories/admin/GlobalConfigRepository';
+import { AdminRepository } from '../repositories/admin/admin.repository';
+import { AdminServiceRepository } from '../repositories/admin/service.repository';
+import { AdminServiceConfigRepository } from '../repositories/admin/service-config.repository';
+import { AdminTransactionRepository } from '../repositories/admin/transaction.repository';
+import { AdminUserRepository } from '../repositories/admin/user.repository';
+import { AdminGlobalConfigRepository } from '../repositories/admin/global-config.repository';
 
 // Service Interfaces
 import { IAuthService } from '../interfaces/services/IAuthService';
