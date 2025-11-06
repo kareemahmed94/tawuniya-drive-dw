@@ -25,10 +25,10 @@ export default function DashboardPage() {
   useEffect(() => {
     const user = authService.getUser();
     if (!user) {
-      router.push('/auth/login');
+      router.push('/login');
       return;
     }
-    
+
     loadDashboardData(user.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -9,8 +9,8 @@ import type { NextRequest } from 'next/server';
 
 // Public routes that don't require authentication
 const publicRoutes = [
-  '/auth/login',
-  '/auth/register',
+  '/login',
+  '/register',
   '/api/auth/login',
   '/api/auth/register',
   '/api/health',
@@ -93,7 +93,7 @@ export function proxy(request: NextRequest) {
   if (!token && !pathname.startsWith('/api/')) {
     // Don't redirect if already on login page
     if (!pathname.startsWith('/auth/')) {
-      const loginUrl = new URL('/auth/login', request.url);
+      const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('redirect', pathname);
       return NextResponse.redirect(loginUrl);
     }

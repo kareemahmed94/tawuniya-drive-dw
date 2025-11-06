@@ -88,7 +88,7 @@ export default function EarnPointsPage() {
 
     // Calculate: (amount / unitAmount) * pointsPerUnit
     const points = (amount / Number(earnRule.unitAmount)) * Number(earnRule.pointsPerUnit);
-    
+
     // Apply max points limit if exists
     const finalPoints = earnRule.maxPoints && points > Number(earnRule.maxPoints)
       ? Number(earnRule.maxPoints)
@@ -126,17 +126,17 @@ export default function EarnPointsPage() {
       toast.success(
         `Successfully earned ${formatPoints(result.pointsEarned)} points!`
       );
-      
+
       // Reset selection
       setSelectedService(null);
       setSelectedAmount(null);
-      
+
       // Reload balance
       loadBalance();
-      
+
       // Redirect to dashboard after a short delay
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/home');
       }, 1500);
     } catch (error: any) {
       const message = error instanceof Error ? error.message : 'Failed to earn points';
@@ -251,7 +251,7 @@ export default function EarnPointsPage() {
                   const points = calculatePoints(amount);
                   const isDisabled = points === 0 || (earnRule.minAmount && amount < Number(earnRule.minAmount));
                   const isSelected = selectedAmount === amount;
-                  
+
                   return (
                     <button
                       key={amount}

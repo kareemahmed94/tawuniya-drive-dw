@@ -35,7 +35,7 @@ export function DesktopNavigation({ items }: DesktopNavigationProps) {
   const handleLogout = () => {
     authService.logout();
     toast.success('Logged out successfully');
-    router.push('/auth/login');
+    router.push('/login');
   };
 
   return (
@@ -43,7 +43,7 @@ export function DesktopNavigation({ items }: DesktopNavigationProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link href="/home" className="flex items-center gap-2">
             <span className="text-2xl">🚗</span>
             <span className="text-xl font-bold text-blue-600">Tawuniya Wallet</span>
           </Link>

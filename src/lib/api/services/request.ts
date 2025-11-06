@@ -45,7 +45,7 @@ export async function request<T>(
           // Only redirect if not already on login page
           // Middleware will handle redirect for protected pages
           if (!window.location.pathname.startsWith('/auth/')) {
-            window.location.href = '/auth/login';
+            window.location.href = '/login';
           }
         }
       }

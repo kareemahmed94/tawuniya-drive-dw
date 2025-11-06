@@ -35,7 +35,7 @@ export default function ProfilePage() {
     try {
       const profile = await authService.getProfile();
       setUser(profile);
-      
+
       // Parse name into first_name and last_name
       const nameParts = profile.name?.split(' ') || [];
       setFormData({
@@ -48,7 +48,7 @@ export default function ProfilePage() {
       });
     } catch (error: any) {
       toast.error('Failed to load profile');
-      router.push('/dashboard');
+      router.push('/home');
     } finally {
       setLoading(false);
     }

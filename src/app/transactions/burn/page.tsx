@@ -117,17 +117,17 @@ export default function BurnPointsPage() {
       toast.success(
         `Successfully used ${formatPoints(result.pointsBurned)} points! You saved ${formatCurrency(result.amountInSAR)}.`
       );
-      
+
       // Reset selection
       setSelectedService(null);
       setSelectedPoints(null);
-      
+
       // Reload balance
       loadBalance();
-      
+
       // Redirect to dashboard after a short delay
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/home');
       }, 1500);
     } catch (error: any) {
       const message = error instanceof Error ? error.message : 'Failed to use points';
@@ -249,7 +249,7 @@ export default function BurnPointsPage() {
                   {presetPoints.map((points) => {
                     const sar = calculateSAR(points);
                     const isSelected = selectedPoints === points;
-                    
+
                     return (
                       <button
                         key={points}

@@ -16,7 +16,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   // Navigation items for user-facing pages
   const navigation = [
-    { name: 'Home', href: '/dashboard', icon: '🏠' },
+    { name: 'Home', href: '/home', icon: '🏠' },
     { name: 'Earn', href: '/transactions/earn', icon: '➕' },
     { name: 'Use', href: '/transactions/burn', icon: '💳' },
     { name: 'History', href: '/transactions/history', icon: '📜' },

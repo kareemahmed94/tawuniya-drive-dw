@@ -11,9 +11,9 @@ export default function Home() {
     // Check if user is authenticated
     if (authService.isAuthenticated()) {
       // Users are always customers - admins use separate login
-      router.push('/dashboard');
+      router.push('/home');
     } else {
-      router.push('/auth/login');
+      router.push('/login');
     }
   }, [router]);
 

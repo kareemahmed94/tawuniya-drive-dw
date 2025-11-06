@@ -53,7 +53,7 @@ export default function RegisterPage() {
       authService.saveUser(response.user);
 
       toast.success('Account created successfully!');
-      router.push('/dashboard');
+      router.push('/home');
     } catch (error: any) {
       const message = error instanceof Error ? error.message : 'Registration failed';
       toast.error(message);
@@ -136,7 +136,7 @@ export default function RegisterPage() {
               <p className="text-gray-600">
                 Already have an account?{' '}
                 <Link
-                  href="/auth/login"
+                  href="/login"
                   className="font-medium text-blue-600 hover:text-blue-500"
                 >
                   Sign in
