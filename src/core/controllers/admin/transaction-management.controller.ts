@@ -1,6 +1,5 @@
 import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 import { TYPES } from '@/core/di/types';
 import type { ITransactionManagementService } from '@/core/interfaces/services/ITransactionManagementService';
 import {
@@ -9,16 +8,19 @@ import {
   paginationSchema,
 } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
+import { BaseController } from '../base.controller';
 
 /**
  * Transaction Management Controller
  * Handles HTTP layer for transaction management operations
  */
 @injectable()
-export class TransactionManagementController {
+export class TransactionManagementController extends BaseController {
   constructor(
     @inject(TYPES.TransactionManagementService) private transactionManagementService: ITransactionManagementService
-  ) {}
+  ) {
+    super();
+  }
   /**
    * Get all transactions
    * GET /api/admin/transactions
@@ -316,63 +318,8 @@ export class TransactionManagementController {
 
   // ==================== Helper Methods ====================
 
-  private isAdminOrHigher(role: string): boolean {
+  protected isAdminOrHigher(role: string): boolean {
     return role === 'ADMIN' || role === 'SUPER_ADMIN';
-  }
-
-  private unauthorizedResponse(): NextResponse {
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Authentication required',
-      },
-      { status: 401 }
-    );
-  }
-
-  private forbiddenResponse(message = 'Insufficient permissions'): NextResponse {
-    return NextResponse.json(
-      {
-        success: false,
-        error: message,
-      },
-      { status: 403 }
-    );
-  }
-
-  private handleError(error: unknown): NextResponse {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation failed',
-          errors: error.errors.reduce((acc: Record<string, string[]>, err) => {
-            const field = err.path.join('.');
-            if (!acc[field]) acc[field] = [];
-            acc[field].push(err.message);
-            return acc;
-          }, {}),
-        },
-        { status: 400 }
-      );
-    }
-
-    const errorMessage = error instanceof Error ? error.message : 'Operation failed';
-    const status = this.getStatusCode(errorMessage);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status }
-    );
-  }
-
-  private getStatusCode(message: string): number {
-    if (message.includes('not found')) return 404;
-    if (message.includes('deleted')) return 410;
-    return 500;
   }
 }
 

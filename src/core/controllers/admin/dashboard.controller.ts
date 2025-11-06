@@ -1,20 +1,22 @@
 import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 import { TYPES } from '@/core/di/types';
 import type { IDashboardService } from '@/core/interfaces/services/admin/IDashboardService';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import { prisma } from '@/core/config/database';
+import { BaseController } from '../base.controller';
 
 /**
  * Dashboard Controller
  * Handles HTTP layer for dashboard statistics and analytics
  */
 @injectable()
-export class DashboardController {
+export class DashboardController extends BaseController {
   constructor(
     @inject(TYPES.DashboardService) private dashboardService: IDashboardService
-  ) {}
+  ) {
+    super();
+  }
   /**
    * Get dashboard statistics
    * GET /api/admin/dashboard/stats
@@ -239,44 +241,6 @@ export class DashboardController {
     }
   }
 
-  // ==================== Helper Methods ====================
-
-  private unauthorizedResponse(): NextResponse {
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Unauthorized',
-      },
-      { status: 401 }
-    );
-  }
-
-  private handleError(error: unknown): NextResponse {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation error',
-          errors: error.errors.map((e) => ({
-            path: e.path.join('.'),
-            message: e.message,
-          })),
-        },
-        { status: 400 }
-      );
-    }
-
-    const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-    console.error('Dashboard controller error:', error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status: 500 }
-    );
-  }
 }
 
 // Controller instances are exported from @/core/di/adminControllerFactory

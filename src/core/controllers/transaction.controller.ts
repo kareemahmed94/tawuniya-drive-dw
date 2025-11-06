@@ -1,6 +1,5 @@
 import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 import { TYPES } from '../di/types';
 import type { ITransactionService } from '../interfaces/services/ITransactionService';
 import { earnPointsSchema, burnPointsSchema, getTransactionsSchema } from '../validators/transaction.validator';
@@ -12,6 +11,7 @@ import {
   successResponse,
   handleError,
 } from '@/lib/api/middleware';
+import { BaseController } from './base.controller';
 
 /**
  * Transaction Controller
@@ -19,10 +19,12 @@ import {
  * Delegates business logic to TransactionService
  */
 @injectable()
-export class TransactionController {
+export class TransactionController extends BaseController {
   constructor(
     @inject(TYPES.TransactionService) private transactionService: ITransactionService
-  ) {}
+  ) {
+    super();
+  }
 
   /**
    * Earn points from a service
@@ -176,43 +178,6 @@ export class TransactionController {
     }
   }
 
-  // ==================== Helper Methods ====================
-
-  private handleError(error: unknown): NextResponse {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation failed',
-          errors: error.errors.reduce((acc: Record<string, string[]>, err) => {
-            const field = err.path.join('.');
-            acc[field] = acc[field] ? [...acc[field], err.message] : [err.message];
-            return acc;
-          }, {}),
-        },
-        { status: 400 }
-      );
-    }
-
-    const errorMessage = error instanceof Error ? error.message : 'Internal server error';
-    const status = this.getStatusCode(errorMessage);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status }
-    );
-  }
-
-  private getStatusCode(message: string): number {
-    if (message.includes('not found')) return 404;
-    if (message.includes('not active')) return 400;
-    if (message.includes('insufficient')) return 400;
-    if (message.includes('already exists')) return 409;
-    return 500;
-  }
 }
 
 // Export singleton instance

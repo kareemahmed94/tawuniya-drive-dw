@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 import { authService } from '@/core/di/serviceLocator';
 import { loginSchema, registerSchema, updateProfileSchema } from '@/core/validators/auth.validator';
 import { requireAuth } from '@/lib/api/middleware';
+import { BaseController } from './base.controller';
 
 /**
  * Authentication Controller
  * Handles HTTP layer for user authentication endpoints
  * Thin wrapper that delegates to AuthService
  */
-export class AuthController {
+export class AuthController extends BaseController {
   /**
    * Login user
    * POST /api/auth/login
@@ -135,49 +135,6 @@ export class AuthController {
     }
   }
 
-  /**
-   * Handle errors
-   */
-  private handleError(error: unknown): NextResponse {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation failed',
-          errors: error.errors.reduce((acc: Record<string, string[]>, err) => {
-            const field = err.path.join('.');
-            if (!acc[field]) acc[field] = [];
-            acc[field].push(err.message);
-            return acc;
-          }, {}),
-        },
-        { status: 400 }
-      );
-    }
-
-    const errorMessage = error instanceof Error ? error.message : 'Operation failed';
-    const status = this.getStatusCode(errorMessage);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status }
-    );
-  }
-
-  /**
-   * Get appropriate HTTP status code based on error message
-   */
-  private getStatusCode(message: string): number {
-    if (message.includes('already exists') || message.includes('already registered')) return 409;
-    if (message.includes('not found')) return 404;
-    if (message.includes('Invalid credentials')) return 401;
-    if (message.includes('Authentication required')) return 401;
-    if (message.includes('deactivated')) return 403;
-    return 500;
-  }
 }
 
 // Export singleton instance

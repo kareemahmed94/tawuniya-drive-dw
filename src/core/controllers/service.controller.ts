@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 import { serviceManagementService } from '@/core/di/serviceLocator';
 import { getServicesSchema } from '@/core/validators/service.validator';
+import { BaseController } from './base.controller';
 
 /**
  * Service Controller
  * Handles HTTP layer for public service endpoints
  * Read-only operations for frontend consumption
  */
-export class ServiceController {
+export class ServiceController extends BaseController {
   /**
    * Get all services
    * GET /api/services
@@ -118,44 +118,6 @@ export class ServiceController {
     }
   }
 
-  // ==================== Helper Methods ====================
-
-  private unauthorizedResponse(): NextResponse {
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Unauthorized',
-      },
-      { status: 401 }
-    );
-  }
-
-  private handleError(error: unknown): NextResponse {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation error',
-          errors: error.errors.map((e) => ({
-            path: e.path.join('.'),
-            message: e.message,
-          })),
-        },
-        { status: 400 }
-      );
-    }
-
-    const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-    console.error('Service controller error:', error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status: 500 }
-    );
-  }
 }
 
 // Singleton instance

@@ -1,11 +1,11 @@
 import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 import { TYPES } from '@/core/di/types';
 import type { IUserManagementService } from '@/core/interfaces/services/IUserManagementService';
 import { paginationSchema } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import { z } from 'zod';
+import { BaseController } from '../base.controller';
 
 // Validation schemas
 const createUserSchema = z.object({
@@ -35,10 +35,12 @@ const userFiltersSchema = z.object({
  * Handles HTTP layer for user CRUD operations in admin scope
  */
 @injectable()
-export class UserManagementController {
+export class UserManagementController extends BaseController {
   constructor(
     @inject(TYPES.UserManagementService) private userManagementService: IUserManagementService
-  ) {}
+  ) {
+    super();
+  }
   /**
    * Get all users
    * GET /api/admin/users
@@ -249,56 +251,6 @@ export class UserManagementController {
     }
   }
 
-  private handleError(error: unknown): NextResponse {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation error',
-          errors: error.errors.reduce(
-            (acc, err) => {
-              const path = err.path.join('.');
-              if (!acc[path]) {
-                acc[path] = [];
-              }
-              acc[path].push(err.message);
-              return acc;
-            },
-            {} as Record<string, string[]>
-          ),
-        },
-        { status: 400 }
-      );
-    }
-
-    if (error instanceof Error) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: error.message,
-        },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Internal server error',
-      },
-      { status: 500 }
-    );
-  }
-
-  private unauthorizedResponse(): NextResponse {
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Unauthorized',
-      },
-      { status: 401 }
-    );
-  }
 }
 
 // Controller instances are exported from @/core/di/adminControllerFactory

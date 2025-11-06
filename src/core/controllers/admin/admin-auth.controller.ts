@@ -1,20 +1,22 @@
 import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 import { TYPES } from '@/core/di/types';
 import type { IAdminAuthService } from '@/core/interfaces/services/IAdminAuthService';
 import { adminLoginSchema, adminRegisterSchema } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
+import { BaseController } from '../base.controller';
 
 /**
  * Admin Authentication Controller
  * Handles HTTP layer for admin authentication
  */
 @injectable()
-export class AdminAuthController {
+export class AdminAuthController extends BaseController {
   constructor(
     @inject(TYPES.AdminAuthService) private adminAuthService: IAdminAuthService
-  ) {}
+  ) {
+    super();
+  }
   /**
    * Login admin
    * POST /api/admin/auth/login
@@ -148,49 +150,6 @@ export class AdminAuthController {
     }
   }
 
-  /**
-   * Handle errors
-   */
-  private handleError(error: unknown): NextResponse {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation failed',
-          errors: error.errors.reduce((acc: Record<string, string[]>, err) => {
-            const field = err.path.join('.');
-            if (!acc[field]) acc[field] = [];
-            acc[field].push(err.message);
-            return acc;
-          }, {}),
-        },
-        { status: 400 }
-      );
-    }
-
-    const errorMessage = error instanceof Error ? error.message : 'Operation failed';
-    const status = this.getStatusCode(errorMessage);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status }
-    );
-  }
-
-  /**
-   * Get appropriate HTTP status code based on error message
-   */
-  private getStatusCode(message: string): number {
-    if (message.includes('already exists')) return 409;
-    if (message.includes('not found')) return 404;
-    if (message.includes('Invalid credentials')) return 401;
-    if (message.includes('Authentication required')) return 401;
-    if (message.includes('deactivated')) return 403;
-    return 500;
-  }
 }
 
 // Controller instances are exported from @/core/di/adminControllerFactory

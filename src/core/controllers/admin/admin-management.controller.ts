@@ -1,6 +1,5 @@
 import { injectable, inject } from 'inversify';
 import { NextRequest, NextResponse } from 'next/server';
-import { ZodError } from 'zod';
 import { TYPES } from '@/core/di/types';
 import type { IAdminManagementService } from '@/core/interfaces/services/IAdminManagementService';
 import {
@@ -11,16 +10,19 @@ import {
 } from '@/core/validators/admin.validator';
 import { verifyAdminToken } from '@/lib/api/middleware';
 import type { AdminRole } from '@prisma/client';
+import { BaseController } from '../base.controller';
 
 /**
  * Admin Management Controller
  * Handles HTTP layer for admin CRUD operations
  */
 @injectable()
-export class AdminManagementController {
+export class AdminManagementController extends BaseController {
   constructor(
     @inject(TYPES.AdminManagementService) private adminManagementService: IAdminManagementService
-  ) {}
+  ) {
+    super();
+  }
   /**
    * Get all admins
    * GET /api/admin/admins
@@ -281,59 +283,10 @@ export class AdminManagementController {
   }
 
   /**
-   * Unauthorized response
+   * Check if requester is the same as target (for self-updates)
    */
-  private unauthorizedResponse(): NextResponse {
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Authentication required',
-      },
-      { status: 401 }
-    );
-  }
-
-  /**
-   * Handle errors
-   */
-  private handleError(error: unknown): NextResponse {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation failed',
-          errors: error.errors.reduce((acc: Record<string, string[]>, err) => {
-            const field = err.path.join('.');
-            if (!acc[field]) acc[field] = [];
-            acc[field].push(err.message);
-            return acc;
-          }, {}),
-        },
-        { status: 400 }
-      );
-    }
-
-    const errorMessage = error instanceof Error ? error.message : 'Operation failed';
-    const status = this.getStatusCode(errorMessage);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status }
-    );
-  }
-
-  /**
-   * Get appropriate HTTP status code based on error message
-   */
-  private getStatusCode(message: string): number {
-    if (message.includes('already exists')) return 409;
-    if (message.includes('not found')) return 404;
-    if (message.includes('deleted')) return 410;
-    if (message.includes('Cannot update')) return 400;
-    return 500;
+  protected isSelfUpdate(requesterId: string, targetId: string): boolean {
+    return requesterId === targetId;
   }
 }
 
