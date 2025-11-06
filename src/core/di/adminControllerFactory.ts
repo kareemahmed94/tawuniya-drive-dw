@@ -6,13 +6,13 @@
 
 import { container } from './container';
 import { TYPES } from './types';
-import type { AdminAuthController } from '../controllers/admin/admin-auth.controller';
-import type { AdminManagementController } from '../controllers/admin/admin-management.controller';
-import type { ServiceManagementController } from '../controllers/admin/service-management.controller';
-import type { TransactionManagementController } from '../controllers/admin/transaction-management.controller';
-import type { UserManagementController } from '../controllers/admin/user-management.controller';
-import type { GlobalConfigManagementController } from '../controllers/admin/global-config-management.controller';
-import type { DashboardController } from '../controllers/admin/dashboard.controller';
+import type { AdminAuthController } from '@/core/controllers/admin';
+import type { AdminManagementController } from '@/core/controllers/admin';
+import type { ServiceManagementController } from '@/core/controllers/admin';
+import type { TransactionManagementController } from '@/core/controllers/admin';
+import type { UserManagementController } from '@/core/controllers/admin';
+import type { GlobalConfigManagementController } from '@/core/controllers/admin';
+import type { DashboardController } from '@/core/controllers/admin';
 
 /**
  * Get Admin Auth Controller instance from container

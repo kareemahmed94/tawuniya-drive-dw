@@ -43,12 +43,12 @@ export interface Service {
   updatedAt: string;
 }
 
-export type ServiceCategory = 
-  | 'INSURANCE' 
-  | 'CAR_WASH' 
-  | 'TOWING' 
-  | 'RENTAL' 
-  | 'MAINTENANCE' 
+export type ServiceCategory =
+  | 'INSURANCE'
+  | 'CAR_WASH'
+  | 'TOWING'
+  | 'RENTAL'
+  | 'MAINTENANCE'
   | 'OTHER';
 
 export interface ServiceConfig {
@@ -191,3 +191,16 @@ export interface BurnPointsRequest {
   metadata?: any;
 }
 
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  message?: string;
+}
+
+export interface ApiErrorResponse {
+  success: false;
+  error: string;
+  message: string;
+  statusCode: number;
+  errors?: Record<string, string[]>;
+}

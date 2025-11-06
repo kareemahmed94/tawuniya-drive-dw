@@ -58,7 +58,7 @@ function getAdminToken(request: NextRequest): string | null {
   return tokenCookie?.value || null;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow public routes and API routes that are public

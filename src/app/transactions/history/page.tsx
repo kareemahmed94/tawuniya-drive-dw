@@ -23,7 +23,6 @@ import {
 import { toast } from 'sonner';
 
 export default function TransactionHistoryPage() {
-  const router = useRouter();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);

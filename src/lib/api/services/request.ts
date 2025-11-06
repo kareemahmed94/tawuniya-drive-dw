@@ -1,4 +1,4 @@
-import { ApiResponse } from '../client';
+import { ApiResponse } from '../types';
 
 /**
  * API Base URL
@@ -41,7 +41,7 @@ export async function request<T>(
           // Clear auth data
           localStorage.removeItem('auth_token');
           localStorage.removeItem('user');
-          
+
           // Only redirect if not already on login page
           // Middleware will handle redirect for protected pages
           if (!window.location.pathname.startsWith('/auth/')) {

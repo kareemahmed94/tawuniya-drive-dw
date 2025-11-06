@@ -375,8 +375,6 @@ export class ServiceManagementController {
    * POST /api/admin/service-configs
    */
   async createServiceConfig(request: NextRequest): Promise<NextResponse> {
-    console.log('we here')
-    console.log(request);
     try {
       const adminToken = verifyAdminToken(request);
       if (!adminToken) {
@@ -401,7 +399,6 @@ export class ServiceManagementController {
         { status: 201 }
       );
     } catch (error) {
-      console.log({error});
       return this.handleError(error);
     }
   }

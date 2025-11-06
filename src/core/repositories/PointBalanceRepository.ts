@@ -2,7 +2,6 @@ import { injectable } from 'inversify';
 import { PointBalance, Prisma } from '@prisma/client';
 import { IPointBalanceRepository } from '../interfaces/repositories/IPointBalanceRepository';
 import { prisma } from '../config/database';
-import { Decimal } from '@prisma/client/runtime/library';
 
 /**
  * Point Balance Repository Implementation
