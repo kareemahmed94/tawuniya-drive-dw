@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -31,6 +31,13 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
+  // Check if user is already authenticated and redirect to home
+  useEffect(() => {
+    if (authService.isAuthenticated()) {
+      router.push('/home');
+    }
+  }, [router]);
+
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
     try {
@@ -51,7 +58,7 @@ export default function LoginPage() {
       if (redirectUrl) {
         window.location.href = redirectUrl;
       } else {
-        window.location.href = '/dashboard';
+        window.location.href = '/home';
       }
     } catch (error: any) {
       const message = error instanceof Error ? error.message : 'Login failed';

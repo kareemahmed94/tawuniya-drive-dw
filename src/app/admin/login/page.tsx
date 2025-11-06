@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { adminApi } from '@/lib/admin/api-client';
 
@@ -10,6 +10,13 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Check if admin is already authenticated and redirect to dashboard
+  useEffect(() => {
+    if (adminApi.getToken()) {
+      router.push('/admin/dashboard');
+    }
+  }, [router]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
